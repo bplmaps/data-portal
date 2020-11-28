@@ -10,30 +10,20 @@
             <h2>You could try...</h2>
           </div>
           <div id = "specific-suggestions">
-            <router-link to="/Search">
-              <div class = "item" id = "borders">
-                <img class ="suggestion-pics" src ="../assets/borders.png">
-                <h4>Borders</h4>
-              </div>
-            </router-link>
-            <router-link to="/Search">
-              <div class = "item" id = "90s">
-                <img class ="suggestion-pics" src ="../assets/90s.png">
-                <h4>90s data</h4>
-              </div>
-            </router-link>
-            <router-link to="/Search">
-              <div class = "item" id = "geojson">
-                <img class ="suggestion-pics" src ="../assets/geojson.png">
-                <h4>All geoJSONs</h4>
-              </div>
-            </router-link>
-            <router-link to="/Search">
-              <div class = "item" id = "maptivist">
-                <img class ="suggestion-pics" src ="../assets/maptivist.png">
-                <h4>Maptivist data</h4>
-              </div>
-            </router-link>
+            <ul>
+              <li>
+                <router-link id = "everything-link" to="/Search">Borders</router-link>
+              </li>
+              <li>
+                <router-link id = "everything-link" to="/Search">Data from the 90s</router-link>
+              </li>
+              <li>
+                <router-link id = "everything-link" to="/Search">All geoJSONs</router-link>
+              </li>
+              <li>
+                <router-link id = "everything-link" to="/Search">Maptivist data</router-link>
+              </li>
+            </ul>
 
           </div>
           <div id = "everything">

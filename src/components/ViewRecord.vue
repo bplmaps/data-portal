@@ -179,7 +179,6 @@ export default {
             }).catch(err => {
                 console.log("Couldn't retrieve record metadata")
             })
-        // this.getAllIngredients()
 
     },
     watch:{

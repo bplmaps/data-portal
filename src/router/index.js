@@ -23,5 +23,8 @@ export default new Router({
       name: 'ViewRecord',
       component: ViewRecord
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })

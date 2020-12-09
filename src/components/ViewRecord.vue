@@ -63,10 +63,39 @@
                     </div>
                 </details>
             </div>
-            <div id = "genealogy">
-                <h2>Data Genealogy</h2>
+            <div v-if="this.record.dataLifecycle.acquisition" id = "genealogy-composite">
+                <h2 id="genealogy">Data Genealogy</h2>
+                <details>
+                <summary>Learn more about how this data came to be</summary>
+                <div id = "card-container">
+                    <p>Oftentimes, people working on data projects combine together other datasets to create new ones that work better for their own purposes. This can involve joining datasets together, keeping or removing certain aspects of the data, or running mathematical computations to create new values.</p>
+                    <p>In this case, someone used this ingredient data:</p>
+                    <div id = "card-rows">
+                        <div v-if="this.allIngredients" id="composite-ingredients-row">
+                            <div class="ingredient" v-for="item in this.allIngredients" v-bind:key="item.$id">
+                                <button @click ="switchRecords(item.arkID)" >
+                                    <h3>INGREDIENT</h3>
+                                    <p class = "dataset-title"> {{item.title}}</p>
+                                    <p>{{item.notes}}</p>
+                                </button>
 
+                            </div>
+                        </div>
+                        <div v-else>Trouble finding ingredients...</div>
+                        <p>To create ⬇ </p>
+                        <div v-if="this.record.coreCitation" id="composite-results">
+                            <div class = "ingredient">
+                                <button @click ="jumpToTop()">
+                                    <h3>RECIPE</h3>
+                                    <p class = "dataset-title">{{this.record.coreCitation.title}}</p>
+                                    <p>The dataset you are currently viewing</p>
+                                </button>
+                            </div>
+                        </div>
 
+                    </div>
+                </div>
+                 </details>
             </div>
             <div id = "missingInfo">
                 <h2>Missing Context</h2>
@@ -77,7 +106,6 @@
                     <li>field: <strong>example description</strong></li>
                     <li>field: <strong>example description</strong></li>
                 </ul>
-
             </div>
         </div>
         
@@ -91,25 +119,68 @@ export default {
     data (){
         return {
             recordId: this.$route.params.record_id,
-            record: []
+            record: [],
+            allIngredients: []
         }
     },
     methods: {
-        printStuff (){
-            console.log(this.record)
-        },
         updateId(){
             this.recordId = this.$route.params.record_id
+            this.$router.go()
+        },
+        jumpToTop(){
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+        },
+        switchRecords(newURL){
+            this.$route.params.record_id = newURL
+            this.recordId = newURL
+            this.$router.push({ name: 'ViewRecord' })
+            this.$router.go()
+        },
+        getAllIngredients (){
+            //if there are no ingredients do nothing
+            var dataLifecycle = this.record.dataLifecycle
+            if (!('acquisition' in dataLifecycle)){
+                console.log("There are no ingredients")
+            } 
+            else{
+                var ingredients = dataLifecycle.acquisition.ingredients
+                //create a data object with some info about each ingredient
+                for (let i = 0; i < ingredients.length; i ++){
+                    var ingredientProps = {}
+                    var splitURI = ingredients[i].$id.split("/")[2]
+                    ingredientProps = {"$id": ingredients[i].$id, "arkID": splitURI, "catalogURL": '#/catalog/' + splitURI, "notes": ingredients[i].notes, "title": ""}
+                    this.allIngredients.push(ingredientProps)
+                }
+
+                //add some data from the ingredient records to the new ingredient data objects
+                for (let i = 0; i < this.allIngredients.length; i ++){
+                    var current = this.allIngredients[i]
+                    var currentSplit = current.$id.split("/")[2]
+                    axios.get("https://raw.githubusercontent.com/nblmc/metadata/main/" + currentSplit + ".json")
+                        .then(response => {
+                                //Vue.set(this.allIngredients[i], "title", response.data.coreCitation.title)
+                                this.allIngredients[i].title = response.data.coreCitation.title
+                            }).catch(err => {
+                                console.log("Couldn't retrieve ingredient metadata")
+                            })
+                }
+            }
+
         }
     },
     created() {
         //returns a promise
         axios.get("https://raw.githubusercontent.com/nblmc/metadata/main/" + this.recordId + ".json")
             .then(response => {
+                //get the metadata for the main record
                 this.record = response.data
+                this.getAllIngredients()
             }).catch(err => {
-                console.log(err)
+                console.log("Couldn't retrieve record metadata")
             })
+        // this.getAllIngredients()
+
     },
     watch:{
         $route: 'updateId'
@@ -135,6 +206,7 @@ hr {
   background-color:rgb(237,237,241);
   height: .1rem;
 }
+
 
 #content-container{
     display:flex;
@@ -192,7 +264,9 @@ a {
   border-color: #D2E0E8;
 }
 
-
+p.dataset-title{
+  color: #810002;
+}
 
 
 #top-bar{
@@ -214,6 +288,78 @@ summary.little-more-details{
   outline: none;
 }
 
+#card-container{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+}
+
+#card-rows{
+    display:flex;
+    flex-direction:column;
+}
+
+
+#composite-ingredients-row{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: flex-start;
+}
+
+                           
+div#composite-process{
+    text-align: center;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: flex-start;
+}
+                            
+#composite-results{
+    display:flex;
+    justify-content: center;
+    align-self:flex-start;
+}
+
+.ingredient{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 200px;
+    padding: .5rem;
+    margin: .5rem;
+    overflow-wrap: break-word;
+    border-color:rgb(237,237,241);
+    border-width:.1rem;
+}
+
+button{
+    font-family: hero-new, Avenir, Helvetica, Arial, sans-serif;
+    color: rgb(31,31,75);
+    text-align: left;
+}
+
+button:hover{
+    cursor:pointer;
+}
+
+.ingredient:hover{
+  box-shadow: 0 0 15px 0 rgba(0,0,0,0.1);
+}
+
+img.process-img{
+    height:100px;
+    width: 150px;
+    align-self:center;
+}
+
+.process-desc{
+    width: 100px;
+    align-self:center;
+}
+                            
 
 
 </style>

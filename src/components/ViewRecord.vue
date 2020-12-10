@@ -1,48 +1,105 @@
+<!-- OBTAINING THE SOURCE METADATA -->
+<!-- The majority of values on this page are displayed dynamically from source metadata -->
+<!-- Source metadata is archived in a repository available via https://github.com/nblmc/metadata -->
+<!-- Each metadata record's path is accessible via https://github.com/nblmc/metadata/{record_id} -->
+<!-- In this app component, source metadata is obtained in the create() lifecycle hook using the record ID -->
+<!-- After the initial async call, source metadata values are pushed to a Vue data object titled "record" -->
+<!-- Anything in this component beginning with 'this.record' has been obtained in this manner -->
+
+<!-- CONDITIONAL DISPLAY -->
+<!-- Due to the conceptually diverse materials represented by the metadata, any field may or may not be present for a given record -->
+<!-- For this reason, most template elements are wrapped in v-if statements, to display only if they are present -->
+<!-- These v-if statements also ensure that the source has been correctly loaded before the app tries to display the values -->
+<!-- Especially with the deeply nested metadata JSON structure, v-if statements will help to display any additional source data values -->
+
+
 <template>
+    <!-- VIEW RECORD: big container for whole records page -->
     <div class="view-record">
+
+        <!-- TOP BAR: container for everything above the actual page details (sub-navigation menu, dataset title) -->
         <div id = "top-bar">
+            <!-- LINK CONTAINER: container for sub-navigation menu: links for moving around the portal -->
             <div id ="link-container">
+                <!-- START OVER: link back to data portal landing page -->
                 <router-link to="/" id="start-over">Start over ↩️</router-link>
             </div>
+            <!-- TITLE CONTAINER: container for the dataset title -->
             <div id = "title-container" v-if="this.record.coreCitation">
+                <!-- dataset title: pulled from source metadata -->
                 <h1>{{this.record.coreCitation.title}}</h1>
             </div>
         </div>
+
+        <!-- page divider splitting top bar from record details -->
         <hr class="solid">
-        <div id = "content-container">
+
+        <!-- BASIC CONTENT CONTAINER: big container for all the basic content -->
+        <!-- basic content is defined as core citation info, fields flagged as important = true, and data access endpoints -->
+        <div id = "basic-content-container">
+
+            <!-- LEFT: top section with basic content is split into two columns -->
+            <!-- core citation info and important = true is in the left-hand column -->
             <div class = "left">
+
+                <!-- ⬇️ Record Details ⬇️ -->
+
+                <!-- CORE CITATION: section pertaining to dataset's core citation information -->
                 <div v-if="this.record.coreCitation" id="coreCitation">
+                    <!-- core citation section title -->
                     <h2>Core Citation</h2>
+                    <!-- dataset ID -->
                     <p>id: <strong>{{this.record.coreCitation.$id}}</strong></p>
+                    <!-- dataset record type -->
                     <p>Collection or dataset: <strong>{{this.record.coreCitation.recordType}}</strong></p>
+                    <!-- dataset general description is tucked into a dropdown, as they can be lengthy -->
                     <details>
+                        <!-- dataset description drop-down label -->
                         <summary class = "little-more-details">Dataset overview</summary>
+                        <!-- dataset description expanded content -->
                         <p> {{this.record.coreCitation.shortDataDescription}}</p>
                     </details>
+                    <!-- dataset genealogy description is tucked into a dropdown, as they can be lengthy -->
                     <details>
-                        <summary class = "little-more-details">Genealogy overview</summary>
+                        <!-- dataset genealogy description drop-down label -->
+                        <summary id="genealogy-to-do" class = "little-more-details">Genealogy overview</summary>
+                        <!-- dataset genealogy description expanded content -->
                         <p> {{this.record.coreCitation.shortGenealogyDescription}}</p>
                     </details>
+                    <!-- dataset access condition -->
                     <p>Access Condition: <strong>{{this.record.coreCitation.accessCondition}}</strong></p>
-
                 </div>
+
+                <!-- IMPORTANT CONTEXT: section pertaining to fields flagged anywhere in the metadata as 'important' -->
                 <div id="important">
+                    <!-- important context section title -->
                     <h2>Important Context</h2>
-                    <ul>
+                    <!-- 🚧 under development 🚧 -->
+                    <ul class = "under-development">
                         <li>field: <strong>important context example</strong></li>
                         <li>tutorial: <a href = "www.youtube.com">Join Census Data to Shapefiles</a></li>
                     </ul>
-                    
                 </div>
+
             </div>
+            <!-- RIGHT: top section with basic content is split into two columns -->
+            <!-- data access endpoints are in the right-hand column -->
             <div class = "right">
-                <div v-if="this.record.dataEndpoints" id ="dataEndpoints">
-                    <p>
-                        {{this.record.dataEndpoints}}
-                    </p>
+                <!-- DATA ENDPOINTS: container for data endpoints-->
+                <div class = "under-development" v-if="this.record.dataEndpoints" id ="dataEndpoints">
+                    <!-- 🚧 under development 🚧 -->
+                    <p>{{this.record.dataEndpoints}}</p>
                 </div>
             </div>
+
+        <!-- End of Basic Content Container -->    
         </div>
+
+
+
+
+        <!-- MORE CONTENT CONTAINER: big container for all the detailed content -->
+        <!-- more content is defined as data biography, resource constellation and data lifecycle -->
         <div id = "more-content-container">
             <div id ="more-details">
                 <h2>More Details </h2>
@@ -63,7 +120,7 @@
                     </div>
                 </details>
             </div>
-            <div v-if="this.record.dataLifecycle.acquisition" id = "genealogy-composite">
+            <div id = "genealogy-composite">
                 <h2 id="genealogy">Data Genealogy</h2>
                 <details>
                 <summary>Learn more about how this data came to be</summary>
@@ -197,6 +254,13 @@ export default {
 
 <style scoped>
 
+.under-development{
+    background-color:hotpink;
+}
+
+summary#genealogy-to-do{
+    background-color:hotpink;
+}
 
 .view-record{
     display:flex;
@@ -215,7 +279,7 @@ hr {
 }
 
 
-#content-container{
+#basic-content-container{
     display:flex;
     flex-direction: row;
     margin-bottom: .5rem;

@@ -101,67 +101,124 @@
         <!-- MORE CONTENT CONTAINER: big container for all the detailed content -->
         <!-- more content is defined as data biography, resource constellation and data lifecycle -->
         <div id = "more-content-container">
+
+            <!-- MORE DETAILS: contains data biography, resource constellation and data lifecycle -->
             <div id ="more-details">
+                <!-- more details section title -->
                 <h2>More Details </h2>
+                <!-- data biography, resource constellation and data lifecycle are tucked into a dropdown so as not to overwhelm -->
                 <details>
-                <summary >Everything we know about this data
-                </summary>
+                    <!-- more details drop-down label -->
+                    <summary >Everything we know about this data</summary>
+
+                    <!-- DATA BIOGRAPHY: container for data biography section -->
                     <div v-if="this.record.dataBiography" id = "dataBiography">
+                        <!-- data biography section title -->
                         <h3>Data Biography</h3>
+                        <!-- 🚧 under development 🚧 -->
                         {{this.record.dataBiography}}
                     </div>
+
+                    <!-- RESOURCE CONSTELLATION: container for resource constellation section -->
                     <div v-if="this.record.resourceConstellation" id = "resourceConstellation">
+                        <!-- resource constellation section title -->
                         <h3>Constellation of Resources</h3>
+                        <!-- 🚧 under development 🚧 -->
                         {{this.record.resourceConstellation}}
                     </div>
+
+                    <!-- DATA LIFECYCLE: container for data lifecycle section -->
                     <div v-if="this.record.dataLifecycle" id = "dataLifecycle">
+                        <!-- data lifecycle section title -->
                         <h3>Data Information Lifecycle</h3>
+                        <!-- 🚧 under development 🚧 -->
                         {{this.record.dataLifecycle}}
                     </div>
+
                 </details>
             </div>
-            <div id = "genealogy-composite">
-                <h2 id="genealogy">Data Genealogy</h2>
+            <!-- End of More Details Container -->  
+
+
+            <!-- GENEALOGY SECTION: big container for the genealogy section -->
+            <!-- does not appear if there are no ingredients -->
+            <div v-if="this.record.dataLifecycle.acquisition" id="genealogy-section">
+                <!-- data lifecycle section title -->
+                <h2>Data Genealogy</h2>
+                <!-- genealogy section is tucked into a dropdown so as not to overwhelm -->
                 <details>
-                <summary>Learn more about how this data came to be</summary>
-                <div id = "card-container">
-                    <h3>Overview</h3>
-                    <p>Many times, when people work on data projects, they alter or combine already existing datasets to create new datasets that are more useful for their project goals.</p> 
-                    <p>This process can involve:</p>
-                    <ul>
-                        <li>joining datasets together</li>
-                        <li>keeping, changing or removing certain parts of the data</li>
-                        <li>running mathematical computations to create new values</li>
-                    </ul>
-                    <h3>This data project</h3>
-                    <p>For this dataset, someone used this ingredient data:</p>
-                    <div id = "card-rows">
-                        <div v-if="this.allIngredients" id="composite-ingredients-row">
-                            <div class="ingredient" v-for="item in this.allIngredients" v-bind:key="item.$id">
-                                <button @click ="switchRecords(item.arkID)" >
-                                    <h3>INGREDIENT</h3>
+                    <!-- genealogy section drop-down label -->
+                    <summary>Learn more about how this data came to be</summary>
+
+                    <!-- genealogy section expanded content -->
+                    <!-- GENEALOGY DROPDOWN CONTENT: big container for dropdown content in genealogy section -->
+                    <div id = "genealogy-dropdown-content">
+
+                        <div id = "genealogy-overview">
+                            <!-- genealogy section overview title -->
+                            <h3>Overview</h3>
+                            <!-- genealogy overview content text -->
+                            <p>Many times, when people work on data projects, they alter or combine already existing datasets to create new datasets that are more useful for their project goals. </p>
+                            <p>This is similar to cooking, where people form a recipe by picking and choosing ingredients to try to get as close as possible to an outcome that is exactly what they are looking for.</p>
+                            <p>This activity, called <strong>data cleaning</strong> or <strong>data processing</strong> can involve:</p>
+                            <ul>
+                                <li>joining dataset ingredients together</li>
+                                <li>removing or changing certain parts of the ingredients</li>
+                                <li>using math on the ingredients to compute new values</li>
+                            </ul>
+                            <p>Just like in in cooking, sometimes the perfect ingredients aren't available, and people have to work with what they have. </p>
+                        </div>
+
+                        <!-- genealogy section project details title -->
+                        <h3 id ="this-data-project">Ingredients for this Data Project</h3>
+                        <p>To create this dataset, someone used this ingredient data:</p>
+
+                        <!-- RECIPE TREE CONTAINER: container for genealogy tree elements --> 
+                        <div id = "recipe-tree-container">
+
+                            <!-- INGREDIENTS CONTAINER: container for ingredients --> 
+                            <!-- function getAllIngredients() populates Vue data object titled "allIngredients" with info about the ingredients --> 
+                            <div v-if="this.allIngredients" id="ingredients-container">
+
+                                <!-- button loops through allIngredients and creates a card for each --> 
+                                <button @click ="switchRecords(item.arkID)" v-for="item in this.allIngredients" v-bind:key="item.$id" >
+                                    <!-- ingredient card title -->
+                                    <h3 class = "card-title">INGREDIENT</h3>
+                                    <!-- ingredient dataset title -->
                                     <p class = "dataset-title"> {{item.title}}</p>
+                                    <!-- ingredient dataset processing notes -->
                                     <p>{{item.notes}}</p>
                                 </button>
 
                             </div>
-                        </div>
-                        <div v-else>Trouble finding ingredients...</div>
-                        <p>To create ⬇ </p>
-                        <div v-if="this.record.coreCitation" id="composite-results">
-                            <div class = "ingredient">
+                            <!-- ingredient dataset title -->
+                            <div v-else>Trouble finding ingredients...</div>
+
+                            <!-- recipe segue text -->
+                            <p>To make ⬇ </p>
+
+                            <!-- RECIPE RESULTS: container for recipe results --> 
+                            <div v-if="this.record.coreCitation" id="recipe-results">
                                 <button @click ="jumpToTop()">
-                                    <h3>RECIPE</h3>
+                                    <!-- recipe card title -->
+                                    <h3 class = "card-title">RECIPE</h3>
+                                    <!-- current record title -->
                                     <p class = "dataset-title">{{this.record.coreCitation.title}}</p>
-                                    <p>The dataset you are currently viewing</p>
+                                    <!-- clarifying note -->
+                                    <p><strong>The dataset you are currently viewing</strong></p>
                                 </button>
                             </div>
-                        </div>
 
+                        </div>
+                        <!-- End of Recipe Tree Container -->
                     </div>
-                </div>
+                    <!-- End of Genealogy Container -->
+
                  </details>
             </div>
+            <!-- End of Genealogy Section Big Container --> 
+
+
             <div id = "missingInfo">
                 <h2>Missing Context</h2>
                 <p>Context we don't know:</p>
@@ -201,6 +258,9 @@ export default {
             this.recordId = newURL
             this.$router.push({ name: 'ViewRecord' })
             this.$router.go()
+        },
+        showManipulation(){
+
         },
         getAllIngredients (){
             //if there are no ingredients do nothing
@@ -254,6 +314,8 @@ export default {
 
 <style scoped>
 
+/* BELLE'S DEV */
+
 .under-development{
     background-color:hotpink;
 }
@@ -262,13 +324,18 @@ summary#genealogy-to-do{
     background-color:hotpink;
 }
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ Page layout ~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* WHOLE PAGE */
+
+/* Component template */
 .view-record{
     display:flex;
     flex-direction: column;
     margin:10rem;
 }
 
-/* Solid border */
+/* Divider between top section and page details */
 hr {
   border: 0;
   clear:both;
@@ -278,17 +345,61 @@ hr {
   height: .1rem;
 }
 
+/* Start over link */
+a#start-over{
+  margin-bottom:1rem;
+  float:left;
+}
+
+/* Content above record details */
+#top-bar{
+    display:flex;
+    flex-direction: column
+}
+
+/* All links */
+a {
+  color: #810002;
+  text-decoration:none;
+  border-bottom: 2px solid;
+  border-color: #D2E0E8;
+}
+
+/* All links on hover */
+a:hover{
+  border-bottom: 4px solid;
+  border-color: #D2E0E8;
+}
+
+
+/* Remove the default carrot from the details dropdown */
+details summary#big-more-details::-webkit-details-marker {
+  display:none;
+}
+
+summary.little-more-details{
+    margin-bottom: .75rem;
+}
+
+/* Remove the auto box highlight from the details dropdown */
+*:focus {
+  outline: none;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~ Metadata Content ~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* BASIC CONTENT */
+
+#content{
+    max-width:100%;
+    overflow-wrap: break-word;
+}
 
 #basic-content-container{
     display:flex;
     flex-direction: row;
     margin-bottom: .5rem;
-}
-
-#more-content-container{
-    display:flex;
-    flex-direction: column;
-    justify-content: flex-start;
 }
 
 .left{
@@ -311,126 +422,85 @@ border-style: solid;
   box-shadow: .25rem .25rem;
 }
 
-#content{
-    max-width:100%;
-    overflow-wrap: break-word;
-}
 
 
+/* MORE CONTENT SECTION */
+/* data bio, constellation resources, data lifecycle */
 
-a#start-over{
-  margin-bottom:1rem;
-  float:left;
-}
-
-a:hover{
-  border-bottom: 4px solid;
-  border-color: #D2E0E8;
-}
-
-a {
-  color: #810002;
-  text-decoration:none;
-  border-bottom: 2px solid;
-  border-color: #D2E0E8;
-}
-
-p.dataset-title{
-  color: #810002;
-}
-
-
-#top-bar{
+#more-content-container{
     display:flex;
     flex-direction: column;
+    justify-content: flex-start;
 }
 
-/* Remove the default carrot from the details dropdown */
-details summary#big-more-details::-webkit-details-marker {
-  display:none;
-}
 
-summary.little-more-details{
-    margin-bottom: .75rem;
-}
+/* GENEALOGY */
 
-/* Remove the auto box highlight from the details dropdown */
-*:focus {
-  outline: none;
-}
-
-#card-container{
+#genealogy-dropdown-content{
     display:flex;
     flex-direction: column;
     justify-content: flex-start;
     flex-wrap: nowrap;
 }
 
-#card-rows{
+#genealogy-overview{
+    margin-top:1rem;
+    width: 70%;
+}
+
+#recipe-tree-container{
     display:flex;
     flex-direction:column;
 }
 
-
-#composite-ingredients-row{
+#ingredients-container{
     display:flex;
     flex-direction: row;
     justify-content: center;
     align-self: flex-start;
 }
 
-                           
-div#composite-process{
-    text-align: center;
-    display:flex;
+button{
+    padding: .5rem;
+    margin: .5rem;
+    width: 250px;
+    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-self: flex-start;
+    font-family: hero-new, Avenir, Helvetica, Arial, sans-serif;
+    color: rgb(31,31,75);
+    text-align: left;
+    overflow-wrap: break-word;
+    background-color: white;
+    border-style: solid;
+    border-color:#054671;
+    padding: 0 .75rem;
+    border-width:.5rem;
+    box-shadow: .25rem .25rem;
 }
-                            
-#composite-results{
+
+button:hover{
+    cursor:pointer;
+    background-color: rgb(239, 239, 239);
+}
+                               
+#recipe-results{
     display:flex;
     justify-content: center;
     align-self:flex-start;
 }
 
-.ingredient{
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    width: 200px;
-    padding: .5rem;
-    margin: .5rem;
-    overflow-wrap: break-word;
-    border-color:rgb(237,237,241);
-    border-width:.1rem;
+h3.card-title{
+    font-size:1.2rem;
+    margin-bottom:0;
 }
 
-button{
-    font-family: hero-new, Avenir, Helvetica, Arial, sans-serif;
-    color: rgb(31,31,75);
-    text-align: left;
+h3#this-data-project{
+    margin-bottom:0;
 }
 
-button:hover{
-    cursor:pointer;
+p.dataset-title{
+    color: #810002;
+    margin-bottom:0;
 }
-
-.ingredient:hover{
-  box-shadow: 0 0 15px 0 rgba(0,0,0,0.1);
-}
-
-img.process-img{
-    height:100px;
-    width: 150px;
-    align-self:center;
-}
-
-.process-desc{
-    width: 100px;
-    align-self:center;
-}
-                            
-
 
 </style>

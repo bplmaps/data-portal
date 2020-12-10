@@ -143,83 +143,86 @@
 
             <!-- GENEALOGY SECTION: big container for the genealogy section -->
             <!-- does not appear if there are no ingredients -->
-            <div  id="genealogy-section">
-                <!-- data lifecycle section title -->
-                <h2>Data Genealogy</h2>
-                <!-- genealogy section is tucked into a dropdown so as not to overwhelm -->
-                <details>
-                    <!-- genealogy section drop-down label -->
-                    <summary>Learn more about how this data came to be</summary>
+            <div v-if="this.record.dataLifecycle" id="genealogy-section">
+                <div v-if="this.record.dataLifecycle.acquisition">
+                    <!-- data lifecycle section title -->
+                    <h2 v-if="this.record.dataLifecycle.acquisition">Data Genealogy</h2>
+                    <!-- genealogy section is tucked into a dropdown so as not to overwhelm -->
+                    <details>
+                        <!-- genealogy section drop-down label -->
+                        <summary>Learn more about how this data came to be</summary>
 
-                    <!-- genealogy section expanded content -->
-                    <!-- GENEALOGY DROPDOWN CONTENT: big container for dropdown content in genealogy section -->
-                    <div id = "genealogy-dropdown-content">
+                        <!-- genealogy section expanded content -->
+                        <!-- GENEALOGY DROPDOWN CONTENT: big container for dropdown content in genealogy section -->
+                        <div id = "genealogy-dropdown-content">
 
-                        <div id = "genealogy-overview">
-                            <!-- genealogy section overview title -->
-                            <h3>Overview</h3>
-                            <!-- genealogy overview content text -->
-                            <p>Many times, when people work on data projects, they alter or combine already existing datasets to create new datasets that are more useful for their project goals. </p>
-                            <p>This is similar to cooking, where people form a recipe by picking and choosing ingredients to try to get as close as possible to an outcome that is exactly what they are looking for.</p>
-                            <p>This activity, called <strong>data cleaning</strong> or <strong>data processing</strong> can involve:</p>
-                            <ul>
-                                <li>combining dataset ingredients together</li>
-                                <li>trimming or kneading certain parts of the ingredients</li>
-                                <li>cooking the data to compute new values with math</li>
-                            </ul>
-                            <p>Just like in in cooking, sometimes the perfect ingredients aren't available, and people have to work with what they have. </p>
-                        </div>
-
-                        <!-- genealogy section project details title -->
-                        <h3 id ="this-data-project">Ingredients for this Data Project</h3>
-                        <p>To create this dataset, someone used this ingredient data:</p>
-
-                        <!-- RECIPE TREE CONTAINER: container for genealogy tree elements --> 
-                        <div id = "recipe-tree-container">
-
-                            <!-- INGREDIENTS CONTAINER: container for ingredients --> 
-                            <!-- function getAllIngredients() populates Vue data object titled "allIngredients" with info about the ingredients --> 
-                            <div v-if="this.allIngredients" id="ingredients-container">
-
-                                <!-- button loops through allIngredients and creates a card for each --> 
-                                <button @click ="switchRecords(item.arkID)" v-for="item in this.allIngredients" v-bind:key="item.$id" >
-                                    <!-- ingredient card title -->
-                                    <h3 class = "card-title">INGREDIENT</h3>
-                                    <!-- ingredient dataset title -->
-                                    <p class = "dataset-title"> {{item.title}}</p>
-                                    <!-- ingredient dataset processing notes -->
-                                    <p>{{item.notes}}</p>
-                                </button>
-
-                            </div>
-                            <!-- ingredient dataset title -->
-                            <div v-else>Trouble finding ingredients...</div>
-
-                            <!-- recipe segue text -->
-                            <p>To make ⬇ </p>
-
-                            <!-- RECIPE RESULTS: container for recipe results --> 
-                            <div v-if="this.record.coreCitation" id="recipe-results">
-                                <button @click ="jumpToTop()">
-                                    <!-- recipe card title -->
-                                    <h3 class = "card-title">RECIPE</h3>
-                                    <!-- current record title -->
-                                    <p class = "dataset-title">{{this.record.coreCitation.title}}</p>
-                                    <!-- clarifying note -->
-                                    <p><strong>The dataset you are currently viewing</strong></p>
-                                </button>
+                            <div id = "genealogy-overview">
+                                <!-- genealogy section overview title -->
+                                <h3>Overview</h3>
+                                <!-- genealogy overview content text -->
+                                <p>Many times, when people work on data projects, they alter or combine already existing datasets to create new datasets that are more useful for their project goals. </p>
+                                <p>This is similar to cooking, where people form a recipe by picking and choosing ingredients to try to get as close as possible to an outcome that is exactly what they are looking for.</p>
+                                <p>This activity, called <strong>data cleaning</strong> or <strong>data processing</strong> can involve:</p>
+                                <ul>
+                                    <li>combining dataset ingredients together</li>
+                                    <li>trimming or kneading certain parts of the ingredients</li>
+                                    <li>cooking the data to compute new values with math</li>
+                                </ul>
+                                <p>Just like in in cooking, sometimes the perfect ingredients aren't available, and people have to work with what they have. </p>
                             </div>
 
-                        </div>
-                        <!-- End of Recipe Tree Container -->
-                        <h3 id="processing-nod">Learn More</h3>
-                        <p id="processing-nod">To find out everything we know about how someone created this dataset, check out the processing section in
-                            <a @click="showManipulation()">Data Lifecycle</a>.
-                        </p>
-                    </div>
-                    <!-- End of Genealogy Container -->
+                            <!-- genealogy section project details title -->
+                            <h3 id ="this-data-project">Ingredients for this Data Project</h3>
+                            <!-- genealogy section project details text -->
+                            <p>To create this dataset, someone used this ingredient data:</p>
 
-                 </details>
+                            <!-- RECIPE TREE CONTAINER: container for genealogy tree elements --> 
+                            <div id = "recipe-tree-container">
+
+                                <!-- INGREDIENTS CONTAINER: container for ingredients --> 
+                                <!-- function getAllIngredients() populates Vue data object titled "allIngredients" with info about the ingredients --> 
+                                <div v-if="this.allIngredients" id="ingredients-container">
+
+                                    <!-- button loops through allIngredients and creates a card for each --> 
+                                    <button @click ="switchRecords(item.arkID)" v-for="item in this.allIngredients" v-bind:key="item.$id" >
+                                        <!-- ingredient card title -->
+                                        <h3 class = "card-title">INGREDIENT</h3>
+                                        <!-- ingredient dataset title -->
+                                        <p class = "dataset-title"> {{item.title}}</p>
+                                        <!-- ingredient dataset processing notes -->
+                                        <p>{{item.notes}}</p>
+                                    </button>
+
+                                </div>
+                                <!-- ingredient dataset title -->
+                                <div v-else>Trouble finding ingredients...</div>
+
+                                <!-- recipe segue text -->
+                                <p>To make ⬇ </p>
+
+                                <!-- RECIPE RESULTS: container for recipe results --> 
+                                <div v-if="this.record.coreCitation" id="recipe-results">
+                                    <button @click ="jumpToTop()">
+                                        <!-- recipe card title -->
+                                        <h3 class = "card-title">RECIPE</h3>
+                                        <!-- current record title -->
+                                        <p class = "dataset-title">{{this.record.coreCitation.title}}</p>
+                                        <!-- clarifying note -->
+                                        <p><strong>The dataset you are currently viewing</strong></p>
+                                    </button>
+                                </div>
+
+                            </div>
+                            <!-- End of Recipe Tree Container -->
+                            <h3 id="processing-nod">Learn More</h3>
+                            <p id="processing-nod">To find out everything we know about how someone created this dataset, check out the processing section in
+                                <a @click="showManipulation()">Data Lifecycle</a>.
+                            </p>
+                        </div>
+                        <!-- End of Genealogy Container -->
+
+                    </details>
+                </div>
             </div>
             <!-- End of Genealogy Section Big Container --> 
 

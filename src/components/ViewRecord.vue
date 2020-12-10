@@ -68,8 +68,16 @@
                 <details>
                 <summary>Learn more about how this data came to be</summary>
                 <div id = "card-container">
-                    <p>Oftentimes, people working on data projects combine together other datasets to create new ones that work better for their own purposes. This can involve joining datasets together, keeping or removing certain aspects of the data, or running mathematical computations to create new values.</p>
-                    <p>In this case, someone used this ingredient data:</p>
+                    <h3>Overview</h3>
+                    <p>Many times, when people work on data projects, they alter or combine already existing datasets to create new datasets that are more useful for their project goals.</p> 
+                    <p>This process can involve:</p>
+                    <ul>
+                        <li>joining datasets together</li>
+                        <li>keeping, changing or removing certain parts of the data</li>
+                        <li>running mathematical computations to create new values</li>
+                    </ul>
+                    <h3>This data project</h3>
+                    <p>For this dataset, someone used this ingredient data:</p>
                     <div id = "card-rows">
                         <div v-if="this.allIngredients" id="composite-ingredients-row">
                             <div class="ingredient" v-for="item in this.allIngredients" v-bind:key="item.$id">

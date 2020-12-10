@@ -107,7 +107,7 @@
                 <!-- more details section title -->
                 <h2>More Details </h2>
                 <!-- data biography, resource constellation and data lifecycle are tucked into a dropdown so as not to overwhelm -->
-                <details>
+                <details ref="showdetails">
                     <!-- more details drop-down label -->
                     <summary >Everything we know about this data</summary>
 
@@ -133,6 +133,7 @@
                         <h3>Data Information Lifecycle</h3>
                         <!-- 🚧 under development 🚧 -->
                         {{this.record.dataLifecycle}}
+                        <p ref="manipulation">PROCESSING NOTES HERE</p>
                     </div>
 
                 </details>
@@ -142,7 +143,7 @@
 
             <!-- GENEALOGY SECTION: big container for the genealogy section -->
             <!-- does not appear if there are no ingredients -->
-            <div v-if="this.record.dataLifecycle.acquisition" id="genealogy-section">
+            <div  id="genealogy-section">
                 <!-- data lifecycle section title -->
                 <h2>Data Genealogy</h2>
                 <!-- genealogy section is tucked into a dropdown so as not to overwhelm -->
@@ -162,9 +163,9 @@
                             <p>This is similar to cooking, where people form a recipe by picking and choosing ingredients to try to get as close as possible to an outcome that is exactly what they are looking for.</p>
                             <p>This activity, called <strong>data cleaning</strong> or <strong>data processing</strong> can involve:</p>
                             <ul>
-                                <li>joining dataset ingredients together</li>
-                                <li>removing or changing certain parts of the ingredients</li>
-                                <li>using math on the ingredients to compute new values</li>
+                                <li>combining dataset ingredients together</li>
+                                <li>trimming or kneading certain parts of the ingredients</li>
+                                <li>cooking the data to compute new values with math</li>
                             </ul>
                             <p>Just like in in cooking, sometimes the perfect ingredients aren't available, and people have to work with what they have. </p>
                         </div>
@@ -211,6 +212,10 @@
 
                         </div>
                         <!-- End of Recipe Tree Container -->
+                        <h3 id="processing-nod">Learn More</h3>
+                        <p id="processing-nod">To find out everything we know about how someone created this dataset, check out the processing section in
+                            <a @click="showManipulation()">Data Lifecycle</a>.
+                        </p>
                     </div>
                     <!-- End of Genealogy Container -->
 
@@ -260,7 +265,10 @@ export default {
             this.$router.go()
         },
         showManipulation(){
-
+            var moreDetails = this.$refs.showdetails
+            var manipulation = this.$refs.manipulation
+            moreDetails.open = "true"
+            manipulation.scrollIntoView({behavior: 'smooth' })
         },
         getAllIngredients (){
             //if there are no ingredients do nothing
@@ -387,6 +395,7 @@ summary.little-more-details{
 }
 
 
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~ Metadata Content ~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 /* BASIC CONTENT */
@@ -445,7 +454,6 @@ border-style: solid;
 
 #genealogy-overview{
     margin-top:1rem;
-    width: 70%;
 }
 
 #recipe-tree-container{
@@ -501,6 +509,14 @@ h3#this-data-project{
 p.dataset-title{
     color: #810002;
     margin-bottom:0;
+}
+
+h3#processing-nod{
+    margin-top:1.5rem;
+}
+
+p#processing-nod{
+    margin-top:0;
 }
 
 </style>

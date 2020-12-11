@@ -83,14 +83,43 @@
                     </ul>
                 </div>
 
+                <!-- SUGGESTED ENTRY POINTS: fields flagged as suggested entry points -->
+                <div id="suggested-entry">
+                    <!-- suggested entry points section title -->
+                    <h2>Suggested Entry Points</h2>
+                    <!-- 🚧 under development 🚧 -->
+                    <ul class = "under-development">
+                        <li>field: <strong>suggested entrypoint example</strong></li>
+                        <li>tutorial: <a href = "www.youtube.com">Join Census Data to Shapefiles</a></li>
+                    </ul>
+                </div>
+
             </div>
             <!-- RIGHT: top section with basic content is split into two columns -->
             <!-- data access endpoints are in the right-hand column -->
             <div class = "right">
                 <!-- DATA ENDPOINTS: container for data endpoints-->
-                <div class = "under-development" v-if="this.record.dataEndpoints" id ="dataEndpoints">
-                    <!-- 🚧 under development 🚧 -->
-                    <p>{{this.record.dataEndpoints}}</p>
+                <div v-if="this.record.dataEndpoints" id ="dataEndpoints">
+                    <!-- data endpoint section title -->
+                    <h2>Data Endpoints</h2>
+                    <!-- loop through all the data endpoints -->
+                    <ul v-for="item in this.record.dataEndpoints" v-bind:key="item.$id">
+                        <!-- link to the access URL -->
+                        <li v-if="item.source == 'Leventhal Map & Education Center'">
+                            <!-- give the file link -->
+                            <a :href="item.accessURL">{{getFileName(item.accessURL)}}</a>
+                            <!-- cite the source -->
+                            <p id = "source">Source: <strong>{{item.source}}</strong></p>
+                        </li>
+                        <li v-else>
+                            <!-- where we can't control the file name, display the file format -->
+                            <a :href="item.accessURL">{{item.format}}</a>
+                            <!-- cite the source -->
+                            <p id = "source">Source: 
+                                <a :href="item.accessedViaURL" target="_blank"><strong>{{item.source}}</strong></a>
+                            </p>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
@@ -111,31 +140,61 @@
                 <!-- data biography, resource constellation and data lifecycle are tucked into a dropdown so as not to overwhelm -->
                 <details ref="showdetails">
                     <!-- more details drop-down label -->
-                    <summary >Everything we know about this data</summary>
+                    <summary >Information we know about this data</summary>
+                
+                    <!-- page divider splitting the sections -->
+                    <hr class="solid">
 
                     <!-- DATA BIOGRAPHY: container for data biography section -->
                     <div v-if="this.record.dataBiography" id = "dataBiography">
                         <!-- data biography section title -->
-                        <h3>Data Biography</h3>
-                        <!-- 🚧 under development 🚧 -->
-                        {{this.record.dataBiography}}
+                        <h3>Data Biography <a class = "schema-info" target="_blank" :href="'https://geoservices.leventhalmap.org/cartinal/documentation/schema/dataBiography.html'"><font-awesome-icon icon="info-circle" /></a></h3>
+                        <!-- go through all the top level categories in the Data Biography section -->
+                        <!-- for example: Sampling, Privacy, Data Collection, Funding, Potential Harm-->
+                        <div v-for="firstLevelItem, firstLevelIndex in this.record.dataBiography" v-bind:key="firstLevelIndex">
+                            <!-- print the section head, using the field alias -->
+                            <h4>{{getFieldAlias(firstLevelIndex)}} </h4>
+                            <!-- go through all the 2nd level categories in the Data Biography section -->
+                            <!-- for example: Universe, Sample Size, Start Date, Who Conceived, etc etc -->
+                            <span v-for="secondLevelItem, secondLevelIndex in firstLevelItem" v-bind:key="secondLevelIndex">
+                                <!-- the items reached by these 2nd level category indices are ARRAYS, so we need to get the array items -->
+                                <details v-for="arrayItem, arrayIndex in secondLevelItem" v-bind:key="arrayIndex">
+                                    <summary v-show="arrayItem.notes != undefined ">{{getFieldAlias(secondLevelIndex)}}</summary>
+                                    <ul >
+                                        <li>
+                                            <p class = "context-notes">{{arrayItem.notes}}</p>
+                                            <p class = "related-resource"><a target="_blank" :href="arrayItem.relatedResourceURL">Learn More <font-awesome-icon icon="external-link-alt" /></a></p>
+                                        </li>
+                                    </ul>
+                                </details>
+                            </span>
+                        </div>
                     </div>
+
+                    <!-- page divider splitting the sections -->
+                    <hr class="solid">
 
                     <!-- RESOURCE CONSTELLATION: container for resource constellation section -->
                     <div v-if="this.record.resourceConstellation" id = "resourceConstellation">
                         <!-- resource constellation section title -->
-                        <h3>Constellation of Resources</h3>
+                        <h3>Constellation of Resources <a class = "schema-info" target="_blank" :href="'https://geoservices.leventhalmap.org/cartinal/documentation/schema/resourceConstellation.html'"><font-awesome-icon icon="info-circle" /></a></h3>
                         <!-- 🚧 under development 🚧 -->
-                        {{this.record.resourceConstellation}}
+                        <div v-for="item, index in this.record.resourceConstellation" v-bind:key="item.$id">
+                            <h4><a target ="_blank" :href="'https://geoservices.leventhalmap.org/cartinal/documentation/schema/' + index + '.html'"> {{index}}: </a></h4>
+                        </div>
                     </div>
+
+                    <!-- page divider splitting the sections -->
+                    <hr class="solid">
 
                     <!-- DATA LIFECYCLE: container for data lifecycle section -->
                     <div v-if="this.record.dataLifecycle" id = "dataLifecycle">
                         <!-- data lifecycle section title -->
-                        <h3>Data Information Lifecycle</h3>
+                        <h3 ref="manipulation">Data Information Lifecycle <a class = "schema-info" target="_blank" :href="'https://geoservices.leventhalmap.org/cartinal/documentation/schema/dataLifecycle.html'"><font-awesome-icon icon="info-circle" /></a></h3>
                         <!-- 🚧 under development 🚧 -->
-                        {{this.record.dataLifecycle}}
-                        <p ref="manipulation">PROCESSING NOTES HERE</p>
+                        <div v-for="item, index in this.record.dataLifecycle" v-bind:key="item.$id">
+                            <h4>{{index}}</h4>
+                        </div>
                     </div>
 
                 </details>
@@ -152,7 +211,7 @@
                     <!-- genealogy section is tucked into a dropdown so as not to overwhelm -->
                     <details>
                         <!-- genealogy section drop-down label -->
-                        <summary>Learn more about how this data came to be</summary>
+                        <summary>Learn more about where this data came from</summary>
 
                         <!-- genealogy section expanded content -->
                         <!-- GENEALOGY DROPDOWN CONTENT: big container for dropdown content in genealogy section -->
@@ -258,6 +317,8 @@ export default {
             recordId: this.$route.params.record_id,
             //place to store source metadata JSON
             record: [],
+            //place to store the field aliases
+            aliases: [],
             //place to store attributes pulled from ingredient datasets
             allIngredients: []
         }
@@ -286,6 +347,23 @@ export default {
             var manipulation = this.$refs.manipulation
             moreDetails.open = "true"
             manipulation.scrollIntoView({behavior: 'smooth' })
+        },
+        //function to split whole path from file name for display
+        getFileName(fullpath){
+            var splitPath = fullpath.split("/");
+            var fileName = splitPath.pop()
+            return fileName
+        },
+        //function to return appropriate field aliases
+        getFieldAlias(realFieldName){
+            for (var key in this.aliases) {
+                if (this.aliases.hasOwnProperty(realFieldName)) {
+                    var fieldAlias = this.aliases[realFieldName];
+                    return fieldAlias
+                } else {
+                    return realFieldName
+                }
+            }
         },
         //function to push ingredient attributes to a Vue data object
         getAllIngredients (){
@@ -339,6 +417,15 @@ export default {
             }).catch(err => {
                 console.log("Couldn't retrieve record metadata")
             })
+        
+        //get the field aliases
+        axios.get("https://raw.githubusercontent.com/nblmc/Data-Context/master/aliases.json")
+            .then(response => {
+                //add it to the Vue data
+                this.aliases = response.data
+            }).catch(err => {
+                console.log("Couldn't retrieve aliases")
+            })
 
     },
     watch:{
@@ -373,9 +460,9 @@ hr {
   border: 0;
   clear:both;
   display:block;
-  width: 96%;               
+  width: 100%;               
   background-color:rgb(237,237,241);
-  height: .1rem;
+  height: 2px;
 }
 
 /* Start over link */
@@ -402,6 +489,21 @@ a {
 a:hover{
   border-bottom: 4px solid;
   border-color: #D2E0E8;
+}
+
+a.schema-info{
+    color: #2c3e50;
+    border-bottom:0;
+    font-size:.9rem;
+}
+
+p.context-notes{
+    margin-bottom:0;
+}
+
+p.related-resource{
+    margin-top:0;
+    font-size: .9rem;
 }
 
 
@@ -456,6 +558,10 @@ border-style: solid;
   box-shadow: .25rem .25rem;
 }
 
+p#source{
+    margin-top:.5rem;
+}
+
 
 
 /* MORE CONTENT SECTION */
@@ -465,6 +571,7 @@ border-style: solid;
     display:flex;
     flex-direction: column;
     justify-content: flex-start;
+    padding: 0 .75rem;
 }
 
 

@@ -60,12 +60,14 @@
                         <p> {{this.record.coreCitation.shortDataDescription}}</p>
                     </details>
                     <!-- dataset genealogy description is tucked into a dropdown, as they can be lengthy -->
+                    <span v-if="this.record.coreCitation.shortGenealogyDescription">
                     <details>
                         <!-- dataset genealogy description drop-down label -->
-                        <summary id="genealogy-to-do" class = "little-more-details">Genealogy overview</summary>
+                        <summary class = "little-more-details">Genealogy overview</summary>
                         <!-- dataset genealogy description expanded content -->
                         <p> {{this.record.coreCitation.shortGenealogyDescription}}</p>
                     </details>
+                    </span>
                     <!-- dataset access condition -->
                     <p>Access Condition: <strong>{{this.record.coreCitation.accessCondition}}</strong></p>
                 </div>
@@ -354,9 +356,6 @@ export default {
     background-color:plum;
 }
 
-summary#genealogy-to-do{
-    background-color:plum;
-}
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ Page layout ~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 

@@ -103,7 +103,7 @@
         <div id = "more-content-container">
 
             <!-- MORE DETAILS: contains data biography, resource constellation and data lifecycle -->
-            <div id ="more-details">
+            <div id ="more-details" class = "under-development">
                 <!-- more details section title -->
                 <h2>More Details </h2>
                 <!-- data biography, resource constellation and data lifecycle are tucked into a dropdown so as not to overwhelm -->
@@ -142,8 +142,8 @@
 
 
             <!-- GENEALOGY SECTION: big container for the genealogy section -->
-            <!-- does not appear if there are no ingredients -->
             <div v-if="this.record.dataLifecycle" id="genealogy-section">
+                <!-- does not appear if there are no ingredients -->
                 <div v-if="this.record.dataLifecycle.acquisition">
                     <!-- data lifecycle section title -->
                     <h2 v-if="this.record.dataLifecycle.acquisition">Data Genealogy</h2>
@@ -226,10 +226,13 @@
             </div>
             <!-- End of Genealogy Section Big Container --> 
 
-
-            <div id = "missingInfo">
+            <!-- MISSING INFO: big container for the missing context section -->
+            <div id = "missingInfo" class="under-development">
+                <!-- missing context title -->
                 <h2>Missing Context</h2>
+                <!-- missing context content-->
                 <p>Context we don't know:</p>
+                <!-- 🚧 under development 🚧 -->
                 <ul>
                     <li>field: <strong>example description</strong></li>
                     <li>field: <strong>example description</strong></li>
@@ -244,58 +247,76 @@
 
 <script>
 import axios from 'axios'
+
 export default {
     name: "ViewRecord",
     data (){
         return {
+            //variable to store the watched route in case it changes
             recordId: this.$route.params.record_id,
+            //place to store source metadata JSON
             record: [],
+            //place to store attributes pulled from ingredient datasets
             allIngredients: []
         }
     },
     methods: {
+        //function to reload the page if the route changes
         updateId(){
             this.recordId = this.$route.params.record_id
             this.$router.go()
         },
+        //function to scroll to the top of the page
         jumpToTop(){
             window.scrollTo({ top: 0, behavior: 'smooth' })
         },
+        //upon clicking on the ingredients, change the record
         switchRecords(newURL){
             this.$route.params.record_id = newURL
             this.recordId = newURL
             this.$router.push({ name: 'ViewRecord' })
             this.$router.go()
         },
+        //to navigate to the data lifecycle > manipuation section from the genealogy section
+        //need to expand the more details drop down and scroll to that part of the page
         showManipulation(){
             var moreDetails = this.$refs.showdetails
             var manipulation = this.$refs.manipulation
             moreDetails.open = "true"
             manipulation.scrollIntoView({behavior: 'smooth' })
         },
+        //function to push ingredient attributes to a Vue data object
         getAllIngredients (){
             //if there are no ingredients do nothing
             var dataLifecycle = this.record.dataLifecycle
             if (!('acquisition' in dataLifecycle)){
                 console.log("There are no ingredients")
             } 
+            //if there are ingredients
             else{
+                //create a variable for ingredients, pulled from the original source data
                 var ingredients = dataLifecycle.acquisition.ingredients
-                //create a data object with some info about each ingredient
+                //loop through all the ingredients
                 for (let i = 0; i < ingredients.length; i ++){
+                    //create an empty object
                     var ingredientProps = {}
+                    //get the ID
                     var splitURI = ingredients[i].$id.split("/")[2]
+                    //add the id, title, catalogURL & processing notes to the new data object
                     ingredientProps = {"$id": ingredients[i].$id, "arkID": splitURI, "catalogURL": '#/catalog/' + splitURI, "notes": ingredients[i].notes, "title": ""}
+                    //push the new object to the Vue data
                     this.allIngredients.push(ingredientProps)
                 }
 
-                //add some data from the ingredient records to the new ingredient data objects
+                //the source record doesn't have ingredient titles & we want those, so have to get them from Github
+                //for all the items in the new ingredient data
                 for (let i = 0; i < this.allIngredients.length; i ++){
                     var current = this.allIngredients[i]
                     var currentSplit = current.$id.split("/")[2]
+                    //grab metadata associated with that ingredient
                     axios.get("https://raw.githubusercontent.com/nblmc/metadata/main/" + currentSplit + ".json")
                         .then(response => {
-                                //Vue.set(this.allIngredients[i], "title", response.data.coreCitation.title)
+                                //add the ingredient dataset title to the new ingredient data object
                                 this.allIngredients[i].title = response.data.coreCitation.title
                             }).catch(err => {
                                 console.log("Couldn't retrieve ingredient metadata")
@@ -306,11 +327,12 @@ export default {
         }
     },
     created() {
-        //returns a promise
+        //get the source metadata
         axios.get("https://raw.githubusercontent.com/nblmc/metadata/main/" + this.recordId + ".json")
             .then(response => {
-                //get the metadata for the main record
+                //add it to the Vue data
                 this.record = response.data
+                //run the function to get all the ingredients, too
                 this.getAllIngredients()
             }).catch(err => {
                 console.log("Couldn't retrieve record metadata")
@@ -318,6 +340,7 @@ export default {
 
     },
     watch:{
+        //watch the route in case it changes
         $route: 'updateId'
     }
 }
@@ -328,11 +351,11 @@ export default {
 /* BELLE'S DEV */
 
 .under-development{
-    background-color:hotpink;
+    background-color:plum;
 }
 
 summary#genealogy-to-do{
-    background-color:hotpink;
+    background-color:plum;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ Page layout ~~~~~~~~~~~~~~~~~~~~~~~~~~ */

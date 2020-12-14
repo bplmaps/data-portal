@@ -9,16 +9,11 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(fas)
 
-
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(InstantSearch)
 
-Vue.config.productionTip = false
-
-/* eslint-disable no-new */
 new Vue({
-  el: '#app',
+  el: "#app",
   router,
-  components: { App },
-  template: '<App/>'
-})
+  render: (h)=>h(App)
+});

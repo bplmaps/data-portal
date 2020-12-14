@@ -28,7 +28,7 @@ export default {
     return {
       searchClient: algoliasearch(
         'LFBGYLWA9I',
-        '403d4e78612290db2c0fd2d837a1137e'
+        '681beca54a39455539a017bafb337a83'
       )
     }
   },

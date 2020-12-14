@@ -79,7 +79,7 @@
                     <!-- 🚧 under development 🚧 -->
                     <ul class = "under-development">
                         <li>field: <strong>important context example</strong></li>
-                        <li>tutorial: <a href = "www.youtube.com">Join Census Data to Shapefiles</a></li>
+                        <li>tutorial: <a href = "">Join Census Data to Shapefiles</a></li>
                     </ul>
                 </div>
 
@@ -90,7 +90,7 @@
                     <!-- 🚧 under development 🚧 -->
                     <ul class = "under-development">
                         <li>field: <strong>suggested entrypoint example</strong></li>
-                        <li>tutorial: <a href = "www.youtube.com">Join Census Data to Shapefiles</a></li>
+                        <li>tutorial: <a href = "">Join Census Data to Shapefiles</a></li>
                     </ul>
                 </div>
 

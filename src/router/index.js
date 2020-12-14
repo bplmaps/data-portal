@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
-import Search from '@/components/Search'
-import ViewRecord from '@/components/ViewRecord'
+import Home from '~/components/Home'
+import Search from '~/components/Search'
+import ViewRecord from '~/components/ViewRecord'
 
 Vue.use(Router)
 

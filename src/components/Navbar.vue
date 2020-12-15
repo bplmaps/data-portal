@@ -26,7 +26,8 @@
               <div class="select is-primary">
                 <select name="" id="" v-model="selectedView">
                   <option value="simple">Simple view</option>
-                  <option value="full">Full view</option>
+                  <option value="extended">Extended view</option>
+                  <option value="tutorial">Tutorial view</option>
                 </select>
               </div>
               <div class="icon is-small is-left">
@@ -54,7 +55,9 @@ export default {
   },
   computed: {
     selectedViewIcon: function() {
-      return this.selectedView === 'simple' ? "th-large" : "th"
+      if(this.selectedView === 'simple') { return 'th-large' }
+      else if(this.selectedView === 'extended') { return "th" }
+      else if(this.selectedView === 'tutorial') { return "chalkboard-teacher" } 
     }
   }
 }

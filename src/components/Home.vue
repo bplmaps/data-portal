@@ -1,22 +1,26 @@
 <template>
 <section class="home">
-  <div class="container py-6">
+  <div class="container is-fluid py-6">
     <h1 class="title is-size-1">Search for data</h1>
-    <ais-instant-search :search-client="searchClient" index-name="metadata-sandbox">
-        <div class="field">
+        <div class="field has-addons">
+          <div class="control has-icons-left is-expanded">
+          <input v-model="inputQuery" type="text" placeholder="Enter keywords, topics, dates ..." class="input is-large" @keyup.enter="submitMainSearch" >
+          <span class="icon is-large is-left">
+            <font-awesome-icon icon="search"></font-awesome-icon>
+          </span>
+          </div>
           <div class="control">
-          <ais-search-box placeholder="Enter keywords, topics, dates ..." class="searchbox" :class-names="{ 'ais-SearchBox-input': 'input is-large'  }" />
+            <button class="button is-primary is-large" @click="submitMainSearch">Search</button>
           </div>
         </div>
-    </ais-instant-search>
   </div>
 
-  <div class="container mt-5">
+  <div class="container is-fluid  mt-5">
     <h3 class="title">You could try ...</h3>
-    <div class="card m-2" v-for="suggestion in suggestions">
+    <div class="card m-2 suggestion-card" v-for="suggestion in suggestions">
       <div class="card-content">
       <p class="title is-size-4">{{suggestion.title}}</p>
-      <p>{{suggestion.description}}</p>
+      <p class="is-family-secondary">{{suggestion.description}}</p>
       </div>
     </div>
   </div>
@@ -26,11 +30,6 @@
 </template>
 
 <script>
-import algoliasearch from 'algoliasearch/lite'
-import 'instantsearch.css/themes/algolia.css';
-
-
-
 export default {
   name: 'Home',
   data () {
@@ -39,7 +38,7 @@ export default {
       suggestions: [
         {title: "Borders", description: "Boundary files and so on", searchString: ""},
         {title: "GeoJSONs", description: "Files in GeoJSON format", searchString: ""},
-        {title: "Something", description: "Blah blah", searchString: ""},
+        {title: "Maptivist Collections", description: "Collections selected for teaching in the Maptivist program", searchString: ""},
         {title: "Something", description: "Blah blah", searchString: ""},
         {title: "Something", description: "Blah blah", searchString: ""},
         {title: "Something", description: "Blah blah", searchString: ""},
@@ -48,26 +47,29 @@ export default {
 
       ],
 
-      searchClient: algoliasearch(
-        'LFBGYLWA9I',
-        '403d4e78612290db2c0fd2d837a1137e'
-      )
+     inputQuery: ''
     }
   },
   methods: {
-    runSearch(){
-      console.log("u searched.")
+    submitMainSearch: function() {
+      this.$router.push({path: 'search', query: {s: this.inputQuery}});
     }
   }
+
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~/style-vars.scss";
 
-.card { width: 30%; float: left; }
-.card {
-  &:hover { background-color: lighten($primary,70%);}
-}
+.suggestion-card { 
+  width: 30%;
+  float: left;
+  cursor: pointer;
+
+  &:hover { 
+    background-color: lighten($link,70%);}
+  }
+
 
 </style>

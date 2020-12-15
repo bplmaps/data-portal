@@ -1,25 +1,57 @@
 <template>
-  <div class="search-results">
-    <router-link to="/" id="start-over">Start over ↩️</router-link>
-      <ais-instant-search :search-client="searchClient" index-name="metadata-sandbox">
-        <div id="search-container">
-          <ais-search-box placeholder="Search here…" class="searchbox" />
+  <section class="search-results mt-5">
+    <ais-instant-search 
+        :initial-ui-state="initialUiState" 
+        :search-client="searchClient"
+        index-name="metadata-sandbox" >
+    <div class="container is-fluid">
+      <ais-search-box placeholder="Search here…" class="searchbox" />
+    </div>
+    
+    <div class="container is-fluid mt-5">
+        <h2 class="title is-size-3.5">Search Results</h2>
+
+        <div class="columns">
+          <div class="column is-one-fifth">
+            <div class="py-3">
+              <h4 class="title is-size-6">Filter by LMEC hosted</h4>
+              <ais-toggle-refinement 
+                attribute="coreCitation.hostedBy"
+                label="Yes"
+                :on="'Internal'"
+              ></ais-toggle-refinement>
+            </div>
+
+            <div class="py-3">
+              <h4 class="title is-size-6">Place subjects</h4>
+              <ais-refinement-list attribute="subjectTagging.geographic.geonames.placeTag" ></ais-refinement-list>
+            </div>
+
+            <div class="py-3">
+              <h4 class="title is-size-6">Theme subjects</h4>
+              <ais-refinement-list attribute="subjectTagging.thematic.ISO19115.subjectTag" ></ais-refinement-list>
+            </div>
+          </div>
+          <div class="column">
+          <ais-hits>
+          <div slot="item" slot-scope="{ item }">
+            <a :href="getId(item.coreCitation.$id)"><h2 class="title is-size-5">{{ item.coreCitation.title}}</h2></a>
+            <p class="is-family-secondary is-muted is-size-6">{{ item.coreCitation.shortDataDescription.substring(0,240) }}</p>
+          </div>
+
+        </ais-hits></div>
         </div>
-        <h1>Search Results</h1>
-        <ais-hits>
-          <a :href ="getId(item.coreCitation.$id)" slot="item" slot-scope="{ item }">
-            <h2>{{ item.coreCitation.title}}</h2>
-          </a>
-        </ais-hits>
+        
+        <ais-pagination />
+    </div>
   </ais-instant-search>
 
-  </div>
+  </section>
 </template>
 
 <script>
 import algoliasearch from 'algoliasearch/lite'
 import 'instantsearch.css/themes/algolia.css';
-
 
 
 export default {
@@ -29,9 +61,15 @@ export default {
       searchClient: algoliasearch(
         'LFBGYLWA9I',
         '681beca54a39455539a017bafb337a83'
-      )
+      ),
+      
     }
   },
+  computed: {
+    urlQuery: function() {return this.$route.query.s },
+    initialUiState: function() { return {"metadata-sandbox": {"query": this.urlQuery}} }
+  },
+
   methods: {
     getId (arkURI){
       var splitURI = arkURI.split("/")[2]
@@ -43,49 +81,14 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #810002;
-  text-decoration:none;
-  border-bottom: 2px solid;
-  border-color: #D2E0E8;
-}
+<style lang="scss">
+@import "~/style-vars.scss";
 
-#search-container {
-  display:flex;
+.ais-Hits-item {
   width: 100%;
-  margin-bottom:.5rem;
-}
-
-.searchbox{
-  justify-content:stretch;
-  width:100%;
-  font-family: hero-new, Avenir, Helvetica, Arial, sans-serif;
-}
-
-div.search-results{
-  margin: 10rem;
-}
-
-a#start-over{
-  float:left;
-  margin-bottom:1rem;
-}
-
-a:hover{
-  border-bottom: 4px solid;
-  border-color: #D2E0E8;
+  &:hover {
+    background-color: lighten($link,70%);
+  }
 }
 
 

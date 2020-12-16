@@ -13,13 +13,10 @@
 
         <div class="columns">
           <div class="column is-one-fifth">
+
             <div class="py-3">
-              <h4 class="title is-size-6">Filter by LMEC hosted</h4>
-              <ais-toggle-refinement 
-                attribute="coreCitation.hostedBy"
-                label="Yes"
-                :on="'Internal'"
-              ></ais-toggle-refinement>
+              <h4 class="title is-size-6">Theme subjects</h4>
+              <ais-refinement-list attribute="subjectTagging.thematic.LCSH.subjectTag" ></ais-refinement-list>
             </div>
 
             <div class="py-3">
@@ -28,9 +25,21 @@
             </div>
 
             <div class="py-3">
-              <h4 class="title is-size-6">Theme subjects</h4>
-              <ais-refinement-list attribute="subjectTagging.thematic.ISO19115.subjectTag" ></ais-refinement-list>
+              <h4 class="title is-size-6">Maintainer</h4>
+              <ais-refinement-list attribute="dataLifecycle.maintenance.officialMaintainer" ></ais-refinement-list>
             </div>
+
+            <div class="py-3">
+              <h4 class="title is-size-6">Format</h4>
+              <ais-refinement-list attribute="dataEndpoints.format" ></ais-refinement-list>
+            </div>
+
+            <div class="py-3">
+              <h4 class="title is-size-6">Record Type</h4>
+              <ais-refinement-list attribute="coreCitation.recordType" ></ais-refinement-list>
+            </div>
+
+
           </div>
           <div class="column">
           <ais-hits>

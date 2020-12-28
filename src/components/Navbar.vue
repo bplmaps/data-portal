@@ -5,7 +5,9 @@
         <img src="~/assets/lmec-logo.png" alt="LMEC Logo">
       </div>
       <div class="navbar-item is-size-4">
+        <router-link to="/">
         Public Data Portal
+        </router-link>
       </div>
     </div>
 

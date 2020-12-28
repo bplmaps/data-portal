@@ -14,296 +14,124 @@
 
 
 <template>
-    <!-- VIEW RECORD: big container for whole records page -->
-    <div class="view-record">
-
-        <!-- TOP BAR: container for everything above the actual page details (sub-navigation menu, dataset title) -->
-        <div id = "top-bar">
-            <!-- LINK CONTAINER: container for sub-navigation menu: links for moving around the portal -->
-            <div id ="link-container">
-                <!-- START OVER: link back to data portal landing page -->
-                <router-link to="/" id="start-over">Start over ↩️</router-link>
-            </div>
-            <!-- TITLE CONTAINER: container for the dataset title -->
-            <div id = "title-container" v-if="this.record.coreCitation">
-                <!-- dataset title: pulled from source metadata -->
-                <h1>{{this.record.coreCitation.title}}</h1>
+<section class="view-record py-4">
+    <div v-if="recordLoaded">
+    <div class="container is-fluid my-2">
+        <h2 class="title is-size-3">{{record.coreCitation.title}}</h2>
+        <div class="mt-1">
+            <div class="field is-grouped is-grouped-multiline">
+                <div class="tag is-medium is-light mr-2"><font-awesome-icon :icon="recordTypeIcon" class="mr-2"></font-awesome-icon> {{record.coreCitation.recordType}}</div><div class="tags has-addons"><div class="tag is-medium is-light"><font-awesome-icon icon="anchor" class="mr-2"></font-awesome-icon>Identifier</div><div class="tag is-medium is-light is-info">{{record.coreCitation.$id}}</div></div>
             </div>
         </div>
 
-        <!-- page divider splitting top bar from record details -->
-        <hr class="solid">
-
-        <!-- BASIC CONTENT CONTAINER: big container for all the basic content -->
-        <!-- basic content is defined as core citation info, fields flagged as important = true, and data access endpoints -->
-        <div id = "basic-content-container">
-
-            <!-- LEFT: top section with basic content is split into two columns -->
-            <!-- core citation info and important = true is in the left-hand column -->
-            <div class = "left">
-
-                <!-- ⬇️ Record Details ⬇️ -->
-
-                <!-- CORE CITATION: section pertaining to dataset's core citation information -->
-                <div v-if="this.record.coreCitation" id="coreCitation">
-                    <!-- core citation section title -->
-                    <h2>Core Citation</h2>
-                    <!-- dataset ID -->
-                    <p>id: <strong>{{this.record.coreCitation.$id}}</strong></p>
-                    <!-- dataset record type -->
-                    <p>Collection or dataset: <strong>{{this.record.coreCitation.recordType}}</strong></p>
-                    <!-- dataset general description is tucked into a dropdown, as they can be lengthy -->
-                    <details>
-                        <!-- dataset description drop-down label -->
-                        <summary class = "little-more-details">Dataset overview</summary>
-                        <!-- dataset description expanded content -->
-                        <p> {{this.record.coreCitation.shortDataDescription}}</p>
-                    </details>
-                    <!-- dataset genealogy description is tucked into a dropdown, as they can be lengthy -->
-                    <span v-if="this.record.coreCitation.shortGenealogyDescription">
-                    <details>
-                        <!-- dataset genealogy description drop-down label -->
-                        <summary class = "little-more-details">Genealogy overview</summary>
-                        <!-- dataset genealogy description expanded content -->
-                        <p> {{this.record.coreCitation.shortGenealogyDescription}}</p>
-                    </details>
-                    </span>
-                    <!-- dataset access condition -->
-                    <p>Access Condition: <strong>{{this.record.coreCitation.accessCondition}}</strong></p>
-                </div>
-
-                <!-- IMPORTANT CONTEXT: section pertaining to fields flagged anywhere in the metadata as 'important' -->
-                <div id="important">
-                    <!-- important context section title -->
-                    <h2>Important Context</h2>
-                    <!-- 🚧 under development 🚧 -->
-                    <ul class = "under-development">
-                        <li>field: <strong>important context example</strong></li>
-                        <li>tutorial: <a href = "">Join Census Data to Shapefiles</a></li>
-                    </ul>
-                </div>
-
-                <!-- SUGGESTED ENTRY POINTS: fields flagged as suggested entry points -->
-                <div id="suggested-entry">
-                    <!-- suggested entry points section title -->
-                    <h2>Suggested Entry Points</h2>
-                    <!-- 🚧 under development 🚧 -->
-                    <ul class = "under-development">
-                        <li>field: <strong>suggested entrypoint example</strong></li>
-                        <li>tutorial: <a href = "">Join Census Data to Shapefiles</a></li>
-                    </ul>
-                </div>
-
-            </div>
-            <!-- RIGHT: top section with basic content is split into two columns -->
-            <!-- data access endpoints are in the right-hand column -->
-            <div class = "right">
-                <!-- DATA ENDPOINTS: container for data endpoints-->
-                <div v-if="this.record.dataEndpoints" id ="dataEndpoints">
-                    <!-- data endpoint section title -->
-                    <h2>Data Endpoints</h2>
-                    <!-- loop through all the data endpoints -->
-                    <ul v-for="item in this.record.dataEndpoints" v-bind:key="item.$id">
-                        <!-- link to the access URL -->
-                        <li v-if="item.source == 'Leventhal Map & Education Center'">
-                            <!-- give the file link -->
-                            <a :href="item.accessURL">{{getFileName(item.accessURL)}}</a>
-                            <!-- cite the source -->
-                            <p id = "source">Source: <strong>{{item.source}}</strong></p>
-                        </li>
-                        <li v-else>
-                            <!-- where we can't control the file name, display the file format -->
-                            <a :href="item.accessURL">{{item.format}}</a>
-                            <!-- cite the source -->
-                            <p id = "source">Source: 
-                                <a :href="item.accessedViaURL" target="_blank"><strong>{{item.source}}</strong></a>
-                            </p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-        <!-- End of Basic Content Container -->    
-        </div>
-
-
-
-
-        <!-- MORE CONTENT CONTAINER: big container for all the detailed content -->
-        <!-- more content is defined as data biography, resource constellation and data lifecycle -->
-        <div id = "more-content-container">
-
-            <!-- MORE DETAILS: contains data biography, resource constellation and data lifecycle -->
-            <div id ="more-details" class = "under-development">
-                <!-- more details section title -->
-                <h2>More Details </h2>
-                <!-- data biography, resource constellation and data lifecycle are tucked into a dropdown so as not to overwhelm -->
-                <details ref="showdetails">
-                    <!-- more details drop-down label -->
-                    <summary >Information we know about this data</summary>
-                
-                    <!-- page divider splitting the sections -->
-                    <hr class="solid">
-
-                    <!-- DATA BIOGRAPHY: container for data biography section -->
-                    <div v-if="this.record.dataBiography" id = "dataBiography">
-                        <!-- data biography section title -->
-                        <h3>Data Biography <a class = "schema-info" target="_blank" :href="'https://geoservices.leventhalmap.org/cartinal/documentation/schema/dataBiography.html'"><font-awesome-icon icon="info-circle" /></a></h3>
-                        <!-- go through all the top level categories in the Data Biography section -->
-                        <!-- for example: Sampling, Privacy, Data Collection, Funding, Potential Harm-->
-                        <div v-for="firstLevelItem, firstLevelIndex in this.record.dataBiography" v-bind:key="firstLevelIndex">
-                            <!-- print the section head, using the field alias -->
-                            <h4>{{getFieldAlias(firstLevelIndex)}} </h4>
-                            <!-- go through all the 2nd level categories in the Data Biography section -->
-                            <!-- for example: Universe, Sample Size, Start Date, Who Conceived, etc etc -->
-                            <span v-for="secondLevelItem, secondLevelIndex in firstLevelItem" v-bind:key="secondLevelIndex">
-                                <!-- the items reached by these 2nd level category indices are ARRAYS, so we need to get the array items -->
-                                <details v-for="arrayItem, arrayIndex in secondLevelItem" v-bind:key="arrayIndex">
-                                    <summary v-show="arrayItem.notes != undefined ">{{getFieldAlias(secondLevelIndex)}}</summary>
-                                    <ul >
-                                        <li>
-                                            <p class = "context-notes">{{arrayItem.notes}}</p>
-                                            <p class = "related-resource"><a target="_blank" :href="arrayItem.relatedResourceURL">Learn More <font-awesome-icon icon="external-link-alt" /></a></p>
-                                        </li>
-                                    </ul>
-                                </details>
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- page divider splitting the sections -->
-                    <hr class="solid">
-
-                    <!-- RESOURCE CONSTELLATION: container for resource constellation section -->
-                    <div v-if="this.record.resourceConstellation" id = "resourceConstellation">
-                        <!-- resource constellation section title -->
-                        <h3>Constellation of Resources <a class = "schema-info" target="_blank" :href="'https://geoservices.leventhalmap.org/cartinal/documentation/schema/resourceConstellation.html'"><font-awesome-icon icon="info-circle" /></a></h3>
-                        <!-- 🚧 under development 🚧 -->
-                        <div v-for="item, index in this.record.resourceConstellation" v-bind:key="item.$id">
-                            <h4><a target ="_blank" :href="'https://geoservices.leventhalmap.org/cartinal/documentation/schema/' + index + '.html'"> {{index}}: </a></h4>
-                        </div>
-                    </div>
-
-                    <!-- page divider splitting the sections -->
-                    <hr class="solid">
-
-                    <!-- DATA LIFECYCLE: container for data lifecycle section -->
-                    <div v-if="this.record.dataLifecycle" id = "dataLifecycle">
-                        <!-- data lifecycle section title -->
-                        <h3 ref="manipulation">Data Information Lifecycle <a class = "schema-info" target="_blank" :href="'https://geoservices.leventhalmap.org/cartinal/documentation/schema/dataLifecycle.html'"><font-awesome-icon icon="info-circle" /></a></h3>
-                        <!-- 🚧 under development 🚧 -->
-                        <div v-for="item, index in this.record.dataLifecycle" v-bind:key="item.$id">
-                            <h4>{{index}}</h4>
-                        </div>
-                    </div>
-
-                </details>
-            </div>
-            <!-- End of More Details Container -->  
-
-
-            <!-- GENEALOGY SECTION: big container for the genealogy section -->
-            <div v-if="this.record.dataLifecycle" id="genealogy-section">
-                <!-- does not appear if there are no ingredients -->
-                <div v-if="this.record.dataLifecycle.acquisition">
-                    <!-- data lifecycle section title -->
-                    <h2 v-if="this.record.dataLifecycle.acquisition">Data Genealogy</h2>
-                    <!-- genealogy section is tucked into a dropdown so as not to overwhelm -->
-                    <details>
-                        <!-- genealogy section drop-down label -->
-                        <summary>Learn more about where this data came from</summary>
-
-                        <!-- genealogy section expanded content -->
-                        <!-- GENEALOGY DROPDOWN CONTENT: big container for dropdown content in genealogy section -->
-                        <div id = "genealogy-dropdown-content">
-
-                            <div id = "genealogy-overview">
-                                <!-- genealogy section overview title -->
-                                <h3>Overview</h3>
-                                <!-- genealogy overview content text -->
-                                <p>Many times, when people work on data projects, they alter or combine already existing datasets to create new datasets that are more useful for their project goals. </p>
-                                <p>This is similar to cooking, where people form a recipe by picking and choosing ingredients to try to get as close as possible to an outcome that is exactly what they are looking for.</p>
-                                <p>This activity, called <strong>data cleaning</strong> or <strong>data processing</strong> can involve:</p>
-                                <ul>
-                                    <li>combining dataset ingredients together</li>
-                                    <li>trimming or kneading certain parts of the ingredients</li>
-                                    <li>cooking the data to compute new values with math</li>
-                                </ul>
-                                <p>Just like in in cooking, sometimes the perfect ingredients aren't available, and people have to work with what they have. </p>
-                            </div>
-
-                            <!-- genealogy section project details title -->
-                            <h3 id ="this-data-project">Ingredients for this Data Project</h3>
-                            <!-- genealogy section project details text -->
-                            <p>To create this dataset, someone used this ingredient data:</p>
-
-                            <!-- RECIPE TREE CONTAINER: container for genealogy tree elements --> 
-                            <div id = "recipe-tree-container">
-
-                                <!-- INGREDIENTS CONTAINER: container for ingredients --> 
-                                <!-- function getAllIngredients() populates Vue data object titled "allIngredients" with info about the ingredients --> 
-                                <div v-if="this.allIngredients" id="ingredients-container">
-
-                                    <!-- button loops through allIngredients and creates a card for each --> 
-                                    <button @click ="switchRecords(item.arkID)" v-for="item in this.allIngredients" v-bind:key="item.$id" >
-                                        <!-- ingredient card title -->
-                                        <h3 class = "card-title">INGREDIENT</h3>
-                                        <!-- ingredient dataset title -->
-                                        <p class = "dataset-title"> {{item.title}}</p>
-                                        <!-- ingredient dataset processing notes -->
-                                        <p>{{item.notes}}</p>
-                                    </button>
-
-                                </div>
-                                <!-- ingredient dataset title -->
-                                <div v-else>Trouble finding ingredients...</div>
-
-                                <!-- recipe segue text -->
-                                <p>To make ⬇ </p>
-
-                                <!-- RECIPE RESULTS: container for recipe results --> 
-                                <div v-if="this.record.coreCitation" id="recipe-results">
-                                    <button @click ="jumpToTop()">
-                                        <!-- recipe card title -->
-                                        <h3 class = "card-title">RECIPE</h3>
-                                        <!-- current record title -->
-                                        <p class = "dataset-title">{{this.record.coreCitation.title}}</p>
-                                        <!-- clarifying note -->
-                                        <p><strong>The dataset you are currently viewing</strong></p>
-                                    </button>
-                                </div>
-
-                            </div>
-                            <!-- End of Recipe Tree Container -->
-                            <h3 id="processing-nod">Learn More</h3>
-                            <p id="processing-nod">To find out everything we know about how someone created this dataset, check out the processing section in
-                                <a @click="showManipulation()">Data Lifecycle</a>.
-                            </p>
-                        </div>
-                        <!-- End of Genealogy Container -->
-
-                    </details>
-                </div>
-            </div>
-            <!-- End of Genealogy Section Big Container --> 
-
-            <!-- MISSING INFO: big container for the missing context section -->
-            <div id = "missingInfo" class="under-development">
-                <!-- missing context title -->
-                <h2>Missing Context</h2>
-                <!-- missing context content-->
-                <p>Context we don't know:</p>
-                <!-- 🚧 under development 🚧 -->
-                <ul>
-                    <li>field: <strong>example description</strong></li>
-                    <li>field: <strong>example description</strong></li>
-                    <li>field: <strong>example description</strong></li>
-                    <li>field: <strong>example description</strong></li>
-                </ul>
-            </div>
-        </div>
-        
     </div>
+
+    <hr>
+
+    <div class="container is-fluid my-4">
+        <div>
+            <p class="is-family-secondary">{{record.coreCitation.shortDataDescription}}</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container is-fluid">
+        <div class="columns">
+            <div class="column is-two-thirds">
+                <div class="panel is-primary">
+                    <p class="panel-heading">
+                        About this data
+                    </p>
+                    <div class="panel-block">
+                        <div class="py-2">
+                        <h5>Access conditions</h5>
+                        <p class="is-family-secondary">{{record.coreCitation.accessCondition}}</p>
+                        </div>
+                    </div>
+
+                    <div class="panel-block">
+                        <div class="py-2">
+                        <h5>Maintained by</h5>
+                        <p class="is-family-secondary">{{record.dataLifecycle.maintenance.officialMaintainer}}</p>
+                        </div>
+                    </div>
+
+                    <div class="panel-block">
+                        <div class="py-2">
+                        <h5>Important caveats</h5>
+                        <p class="is-family-secondary"></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="column is-one-third">
+                <div class="panel is-info">
+                    <p class="panel-heading">
+                        Get this data
+                    </p>
+                    <div class="panel-block" v-for="endpoint in this.sortedEndpoints" v-bind:key="endpoint.$id">
+                        <div class="panel-icon"><font-awesome-icon icon="file-alt"></font-awesome-icon></div>
+                        <div class="endpoint-text">
+                            <p><a :href="endpoint.accessURL">{{endpoint.format}}</a></p>
+                            <p class="is-size-7 mt-1">{{endpoint.source}}</p>
+                            <div class="tag is-light is-success" v-if="endpoint.suggestedEntryPoint"><font-awesome-icon icon="smile" class="mr-2"></font-awesome-icon> Suggested</div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container is-fluid my-4">
+        <div class="columns">
+        
+        <div class="column is-one-half">
+            <div class="panel is-secondary">
+                <p class="panel-heading">
+                    Genealogy
+                </p>
+                <div class="panel-block" v-if="record.dataLifecycle.acquisition && record.dataLifecycle.acquisition.ingredients">
+                    <div class="py-3">
+                        <h6>Created from</h6>
+                        <ul>
+                            <li v-for="ingredient in record.dataLifecycle.acquisition.ingredients" :key="ingredient.$id">{{ingredient.$id}}</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="column is-one-half">
+            <div class="panel is-secondary">
+                <p class="panel-heading">
+                    Related Resources
+                </p>
+                <div class="panel-block" v-if="record.resourceConstellation.publishedWorks">
+                    <div class="py-3">
+                        <h6>Published Works</h6>
+                        <ul class="is-family-secondary">
+                            <li v-for="work in record.resourceConstellation.publishedWorks" :key="work.title">{{work.title}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+
+    <div v-if="!recordLoaded">
+        This record was not loaded.
+    </div>
+        
+</section>
 </template>
 
 <script>
@@ -313,6 +141,7 @@ export default {
     name: "ViewRecord",
     data (){
         return {
+            recordLoaded: false, 
             //variable to store the watched route in case it changes
             recordId: this.$route.params.record_id,
             //place to store source metadata JSON
@@ -321,6 +150,27 @@ export default {
             aliases: [],
             //place to store attributes pulled from ingredient datasets
             allIngredients: []
+        }
+    },
+
+    computed: {
+        recordTypeIcon: function() { 
+            // Helper function to map record types onto FA icons. 
+            try{
+            if(this.record.coreCitation.recordType === 'Dataset') { return "server"; }
+            else if(this.record.coreCitation.recordType === 'Collection') { return "shapes"; }
+            else { return "asterisk" }
+            }
+            catch(e) {
+                return "asterisk"
+            }
+        },
+        sortedEndpoints: function() {
+            if(this.record.dataEndpoints) {
+                return this.record.dataEndpoints.sort((b,a) => {  return (typeof a.suggestedEntryPoint === "undefined" ? false : a.suggestedEntryPoint) - (typeof b.suggestedEntryPoint === "undefined" ? false : b.suggestedEntryPoint) ; })
+            } else {
+                return null;
+            }
         }
     },
     methods: {
@@ -412,6 +262,7 @@ export default {
             .then(response => {
                 //add it to the Vue data
                 this.record = response.data
+                this.recordLoaded = true;
                 //run the function to get all the ingredients, too
                 this.getAllIngredients()
             }).catch(err => {
@@ -444,26 +295,6 @@ export default {
 }
 
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ Page layout ~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
-/* WHOLE PAGE */
-
-/* Component template */
-.view-record{
-    display:flex;
-    flex-direction: column;
-    margin:10rem;
-}
-
-/* Divider between top section and page details */
-hr {
-  border: 0;
-  clear:both;
-  display:block;
-  width: 100%;               
-  background-color:rgb(237,237,241);
-  height: 2px;
-}
 
 /* Start over link */
 a#start-over{
@@ -485,11 +316,7 @@ a {
   border-color: #D2E0E8;
 }
 
-/* All links on hover */
-a:hover{
-  border-bottom: 4px solid;
-  border-color: #D2E0E8;
-}
+
 
 a.schema-info{
     color: #2c3e50;

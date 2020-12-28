@@ -17,11 +17,15 @@
 
   <div class="container is-fluid  mt-5">
     <h3 class="title">You could try ...</h3>
-    <div class="card m-2 suggestion-card" v-for="suggestion in suggestions">
+    <div class="columns is-multiline">
+    <div class="column is-one-third" v-for="suggestion in suggestions" :key="suggestion.title">
+    <div class="card suggestion-card" @click="triggerExampleSearch(suggestion.searchString)">
       <div class="card-content">
       <p class="title is-size-4">{{suggestion.title}}</p>
       <p class="is-family-secondary">{{suggestion.description}}</p>
       </div>
+    </div>
+    </div>
     </div>
   </div>
 
@@ -36,9 +40,9 @@ export default {
     return {
 
       suggestions: [
-        {title: "Borders", description: "Boundary files and so on", searchString: ""},
-        {title: "GeoJSONs", description: "Files in GeoJSON format", searchString: ""},
-        {title: "Maptivist Collections", description: "Collections selected for teaching in the Maptivist program", searchString: ""},
+        {title: "Borders", description: "Boundary files and so on", searchString: "border"},
+        {title: "GeoJSONs", description: "Files in GeoJSON format", searchString: "GeoJSON"},
+        {title: "Maptivist Collections", description: "Collections selected for teaching in the Maptivist program", searchString: "Maptivist Collection"},
         {title: "Something", description: "Blah blah", searchString: ""},
         {title: "Something", description: "Blah blah", searchString: ""},
         {title: "Something", description: "Blah blah", searchString: ""},
@@ -53,6 +57,9 @@ export default {
   methods: {
     submitMainSearch: function() {
       this.$router.push({path: 'search', query: {s: this.inputQuery}});
+    },
+    triggerExampleSearch: function(q) {
+      this.$router.push({path: 'search', query: {s: q}});
     }
   }
 
@@ -63,8 +70,6 @@ export default {
 @import "~/style-vars.scss";
 
 .suggestion-card { 
-  width: 30%;
-  float: left;
   cursor: pointer;
 
   &:hover { 

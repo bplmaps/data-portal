@@ -95,14 +95,18 @@
                 <p class="panel-heading">
                     Genealogy
                 </p>
-                <div class="panel-block" v-if="record.dataLifecycle.acquisition && record.dataLifecycle.acquisition.ingredients">
+                <div class="panel-block" v-if="allIngredients.length > 0">
                     <div class="py-3">
-                        <h6>Created from</h6>
-                        <ul>
-                            <li v-for="ingredient in record.dataLifecycle.acquisition.ingredients" :key="ingredient.$id">{{ingredient.$id}}</li>
-                        </ul>
+                            <div class="ingredient-box p-3 mb-2" v-for="ingredient in allIngredients" :key="ingredient.$id">
+                                <p class="is-size-6"><router-link :to="'/catalog/' + ingredient.arkID">{{ingredient.title}}</router-link></p>
+                                <div class="tags has-addons my-1"><span class="tag"><font-awesome-icon icon="anchor" class="mr-2"></font-awesome-icon>Identifier</span><span class="tag is-info is-light">{{ingredient.$id}}</span></div>
+                                <p class="is-family-secondary">{{ingredient.notes}}</p>
+                            </div>
                     </div>
 
+                </div>
+                <div class="panel-block" v-if="allIngredients.length === 0">
+                    No ingredients
                 </div>
             </div>
         </div>
@@ -183,21 +187,7 @@ export default {
         jumpToTop(){
             window.scrollTo({ top: 0, behavior: 'smooth' })
         },
-        //upon clicking on the ingredients, change the record
-        switchRecords(newURL){
-            this.$route.params.record_id = newURL
-            this.recordId = newURL
-            this.$router.push({ name: 'ViewRecord' })
-            this.$router.go()
-        },
-        //to navigate to the data lifecycle > manipuation section from the genealogy section
-        //need to expand the more details drop down and scroll to that part of the page
-        showManipulation(){
-            var moreDetails = this.$refs.showdetails
-            var manipulation = this.$refs.manipulation
-            moreDetails.open = "true"
-            manipulation.scrollIntoView({behavior: 'smooth' })
-        },
+
         //function to split whole path from file name for display
         getFileName(fullpath){
             var splitPath = fullpath.split("/");
@@ -232,8 +222,8 @@ export default {
                     var ingredientProps = {}
                     //get the ID
                     var splitURI = ingredients[i].$id.split("/")[2]
-                    //add the id, title, catalogURL & processing notes to the new data object
-                    ingredientProps = {"$id": ingredients[i].$id, "arkID": splitURI, "catalogURL": '#/catalog/' + splitURI, "notes": ingredients[i].notes, "title": ""}
+                    //add the id, title, processing notes to the new data object
+                    ingredientProps = {"$id": ingredients[i].$id, "arkID": splitURI, "notes": ingredients[i].notes, "title": ""}
                     //push the new object to the Vue data
                     this.allIngredients.push(ingredientProps)
                 }
@@ -256,7 +246,7 @@ export default {
 
         }
     },
-    created() {
+    mounted() {
         //get the source metadata
         axios.get("https://raw.githubusercontent.com/nblmc/metadata/main/" + this.recordId + ".json")
             .then(response => {
@@ -288,194 +278,9 @@ export default {
 
 <style scoped>
 
-/* BELLE'S DEV */
-
-.under-development{
-    background-color:plum;
-}
-
-
-
-/* Start over link */
-a#start-over{
-  margin-bottom:1rem;
-  float:left;
-}
-
-/* Content above record details */
-#top-bar{
-    display:flex;
-    flex-direction: column
-}
-
-/* All links */
-a {
-  color: #810002;
-  text-decoration:none;
-  border-bottom: 2px solid;
-  border-color: #D2E0E8;
-}
-
-
-
-a.schema-info{
-    color: #2c3e50;
-    border-bottom:0;
-    font-size:.9rem;
-}
-
-p.context-notes{
-    margin-bottom:0;
-}
-
-p.related-resource{
-    margin-top:0;
-    font-size: .9rem;
-}
-
-
-/* Remove the default carrot from the details dropdown */
-details summary#big-more-details::-webkit-details-marker {
-  display:none;
-}
-
-summary.little-more-details{
-    margin-bottom: .75rem;
-}
-
-/* Remove the auto box highlight from the details dropdown */
-*:focus {
-  outline: none;
-}
-
-
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~ Metadata Content ~~~~~~~~~~~~~~~~~~~~~~~~ */
-
-/* BASIC CONTENT */
-
-#content{
-    max-width:100%;
-    overflow-wrap: break-word;
-}
-
-#basic-content-container{
-    display:flex;
-    flex-direction: row;
-    margin-bottom: .5rem;
-}
-
-.left{
-    display:flex;
-    flex-direction:column;
-    width: 55%;
-    padding: 0 .75rem;
-}
-
-.right {
-    width: 45%;
-    overflow-wrap: break-word;
-}
-
-#dataEndpoints{
-border-style: solid;
-  border-color:#054671;
-  padding: 0 .75rem;
-  border-width:.5rem;
-  box-shadow: .25rem .25rem;
-}
-
-p#source{
-    margin-top:.5rem;
-}
-
-
-
-/* MORE CONTENT SECTION */
-/* data bio, constellation resources, data lifecycle */
-
-#more-content-container{
-    display:flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 0 .75rem;
-}
-
-
-/* GENEALOGY */
-
-#genealogy-dropdown-content{
-    display:flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-}
-
-#genealogy-overview{
-    margin-top:1rem;
-}
-
-#recipe-tree-container{
-    display:flex;
-    flex-direction:column;
-}
-
-#ingredients-container{
-    display:flex;
-    flex-direction: row;
-    justify-content: center;
-    align-self: flex-start;
-}
-
-button{
-    padding: .5rem;
-    margin: .5rem;
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-    font-family: hero-new, Avenir, Helvetica, Arial, sans-serif;
-    color: rgb(31,31,75);
-    text-align: left;
-    overflow-wrap: break-word;
-    background-color: white;
-    border-style: solid;
-    border-color:#054671;
-    padding: 0 .75rem;
-    border-width:.5rem;
-    box-shadow: .25rem .25rem;
-}
-
-button:hover{
-    cursor:pointer;
-    background-color: rgb(239, 239, 239);
-}
-                               
-#recipe-results{
-    display:flex;
-    justify-content: center;
-    align-self:flex-start;
-}
-
-h3.card-title{
-    font-size:1.2rem;
-    margin-bottom:0;
-}
-
-h3#this-data-project{
-    margin-bottom:0;
-}
-
-p.dataset-title{
-    color: #810002;
-    margin-bottom:0;
-}
-
-h3#processing-nod{
-    margin-top:1.5rem;
-}
-
-p#processing-nod{
-    margin-top:0;
+.ingredient-box {
+    border: 2px solid #f0f0f0;
+    border-radius: 3px;
 }
 
 </style>

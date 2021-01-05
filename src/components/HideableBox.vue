@@ -1,7 +1,7 @@
 <template>
 
-  <div class="hideable-box p-4">
-    <h4 class="is-size-5" @click="showHide"><font-awesome-icon :icon="hidden ? 'eye-slash' : 'eye' " class="eye-icon mr-2"></font-awesome-icon>{{title}}</h4>
+  <div class="hideable-box is-6">
+    <h5 class="is-6" @click="showHide"><font-awesome-icon :icon="hidden ? 'eye-slash' : 'eye' " class="eye-icon mr-2"></font-awesome-icon>{{title}}</h5>
     <div class="is-family-secondary" v-if="!hidden">
     <slot></slot>
     </div>
@@ -35,15 +35,15 @@ export default {
 
 @import "~/style-vars.scss";
 
-h4 {
+h5 {
   cursor: pointer;
 }
 
-h4 > .eye-icon {
+h5 > .eye-icon {
   transition: color 0.5s;
 }
 
-h4:hover > .eye-icon {
+h5:hover > .eye-icon {
   color: $highlight;
 }
 </style>

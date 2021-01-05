@@ -43,6 +43,7 @@
                     <p class="panel-heading">
                         About this data
                     </p>
+
                     <div class="panel-block">
                         <div class="py-2">
                         <h5>Access conditions</h5>
@@ -116,24 +117,36 @@
                     <p class="panel-heading">
                         Related Resources
                     </p>
+
                     <div class="panel-block" v-if="record.resourceConstellation.publishedWorks">
-                        <div class="py-3 is-clipped">
-                            <h6>Published Works</h6>
-                            <ul class="is-family-secondary">
-                                <li v-for="work in record.resourceConstellation.publishedWorks" :key="work.title">{{work.title}}</li>
-                            </ul>
-                        </div>
+                    <hideable-box title="Published Works">
+                        <ul class="is-family-secondary">
+                            <li v-for="work in record.resourceConstellation.publishedWorks" :key="work.title">{{work.title}}</li>
+                        </ul>
+                    </hideable-box>
                     </div>
+
+                    
+
+
                 </div>
             </div>
 
 
             <div class="column is-half">
-                <div class="panel is-secondary">
+                <div class="panel is-secondary" v-if="record.dataBiography">
                     <p class="panel-heading">
                         Biography
                     </p>
-                    <div class="panel-block" v-if="record.dataBiography">
+                    
+                    <div class="panel-block" >
+                        <hideable-box title="Hidden By Default Block" hidden>
+                            This one will be hidden by default
+                        </hideable-box>
+
+                    </div>
+
+                    <div class="panel-block" >
                         <div class="py-3">
                             <h6 class="has-background-primary has-text-white">Poop</h6>
                             <div class="is-clipped">
@@ -159,9 +172,13 @@
 
 <script>
 import axios from 'axios'
+import HideableBox from './HideableBox.vue'
 
 export default {
     name: "ViewRecord",
+    components: {
+       HideableBox
+    },
     data (){
         return {
             recordLoaded: false, 

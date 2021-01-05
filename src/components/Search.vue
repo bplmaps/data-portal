@@ -45,7 +45,7 @@
           <ais-hits>
           <div slot="item" slot-scope="{ item }">
             <a :href="getId(item.coreCitation.$id)"><h2 class="title is-size-5">{{ item.coreCitation.title}}</h2></a>
-            <p class="is-family-secondary is-muted is-size-6">{{ item.coreCitation.shortDataDescription.substring(0,240) }}</p>
+            <p class="is-family-secondary is-muted is-size-6">{{ item.coreCitation.briefDescription.substring(0,240) }}</p>
           </div>
 
         </ais-hits></div>

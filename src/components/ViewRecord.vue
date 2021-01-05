@@ -30,7 +30,7 @@
 
     <div class="container is-fluid my-4">
         <div>
-            <p class="is-family-secondary">{{record.coreCitation.shortDataDescription}}</p>
+            <p class="is-family-secondary">{{record.coreCitation.briefDescription}}</p>
         </div>
     </div>
 
@@ -74,7 +74,7 @@
                     <div class="panel-block" v-for="endpoint in this.sortedEndpoints" v-bind:key="endpoint.$id">
                         <div class="panel-icon"><font-awesome-icon icon="file-alt"></font-awesome-icon></div>
                         <div class="endpoint-text">
-                            <p><a :href="endpoint.accessURL">{{endpoint.format}}</a></p>
+                            <p><a :href="endpoint.accessURL">{{endpoint.title}}</a></p>
                             <p class="is-size-7 mt-1">{{endpoint.source}}</p>
                             <div class="tag is-light is-success" v-if="endpoint.suggestedEntryPoint"><font-awesome-icon icon="smile" class="mr-2"></font-awesome-icon> Suggested</div>
                         </div>
@@ -88,45 +88,64 @@
     <hr>
 
     <div class="container is-fluid my-4">
-        <div class="columns">
+        <div class="columns is-multiline">
         
-        <div class="column is-one-half">
-            <div class="panel is-secondary">
-                <p class="panel-heading">
-                    Genealogy
-                </p>
-                <div class="panel-block" v-if="allIngredients.length > 0">
-                    <div class="py-3">
-                            <div class="ingredient-box p-3 mb-2" v-for="ingredient in allIngredients" :key="ingredient.$id">
-                                <p class="is-size-6"><router-link :to="'/catalog/' + ingredient.arkID">{{ingredient.title}}</router-link></p>
-                                <div class="tags has-addons my-1"><span class="tag"><font-awesome-icon icon="anchor" class="mr-2"></font-awesome-icon>Identifier</span><span class="tag is-info is-light">{{ingredient.$id}}</span></div>
-                                <p class="is-family-secondary">{{ingredient.notes}}</p>
+            <div class="column is-half">
+                <div class="panel is-secondary">
+                    <p class="panel-heading">
+                        Ingredients
+                    </p>
+                    <div class="panel-block" v-if="allIngredients.length > 0">
+                        <div class="py-3">
+                                <div class="ingredient-box p-3 mb-2" v-for="ingredient in allIngredients" :key="ingredient.$id">
+                                    <p class="is-size-6"><router-link :to="'/catalog/' + ingredient.arkID">{{ingredient.title}}</router-link></p>
+                                    <div class="tags has-addons my-1"><span class="tag"><font-awesome-icon icon="anchor" class="mr-2"></font-awesome-icon>Identifier</span><span class="tag is-info is-light">{{ingredient.$id}}</span></div>
+                                    <p class="is-family-secondary">{{ingredient.notes}}</p>
+                                </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-block" v-if="allIngredients.length === 0">
+                        No ingredients
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-half">
+                <div class="panel is-secondary">
+                    <p class="panel-heading">
+                        Related Resources
+                    </p>
+                    <div class="panel-block" v-if="record.resourceConstellation.publishedWorks">
+                        <div class="py-3 is-clipped">
+                            <h6>Published Works</h6>
+                            <ul class="is-family-secondary">
+                                <li v-for="work in record.resourceConstellation.publishedWorks" :key="work.title">{{work.title}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="column is-half">
+                <div class="panel is-secondary">
+                    <p class="panel-heading">
+                        Biography
+                    </p>
+                    <div class="panel-block" v-if="record.dataBiography">
+                        <div class="py-3">
+                            <h6 class="has-background-primary has-text-white">Poop</h6>
+                            <div class="is-clipped">
+                                {{record.dataBiography}}
                             </div>
-                    </div>
-
-                </div>
-                <div class="panel-block" v-if="allIngredients.length === 0">
-                    No ingredients
-                </div>
-            </div>
-        </div>
-
-        <div class="column is-one-half">
-            <div class="panel is-secondary">
-                <p class="panel-heading">
-                    Related Resources
-                </p>
-                <div class="panel-block" v-if="record.resourceConstellation.publishedWorks">
-                    <div class="py-3">
-                        <h6>Published Works</h6>
-                        <ul class="is-family-secondary">
-                            <li v-for="work in record.resourceConstellation.publishedWorks" :key="work.title">{{work.title}}</li>
-                        </ul>
+                            <!-- <ul class="is-family-secondary">
+                                <li v-for="work in record.resourceConstellation.publishedWorks" :key="work.title">{{work.title}}</li>
+                            </ul> -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
         </div>
     </div>
 

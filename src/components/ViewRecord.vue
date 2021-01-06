@@ -18,11 +18,11 @@
 <!-- py-4 adds 1rem padding on the top and bottom -->
 <section class="view-record py-4">
 
-    <!-- Content to show if the metadata record has loaded -->
-    <!-- This data flag is by default false & turned true via a successful async call  -->
+    <!-- 🧺 Main content container, if the metadata has loaded 🧺-->
+    <!-- 🧺 This data flag is by default false & turned true via a successful async call 🧺  -->
     <div v-if="recordLoaded">
 
-        <!-- Container to hold dataset header info -->
+        <!-- ⬆️ Container to hold dataset header info ⬆️ -->
         <!-- Includes: title, recordType, and identifier  -->
         <div class="container is-fluid my-2">
 
@@ -62,7 +62,6 @@
         </div>
         <!-- page divider -->
         <hr>
-
         <!-- Container to hold dataset brief description -->
         <div class="container is-fluid my-4">
             <div>
@@ -71,17 +70,19 @@
         </div>
         <!-- page divider -->
         <hr>
+        <!-- ⬆️ End of DATATSET HEADER content ⬆️  -->
 
-        <!-- Container for Core Citation and Data Endpoints -->
+
+
+        <!-- Right + left-hand column content -->
+
         <div class="container is-fluid">
-
             <!-- Divides the page into two columns -->
             <div class="columns">
-
-                <!-- Core Citation Column -->
+                <!-- 👈 Left-hand column content 👈  -->
                 <div class="column is-two-thirds">
 
-                    <!-- CORE CITATION PANEL-->
+                    <!-- 💾 CORE CITATION SECTION 💾 -->
                     <div class="panel is-primary">
 
                         <!-- Core Citation Header -->
@@ -92,7 +93,7 @@
                         <!-- Core Citation Content -->
                         <!-- Each "panel block" is a coreCitation field -->
 
-                        <!-- Full Notes Panel Block -->
+                        <!-- Full Notes  -->
                         <div class="panel-block">
                             <div class="py-2">
                                 <hideable-box title="Dataset overview" hidden>
@@ -101,7 +102,7 @@
                             </div>
                         </div>
 
-                        <!-- Access Conditions Panel Block -->
+                        <!-- Access Conditions  -->
                         <div class="panel-block">
                             <div class="py-2">
                             <h5>Access conditions</h5>
@@ -109,7 +110,7 @@
                             </div>
                         </div>
 
-                        <!-- Source Panel Block -->
+                        <!-- Official Maintainer / Source -->
                         <div class="panel-block">
                             <div class="py-2">
                             <h5>Maintained by</h5>
@@ -117,7 +118,7 @@
                             </div>
                         </div>
 
-                        <!-- Important = True Panel Block -->
+                        <!-- Important = True  -->
                         <div class="panel-block">
                             <div class="py-2">
                             <h5>Important caveats</h5>
@@ -125,7 +126,7 @@
                             </div>
                         </div>
 
-                        <!-- Suggested Entry Point = True Panel Block -->
+                        <!-- Suggested Entry Point = True -->
                         <div class="panel-block">
                             <div class="py-2">
                             <h5>Suggested places to start</h5>
@@ -135,7 +136,7 @@
 
                     </div>
 
-                    <!-- DATA BIOGRAPHY PANEL-->
+                    <!-- 📖 DATA BIOGRAPHY SECTION 📖 -->
                     <div class="panel" v-if="record.dataBiography">
                         <!-- Data Biography Header -->
                         <p class="panel-heading">
@@ -149,7 +150,7 @@
                     </div>
 
 
-                    <!-- DATA LIFECYCLE PANEL-->
+                    <!-- 🐛 DATA LIFECYCLE PANEL 🐛 -->
                     <div class="panel">
                         <!-- Data Biography Header -->
                         <p class="panel-heading">
@@ -163,12 +164,11 @@
                     </div>
 
 
-
                 </div>
-                <!-- End of Core Citation -->
+                <!-- 👈 End of left-hand column content 👈 -->
 
 
-                <!-- Right-hand column -->
+                <!-- 👉 Right-hand column content 👉 -->
                 <div class="column is-one-third">
 
                     <!-- DATA ENDPOINTS PANEL -->
@@ -202,7 +202,7 @@
                     </div>
 
 
-                    <!-- RELATED RESOURCES PANEL -->
+                    <!-- 🌌 RELATED RESOURCES SECTION 🌌 -->
                     <div class="panel" v-if="record.resourceConstellation">
                         <!-- Related Resources Heading -->
                         <p class="panel-heading">
@@ -214,18 +214,18 @@
                             <span class="tag is-warning mr-2">🚧 under construction</span>
                         </div>
                     </div>
+                    <!-- 🌌 End of Related Resources Section 🌌 -->
 
 
-                    <!-- DATA RECIPE PANEL -->
+                    <!-- 🥣 DATA RECIPE SECTION 🥣-->
                     <div class="panel">
 
-                        <!-- Related Resources Heading -->
+                        <!-- Data Recipe Heading -->
                         <p class="panel-heading">
                             Data Recipe
                         </p>
                         
-                        <!-- Data Recipe Content -->
-
+                        <!-- DATA RECIPE Content -->
                         <!-- Brief Genealogy Description -->
                         <div class="panel-block">
                             <div class="py-2">
@@ -244,49 +244,47 @@
                             </div>
                         </div>
 
+                        <!-- INGREDIENTS PANEL HEADING -->
                         <div class="panel-heading" v-if="allIngredients.length > 0">
                             <h5 class="is-size-5">Ingredients</h5>
                         </div>
 
                         <!-- Ingredients panel block if there are ingredients -->
                         <div class="panel-block" v-if="allIngredients.length > 0">
-
-
-
                             <!-- Ingredient box container -->
                             <div class="py-3">
                                 <!-- Create a new box for each ingredient -->
                                 <div class="ingredient-box p-3 mb-2" v-for="ingredient in allIngredients" :key="ingredient.$id">
-                                    
                                     <!-- Title lable with link to the ingredient  -->
                                     <p class="is-size-6"><router-link :to="'/catalog/' + ingredient.arkID">{{ingredient.title}}</router-link></p>
-                                    
                                     <!-- Ingredient ID + ID anchor icon -->
                                     <div class="tags has-addons my-1"><span class="tag"><font-awesome-icon icon="anchor" class="mr-2"></font-awesome-icon>Identifier</span><span class="tag is-info is-light">{{ingredient.$id}}</span></div>
-                                    
                                     <!-- Ingredient processing notes -->
                                     <p class="is-family-secondary">{{ingredient.notes}}</p>
                                 </div>
                             </div>
-
                         </div>
 
                     </div>
+                    <!-- 🥣 End of Data Recipe section 🥣-->
 
                 </div>
-                <!-- End of right-hand column -->
+                <!-- 👉 End of right-hand column content 👉-->
 
             </div>
         </div>
-        <!-- End of main content container -->
+        <!-- End of right and left-hand columns container -->
         <!-- page divider -->
         <hr>
-    </div>
 
-    <!-- Error message, if the metadata does not load -->
+    </div>
+    <!-- 🧺 End of main content bucket 🧺 -->
+
+    <!-- ❌ Error message, if the metadata does not load ❌ -->
     <div v-else>
         This record was not loaded.
     </div>
+    <!-- ❌ Fin ❌ -->
 
 
     <!-- 🌀 BELLE TEMPORARY DEV ONLY 🌀 -->
@@ -294,15 +292,6 @@
     <hr>
 
     <div>
-        <h1>CORE CITATION</h1>
-        <p>{{record.coreCitation}}</p>
-        <hr>
-
-        <h1>ENDPOINTS</h1>
-        <p v-if="record.dataEndpoints">{{record.dataEndpoints}}</p>
-        <p v-else>No endpoints</p>
-        <hr>
-
         <h1>BIOGRAPHY</h1>
         <p v-if="record.dataBiography">{{record.dataBiography}}</p>
         <p v-else>No biography</p>
@@ -310,15 +299,6 @@
 
         <h1>DATA LIFECYCLE</h1>
         <p>{{record.dataLifecycle}}</p>
-        <hr>
-
-        <h1>INGREDIENTS</h1>
-        <div class="panel-block" v-if="allIngredients.length === 0">
-            No ingredients
-        </div>
-        <div class="panel-block" v-else>
-            {{allIngredients}}
-        </div>
         <hr>
 
         <h1>RELATED RESOURCES</h1>

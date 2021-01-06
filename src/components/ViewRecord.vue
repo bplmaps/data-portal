@@ -134,15 +134,45 @@
                         </div>
 
                     </div>
+
+                    <!-- DATA BIOGRAPHY PANEL-->
+                    <div class="panel" v-if="record.dataBiography">
+                        <!-- Data Biography Header -->
+                        <p class="panel-heading">
+                            Biography
+                        </p>
+
+                        <!-- Data Biography Content -->
+                        <div class = "panel-block">
+                            <span class="tag is-warning mr-2">🚧 under construction</span>
+                        </div>
+                    </div>
+
+
+                    <!-- DATA LIFECYCLE PANEL-->
+                    <div class="panel">
+                        <!-- Data Biography Header -->
+                        <p class="panel-heading">
+                            Lifecycle
+                        </p>
+
+                        <!-- Data Lifecycle Content -->
+                        <div class = "panel-block">
+                            <span class="tag is-warning mr-2">🚧 under construction</span>
+                        </div>
+                    </div>
+
+
+
                 </div>
                 <!-- End of Core Citation -->
 
 
-                <!-- Data Endpoints Column -->
+                <!-- Right-hand column -->
                 <div class="column is-one-third">
 
                     <!-- DATA ENDPOINTS PANEL -->
-                    <div class="panel is-info">
+                    <div class="panel is-info" v-if="record.dataEndpoints">
 
                         <!-- Data Endpoints Heading -->
                         <p class="panel-heading">
@@ -170,48 +200,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- End of Data Endpoints -->
 
-            </div>
-        </div>
-        <!-- End of Container for Core Citation and Data Endpoints -->
-        <!-- page divider -->
-        <hr>
-
-        <!-- Container for Data Biography and Related Resources -->
-        <div class="container is-fluid">
-
-            <!-- Divides the page into two columns -->
-            <div class="columns">
-
-                <!-- Data Biography Column -->
-                <div class="column is-two-thirds">
-
-                    <!-- DATA BIOGRAPHY PANEL-->
-                    <div class="panel">
-
-                        <!-- Data Biography Header -->
-                        <p class="panel-heading">
-                            Biography
-                        </p>
-
-                        <!-- Data Biography Content -->
-                        <div class = "panel-block">
-                            <span class="tag is-warning mr-2">🚧 under construction</span>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- End of Data Biography Section -->
-
-
-                <!-- Related Resources Column -->
-                <div class="column is-one-third">
 
                     <!-- RELATED RESOURCES PANEL -->
-                    <div class="panel">
-
+                    <div class="panel" v-if="record.resourceConstellation">
                         <!-- Related Resources Heading -->
                         <p class="panel-heading">
                             Related Resources
@@ -221,47 +213,8 @@
                         <div class = "panel-block">
                             <span class="tag is-warning mr-2">🚧 under construction</span>
                         </div>
-
                     </div>
-                </div>
-                <!-- End of Related Resources -->
 
-            </div>
-        </div>
-        <!-- End of Container for Data Biography and Related Resources -->
-        <!-- page divider -->
-        <hr>
-
-
-        <!-- Container for Data Lifecycle and Data Recipe -->
-        <div class="container is-fluid">
-
-            <!-- Divides the page into two columns -->
-            <div class="columns">
-
-                <!-- Data Lifecycle Column -->
-                <div class="column is-two-thirds">
-
-                    <!-- DATA LIFECYCLE PANEL-->
-                    <div class="panel">
-
-                        <!-- Data Biography Header -->
-                        <p class="panel-heading">
-                            Lifecycle
-                        </p>
-
-                        <!-- Data Lifecycle Content -->
-                        <div class = "panel-block">
-                            <span class="tag is-warning mr-2">🚧 under construction</span>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- End of Data Lifecycle Section -->
-
-
-                <!-- Data Recipe Column -->
-                <div class="column is-one-third">
 
                     <!-- DATA RECIPE PANEL -->
                     <div class="panel">
@@ -291,9 +244,9 @@
                             </div>
                         </div>
 
-                        <p class="panel-heading">
-                            Ingredients
-                        </p>
+                        <div class="panel-heading" v-if="allIngredients.length > 0">
+                            <h5 class="is-size-5">Ingredients</h5>
+                        </div>
 
                         <!-- Ingredients panel block if there are ingredients -->
                         <div class="panel-block" v-if="allIngredients.length > 0">
@@ -319,15 +272,15 @@
                         </div>
 
                     </div>
+
                 </div>
-                <!-- End of Data Recipe -->
+                <!-- End of right-hand column -->
 
             </div>
         </div>
-        <!-- End of Container for Data Biography and Related Resources -->
+        <!-- End of main content container -->
         <!-- page divider -->
         <hr>
-
     </div>
 
     <!-- Error message, if the metadata does not load -->

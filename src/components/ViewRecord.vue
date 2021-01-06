@@ -138,24 +138,9 @@
                     <!-- 💾 End of Core Citation Section 💾 -->
 
 
-                    <!-- 📖 DATA BIOGRAPHY SECTION 📖 -->
-                    <div class="panel" v-if="record.dataBiography">
-                        <!-- Data Biography Header -->
-                        <p class="panel-heading">
-                            Biography
-                        </p>
-
-                        <!-- Data Biography Content -->
-                        <div class = "panel-block">
-                            <span class="tag is-warning mr-2">🚧 under construction</span>
-                        </div>
-                    </div>
-                    <!-- 📖 End of Data Biography Section 📖 -->
-
-
-                    <!-- 🐛 DATA LIFECYCLE PANEL 🐛 -->
+                    <!-- 🐛 DATA LIFECYCLE SECTION 🐛 -->
                     <div class="panel">
-                        <!-- Data Biography Header -->
+                        <!-- Data Lifecycle Header -->
                         <p class="panel-heading">
                             People 
                         </p>
@@ -221,19 +206,48 @@
                                             </ul>
                                         </span>
 
-
                                     </span>
                                 </div>
-
                             </span>
                         </span>
-
-
-
-
-
                     </div>
                     <!-- 🐛 End of Data Lifecycle Section 🐛 -->
+
+
+                    <!-- 📖 DATA BIOGRAPHY SECTION 📖 -->
+                    <div class="panel" v-if="record.dataBiography">
+                        <!-- Data Biography Header -->
+                        <p class="panel-heading">
+                            Biography
+                        </p>
+
+                        <!-- Data Biography Content  -->
+                        <span v-for="(firstLevelItem, firstLevelIndex) in record.dataBiography" :key="firstLevelIndex">
+                                <!-- Creates panel headings for all the resource sub-sections  -->
+                                <div class="panel-heading">
+                                    <h6 class="is-size-6">{{getFieldAlias(firstLevelIndex)}}</h6>
+                                </div>
+
+                                <!-- Within the different categories, each item  -->
+                                <div class = " is-family-secondary panel-block py-0" v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
+                                    
+                                    <span v-if="firstLevelIndex === 'privacy' || firstLevelIndex === 'dataCollection' || firstLevelIndex === 'sampling'">
+                                        <hideable-box :title="getFieldAlias(secondLevelIndex)" hidden>
+                                            <span v-for="(item, index) in secondLevelItem" :key="index">
+                                                <p v-if="item.notes">• {{item.notes}} <a :href="item.relatedResourceURL"><font-awesome-icon icon="external-link-alt" class="mr-2"></font-awesome-icon></a></p>
+                                                <p v-else class="tag is-danger mr-2 py-2">missing context</p>
+                                            </span>
+                                        </hideable-box>
+                                    </span>
+
+
+                                    <span v-else>
+                                        <span class="tag is-warning mr-2">🚧 under construction</span>
+                                    </span>
+                                </div>
+                        </span>
+                    </div>
+                    <!-- 📖 End of Data Biography Section 📖 -->
 
                 </div>
                 <!-- 👈 End of left-hand column content 👈 -->
@@ -314,7 +328,7 @@
                     <!-- 🌌 End of Related Resources Section 🌌 -->
 
 
-                    <!-- 🥣 DATA RECIPE SECTION 🥣-->
+                    <!-- 🥣 DATA RECIPE SECTION 🥣 -->
                     <div class="panel">
 
                         <!-- Data Recipe Heading -->
@@ -381,19 +395,6 @@
     </div>
     <!-- ❌ Fin ❌ -->
 
-
-    <!-- 🌀 BELLE TEMPORARY DEV ONLY 🌀 -->
-    <hr>
-
-    <div>
-        <h1>BIOGRAPHY</h1>
-        <p v-if="record.dataBiography">{{record.dataBiography}}</p>
-        <p v-else>No biography</p>
-        <hr>
-        
-    </div>
-    <!-- 🌀 END BELLE DEV 🌀 -->
-        
 
 </section>
 </template>

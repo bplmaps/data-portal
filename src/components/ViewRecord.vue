@@ -213,11 +213,35 @@
                         <p class="panel-heading">
                             Related Resources
                         </p>
+
+                        <!-- Related Resources Content  -->
+                        <span v-for="(firstLevelItem, firstLevelIndex) in record.resourceConstellation" :key="firstLevelIndex">
+                             <!-- Creates panel headings for all the resource sub-sections  -->
+                            <div class="panel-heading">
+                                <h5 class="is-size-5">{{getFieldAlias(firstLevelIndex)}}</h5>
+                            </div>
+                             <!-- Within the different categories, each item  -->
+                            <div class = "resource-box p-3" v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
+                                 <!-- Every resource has a title -->
+                                <p class="is-size-six"><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
+                                 <!-- Unique author + publication date display for tutorials -->
+                                <span class="is-family-secondary" v-if="firstLevelIndex =='tutorials'">
+                                    <p>{{secondLevelItem.author}}, {{secondLevelItem.datePublished.substring(0,4)}}</p>
+                                    <p></p>
+                                </span>
+                                 <!-- Unique author, publisher + date display for published works  -->
+                                <span class="is-family-secondary" v-if="firstLevelIndex =='publishedWorks'">
+                                    <p>{{secondLevelItem.author}}, {{secondLevelItem.publisher}}, {{secondLevelItem.datePublished.substring(0,4)}}.</p>
+                                </span>
+                                 <!-- Only codebooks have maintainedBy  -->
+                                <span class="is-family-secondary" v-if="firstLevelIndex =='codebooks'">
+                                    <p>{{secondLevelItem.maintainedBy}}</p>
+                                </span>
+                                 <!-- Every resource has notes  -->
+                                <p class="is-family-secondary">{{secondLevelItem.notes}}</p>
+                            </div>
+                        </span>
                         
-                        <!-- Related Resources Content -->
-                        <div class = "panel-block">
-                            <span class="tag is-warning mr-2">🚧 under construction</span>
-                        </div>
                     </div>
                     <!-- 🌌 End of Related Resources Section 🌌 -->
 
@@ -259,7 +283,7 @@
                             <!-- Ingredient box container -->
                             <div class="py-3">
                                 <!-- Create a new box for each ingredient -->
-                                <div class="ingredient-box p-3 mb-2" v-for="ingredient in allIngredients" :key="ingredient.$id">
+                                <div class="resource-box p-3 mb-2" v-for="ingredient in allIngredients" :key="ingredient.$id">
                                     <!-- Title lable with link to the ingredient  -->
                                     <p class="is-size-6"><router-link :to="'/catalog/' + ingredient.arkID">{{ingredient.title}}</router-link></p>
                                     <!-- Ingredient ID + ID anchor icon -->
@@ -463,7 +487,7 @@ export default {
 
 <style scoped>
 
-.ingredient-box {
+.resource-box {
     border: 2px solid #f0f0f0;
     border-radius: 3px;
 }

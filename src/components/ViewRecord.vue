@@ -157,13 +157,81 @@
                     <div class="panel">
                         <!-- Data Biography Header -->
                         <p class="panel-heading">
-                            Lifecycle
+                            People 
                         </p>
 
-                        <!-- Data Lifecycle Content -->
-                        <div class = "panel-block">
-                            <span class="tag is-warning mr-2">🚧 under construction</span>
-                        </div>
+                        <!-- Data Lifecycle Content  -->
+                        <span v-for="(firstLevelItem, firstLevelIndex) in record.dataLifecycle" :key="firstLevelIndex">
+                            <span v-if="firstLevelIndex != 'acquisition'">
+                                
+                                <!-- Creates panel headings for all the resource sub-sections  -->
+                                <div class="panel-heading">
+                                    <h6 class="is-size-6">{{getFieldAlias(firstLevelIndex)}}</h6>
+                                </div>
+
+                                <!-- Within the different categories, each item  -->
+                                <div class = " is-family-secondary panel-block py-0" v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
+                                    
+                                    <!-- Description -->
+                                    <span v-if ="firstLevelIndex == 'description'">
+                                        <p v-if="secondLevelIndex == 'contextProvider'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem.name}}, {{secondLevelItem.relationshipToData}}</strong></p>
+                                        <p v-if="secondLevelIndex == 'contextOnBehalfOf'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem.name}}, {{secondLevelItem.relationshipToData}}</strong></p>
+                                        <p v-if="secondLevelIndex == 'contextPublicationDate'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem}}</strong></p>
+                                    </span>
+
+                                    <!-- Maintenance -->
+                                    <span v-if ="firstLevelIndex == 'maintenance'">
+                                        <!-- Straightforward display of all the metadata values for this subsection -->
+                                        {{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem}}</strong> 
+                                    </span>
+
+                                    <!-- Manipulation -->
+                                    <span v-if ="firstLevelIndex == 'manipulation'">
+
+                                        <!-- Records -->
+                                        <span v-if ="secondLevelIndex == 'records'">
+                                            Records:
+                                            <ul v-for="(record, index) in secondLevelItem" :key="index">
+                                                <li>
+                                                    <strong><a target = "_blank" :href="record.relatedResourceURL"> • {{record.title}} ({{record.format}})</a> </strong>
+                                                </li>
+                                            </ul>
+                                        </span>
+
+                                        <!-- Actors -->
+                                        <span v-if ="secondLevelIndex == 'actors'">
+                                            Actors:
+                                            <ul v-for="(record, index) in secondLevelItem" :key="index">
+                                                <li>
+                                                    <p>{{humanReadableIndex(index)}}. <strong>{{record.name}}</strong> </p>
+                                                    <p>{{record.notes}}</p>
+                                                </li>
+                                            </ul>
+                                        </span>
+
+                                        <!-- Process -->
+                                        <span v-if ="secondLevelIndex == 'process'">
+                                            Process:
+                                            <ul v-for="(item, index) in secondLevelItem" :key="index">
+                                                <li>
+                                                    <hideable-box :title="getFieldAlias(index)" hidden>
+                                                       <p>{{item}}</p> 
+                                                    </hideable-box>
+                                                </li>
+                                            </ul>
+                                        </span>
+
+
+                                    </span>
+                                </div>
+
+                            </span>
+                        </span>
+
+
+
+
+
                     </div>
                     <!-- 🐛 End of Data Lifecycle Section 🐛 -->
 
@@ -211,7 +279,7 @@
                     <div class="panel" v-if="record.resourceConstellation">
                         <!-- Related Resources Heading -->
                         <p class="panel-heading">
-                            Related Resources
+                            Resources
                         </p>
 
                         <!-- Related Resources Content  -->
@@ -226,7 +294,7 @@
                                 <p class="is-size-six"><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
                                  <!-- Unique author + publication date display for tutorials -->
                                 <span class="is-family-secondary" v-if="firstLevelIndex =='tutorials'">
-                                    <p>{{secondLevelItem.author}}, {{secondLevelItem.datePublished.substring(0,4)}}</p>
+                                    <p v-if="secondLevelItem.author || secondLevelItem.datePublished">{{secondLevelItem.author}}, {{secondLevelItem.datePublished.substring(0,4)}}</p>
                                     <p></p>
                                 </span>
                                  <!-- Unique author, publisher + date display for published works  -->
@@ -251,7 +319,7 @@
 
                         <!-- Data Recipe Heading -->
                         <p class="panel-heading">
-                            Data Recipe
+                            Recipe
                         </p>
                         
                         <!-- DATA RECIPE Content -->
@@ -315,7 +383,6 @@
 
 
     <!-- 🌀 BELLE TEMPORARY DEV ONLY 🌀 -->
-    <h1>BELLE DEV NOTES</h1>
     <hr>
 
     <div>
@@ -323,11 +390,6 @@
         <p v-if="record.dataBiography">{{record.dataBiography}}</p>
         <p v-else>No biography</p>
         <hr>
-
-        <h1>DATA LIFECYCLE</h1>
-        <p>{{record.dataLifecycle}}</p>
-        <hr>
-
         
     </div>
     <!-- 🌀 END BELLE DEV 🌀 -->
@@ -409,6 +471,12 @@ export default {
                     return realFieldName
                 }
             }
+        },
+        //display human readable indices
+        humanReadableIndex(inputIndex){
+            var index = parseInt(inputIndex, 10)
+            var index = index + 1
+            return index
         },
         //function to push ingredient attributes to a Vue data object
         getAllIngredients (){

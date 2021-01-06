@@ -74,11 +74,12 @@
 
 
 
-        <!-- Right + left-hand column content -->
-
+        <!-- Container to hold two columns -->
         <div class="container is-fluid">
-            <!-- Divides the page into two columns -->
+
+            <!-- Right + left-hand columns -->
             <div class="columns">
+
                 <!-- 👈 Left-hand column content 👈  -->
                 <div class="column is-two-thirds">
 
@@ -91,7 +92,7 @@
                         </p>
 
                         <!-- Core Citation Content -->
-                        <!-- Each "panel block" is a coreCitation field -->
+                        <!-- Each "panel block" is a field -->
 
                         <!-- Full Notes  -->
                         <div class="panel-block">
@@ -133,8 +134,9 @@
                             <span class="tag is-warning mr-2">🚧 under construction</span>
                             </div>
                         </div>
-
                     </div>
+                    <!-- 💾 End of Core Citation Section 💾 -->
+
 
                     <!-- 📖 DATA BIOGRAPHY SECTION 📖 -->
                     <div class="panel" v-if="record.dataBiography">
@@ -148,6 +150,7 @@
                             <span class="tag is-warning mr-2">🚧 under construction</span>
                         </div>
                     </div>
+                    <!-- 📖 End of Data Biography Section 📖 -->
 
 
                     <!-- 🐛 DATA LIFECYCLE PANEL 🐛 -->
@@ -162,7 +165,7 @@
                             <span class="tag is-warning mr-2">🚧 under construction</span>
                         </div>
                     </div>
-
+                    <!-- 🐛 End of Data Lifecycle Section 🐛 -->
 
                 </div>
                 <!-- 👈 End of left-hand column content 👈 -->
@@ -171,7 +174,7 @@
                 <!-- 👉 Right-hand column content 👉 -->
                 <div class="column is-one-third">
 
-                    <!-- DATA ENDPOINTS PANEL -->
+                    <!-- 🧮 DATA ENDPOINTS SECTION 🧮 -->
                     <div class="panel is-info" v-if="record.dataEndpoints">
 
                         <!-- Data Endpoints Heading -->
@@ -200,6 +203,8 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 🧮 End of Data Endpoints Section 🧮 -->
+
 
 
                     <!-- 🌌 RELATED RESOURCES SECTION 🌌 -->
@@ -264,7 +269,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <!-- 🥣 End of Data Recipe section 🥣-->
 
@@ -272,10 +276,9 @@
                 <!-- 👉 End of right-hand column content 👉-->
 
             </div>
+            <!-- End of right + left-hand columns -->
         </div>
-        <!-- End of right and left-hand columns container -->
-        <!-- page divider -->
-        <hr>
+        <!-- End of container to hold two columns -->
 
     </div>
     <!-- 🧺 End of main content bucket 🧺 -->

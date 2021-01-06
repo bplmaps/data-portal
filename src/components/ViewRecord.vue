@@ -328,10 +328,6 @@
         <p>{{record.dataLifecycle}}</p>
         <hr>
 
-        <h1>RELATED RESOURCES</h1>
-        <p v-if="record.resourceConstellation">{{record.resourceConstellation}}</p>
-        <p v-else>No extra resources</p>
-        <hr>
         
     </div>
     <!-- 🌀 END BELLE DEV 🌀 -->

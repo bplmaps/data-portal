@@ -97,7 +97,7 @@
                         <!-- Full Notes  -->
                         <div class="panel-block">
                             <div class="py-2">
-                                <hideable-box title="Dataset overview" hidden>
+                                <hideable-box title="Dataset overview" >
                                     {{record.coreCitation.fullNotes}}
                                 </hideable-box>
                             </div>
@@ -138,119 +138,6 @@
                     <!-- 💾 End of Core Citation Section 💾 -->
 
 
-                    <!-- 🐛 DATA LIFECYCLE SECTION 🐛 -->
-                    <div class="panel">
-                        <!-- Data Lifecycle Header -->
-                        <p class="panel-heading">
-                            People 
-                        </p>
-
-                        <!-- Data Lifecycle Content  -->
-                        <span v-for="(firstLevelItem, firstLevelIndex) in record.dataLifecycle" :key="firstLevelIndex">
-                            <span v-if="firstLevelIndex != 'acquisition'">
-                                
-                                <!-- Creates panel headings for all the resource sub-sections  -->
-                                <div class="panel-heading">
-                                    <h6 class="is-size-6">{{getFieldAlias(firstLevelIndex)}}</h6>
-                                </div>
-
-                                <!-- Within the different categories, each item  -->
-                                <div class = " is-family-secondary panel-block py-0" v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
-                                    
-                                    <!-- Description -->
-                                    <span v-if ="firstLevelIndex == 'description'">
-                                        <p v-if="secondLevelIndex == 'contextProvider'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem.name}}, {{secondLevelItem.relationshipToData}}</strong></p>
-                                        <p v-if="secondLevelIndex == 'contextOnBehalfOf'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem.name}}, {{secondLevelItem.relationshipToData}}</strong></p>
-                                        <p v-if="secondLevelIndex == 'contextPublicationDate'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem}}</strong></p>
-                                    </span>
-
-                                    <!-- Maintenance -->
-                                    <span v-if ="firstLevelIndex == 'maintenance'">
-                                        <!-- Straightforward display of all the metadata values for this subsection -->
-                                        {{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem}}</strong> 
-                                    </span>
-
-                                    <!-- Manipulation -->
-                                    <span v-if ="firstLevelIndex == 'manipulation'">
-
-                                        <!-- Records -->
-                                        <span v-if ="secondLevelIndex == 'records'">
-                                            Records:
-                                            <ul v-for="(record, index) in secondLevelItem" :key="index">
-                                                <li>
-                                                    <strong><a target = "_blank" :href="record.relatedResourceURL"> • {{record.title}} ({{record.format}})</a> </strong>
-                                                </li>
-                                            </ul>
-                                        </span>
-
-                                        <!-- Actors -->
-                                        <span v-if ="secondLevelIndex == 'actors'">
-                                            Actors:
-                                            <ul v-for="(record, index) in secondLevelItem" :key="index">
-                                                <li>
-                                                    <p>{{humanReadableIndex(index)}}. <strong>{{record.name}}</strong> </p>
-                                                    <p>{{record.notes}}</p>
-                                                </li>
-                                            </ul>
-                                        </span>
-
-                                        <!-- Process -->
-                                        <span v-if ="secondLevelIndex == 'process'">
-                                            Process:
-                                            <ul v-for="(item, index) in secondLevelItem" :key="index">
-                                                <li>
-                                                    <hideable-box :title="getFieldAlias(index)" hidden>
-                                                       <p>{{item}}</p> 
-                                                    </hideable-box>
-                                                </li>
-                                            </ul>
-                                        </span>
-
-                                    </span>
-                                </div>
-                            </span>
-                        </span>
-                    </div>
-                    <!-- 🐛 End of Data Lifecycle Section 🐛 -->
-
-
-                    <!-- 📖 DATA BIOGRAPHY SECTION 📖 -->
-                    <div class="panel" v-if="record.dataBiography">
-                        <!-- Data Biography Header -->
-                        <p class="panel-heading">
-                            Biography
-                        </p>
-
-                        <!-- Data Biography Content  -->
-                        <span v-for="(firstLevelItem, firstLevelIndex) in record.dataBiography" :key="firstLevelIndex">
-                                <!-- Creates panel headings for all the resource sub-sections  -->
-                                <div class="panel-heading">
-                                    <h6 class="is-size-6">{{getFieldAlias(firstLevelIndex)}}</h6>
-                                </div>
-
-                                <!-- Within the different categories, each item  -->
-                                <div class = " is-family-secondary panel-block py-0" v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
-                                    
-                                    <span v-if="firstLevelIndex === 'privacy' || firstLevelIndex === 'dataCollection' || firstLevelIndex === 'sampling'">
-                                        <hideable-box :title="getFieldAlias(secondLevelIndex)" hidden>
-                                            <span v-for="(item, index) in secondLevelItem" :key="index">
-                                                <p v-if="item.notes">• {{item.notes}} <a :href="item.relatedResourceURL"><font-awesome-icon icon="external-link-alt" class="mr-2"></font-awesome-icon></a></p>
-                                                <div v-else class="tag mr-2 py-2"><font-awesome-icon icon="exclamation-triangle" class="mr-2"></font-awesome-icon>missing context</div>
-                                            </span>
-                                        </hideable-box>
-                                    </span>
-
-
-                                    <span v-else>
-                                        <span v-for="(item, index) in firstLevelItem" :key="index">
-                                            <div v-if="item.notes">• {{item.notes}} <a :href="item.relatedResourceURL"><font-awesome-icon icon="external-link-alt" class="mr-2"></font-awesome-icon></a></div>
-                                            <div v-else class="tag mr-2 py-2"><font-awesome-icon icon="exclamation-triangle" class="mr-2"></font-awesome-icon>missing context</div>
-                                        </span>
-                                    </span>
-                                </div>
-                        </span>
-                    </div>
-                    <!-- 📖 End of Data Biography Section 📖 -->
 
                 </div>
                 <!-- 👈 End of left-hand column content 👈 -->
@@ -278,21 +165,148 @@
                             <div class="endpoint-text">
 
                                 <!-- Link with title label that navigates to the data  -->
-                                <p><a :href="endpoint.accessURL">{{endpoint.title}}</a></p>
+                                <p class="is-size-5"><a :href="endpoint.accessURL">{{endpoint.title}}</a></p>
 
                                 <!-- Host label -->
                                 <p class="is-size-7 mt-1">{{endpoint.source}}</p>
 
                                 <!-- tag for suggested endpoints -->
-                                <div class="tag is-light is-success" v-if="endpoint.suggestedEntryPoint"><font-awesome-icon icon="smile" class="mr-2"></font-awesome-icon> Suggested</div>
+                                <div class="tag is-light is-success mt-2" v-if="endpoint.suggestedEntryPoint"><font-awesome-icon icon="smile" class="mr-2"></font-awesome-icon> Suggested</div>
                             </div>
                         </div>
                     </div>
                     <!-- 🧮 End of Data Endpoints Section 🧮 -->
 
+                </div>
+                <!-- 👉 End of right-hand column content 👉-->
+
+            </div>
+            <!-- End of right + left-hand columns -->
+        </div>
+
+                    <hr>
 
 
-                    <!-- 🌌 RELATED RESOURCES SECTION 🌌 -->
+        <div class="container is-fluid">
+
+
+            <div class="columns">
+                <div class="column is-half">
+                    <!-- 🐛 DATA LIFECYCLE SECTION 🐛 -->
+                    <div class="panel">
+                        <!-- Data Lifecycle Header -->
+                        <p class="panel-heading">
+                            People Involved With This Data
+                        </p>
+
+                        <!-- Data Lifecycle Content  -->
+                        <div class="panel-block" v-for="(firstLevelItem, firstLevelIndex) in record.dataLifecycle" :key="firstLevelIndex">
+                            <div>
+                                
+                                <!-- Creates panel headings for all the resource sub-sections  -->
+
+                                <hideable-box :title="getFieldAlias(firstLevelIndex)" :hidden="['maintenance','manipulation'].includes(firstLevelIndex)">
+                                    
+                                    <!-- Within the different categories, each item  -->
+                                    <div v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
+                            
+
+                                    <!-- Description -->
+                                    <div v-if ="firstLevelIndex == 'description'">
+                                        <p v-if="secondLevelIndex == 'contextProvider'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem.name}}, {{secondLevelItem.relationshipToData}}</strong></p>
+                                        <p v-if="secondLevelIndex == 'contextOnBehalfOf'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem.name}}, {{secondLevelItem.relationshipToData}}</strong></p>
+                                        <p v-if="secondLevelIndex == 'contextPublicationDate'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem}}</strong></p>
+                                    </div>
+
+                                    <!-- Maintenance -->
+                                    <div v-if ="firstLevelIndex == 'maintenance'">
+                                        <!-- Straightforward display of all the metadata values for this subsection -->
+                                        {{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem}}</strong> 
+                                    </div>
+
+                                    <!-- Manipulation -->
+                                    <div v-if ="firstLevelIndex == 'manipulation'">
+
+                                        <!-- Records -->
+                                        <div v-if ="secondLevelIndex == 'records'">
+                                            Records:
+                                            <ul v-for="(record, index) in secondLevelItem" :key="index">
+                                                <li>
+                                                    <strong><a target = "_blank" :href="record.relatedResourceURL"> • {{record.title}} ({{record.format}})</a> </strong>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- Actors -->
+                                        <div v-if ="secondLevelIndex == 'actors'">
+                                            Actors:
+                                            <ul v-for="(record, index) in secondLevelItem" :key="index">
+                                                <li>
+                                                    <p>{{humanReadableIndex(index)}}. <strong>{{record.name}}</strong> </p>
+                                                    <p>{{record.notes}}</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- Process -->
+                                        <div v-if ="secondLevelIndex == 'process'">
+                                            Process:
+                                            <ul v-for="(item, index) in secondLevelItem" :key="index">
+                                                <li>
+                                                    <hideable-box :title="getFieldAlias(index)" hidden>
+                                                       <p>{{item}}</p> 
+                                                    </hideable-box>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                </div>
+
+
+                                </hideable-box>
+  
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 🐛 End of Data Lifecycle Section 🐛 -->
+
+
+                    <!-- 📖 DATA BIOGRAPHY SECTION 📖 -->
+                    <div class="panel" v-if="record.dataBiography">
+                        <!-- Data Biography Header -->
+                        <p class="panel-heading">
+                            Data Biography
+                        </p>
+
+                        <!-- Data Biography Content  -->
+                        <div class="panel-block" v-for="(firstLevelItem, firstLevelIndex) in record.dataBiography" :key="firstLevelIndex">
+                            <div>
+
+                                <hideable-box :title="getFieldAlias(firstLevelIndex)" hidden>
+
+                                <!-- Within the different categories, each item  -->
+                                <div v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
+
+                                    <strong>{{getFieldAlias(secondLevelIndex)}}</strong>
+                                        <ul>
+                                            <li v-for="(item, index) in secondLevelItem" :key="index">
+                                                {{item.notes}}
+                                            </li>
+                                        </ul>
+                                    
+                                </div>
+
+                                </hideable-box>
+
+
+
+                        </div>
+                        </div>
+                    </div>
+                    <!-- 📖 End of Data Biography Section 📖 --></div>
+
+
+                <div class="column is-half"><!-- 🌌 RELATED RESOURCES SECTION 🌌 -->
                     <div class="panel" v-if="record.resourceConstellation">
                         <!-- Related Resources Heading -->
                         <p class="panel-heading">
@@ -300,15 +314,15 @@
                         </p>
 
                         <!-- Related Resources Content  -->
-                        <span v-for="(firstLevelItem, firstLevelIndex) in record.resourceConstellation" :key="firstLevelIndex">
-                             <!-- Creates panel headings for all the resource sub-sections  -->
-                            <div class="panel-heading">
-                                <h5 class="is-size-5">{{getFieldAlias(firstLevelIndex)}}</h5>
-                            </div>
+                        <div class="panel-block" v-for="(firstLevelItem, firstLevelIndex) in record.resourceConstellation" :key="firstLevelIndex">
+                            <div class="p-2">
+
+                            <!-- Creates panel headings for all the resource sub-sections  -->
+                                <h6 class="is-size-6">{{getFieldAlias(firstLevelIndex)}}</h6>
                              <!-- Within the different categories, each item  -->
-                            <div class = "resource-box p-3" v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
+                            <div class="resource-box p-3 my-2" v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
                                  <!-- Every resource has a title -->
-                                <p class="is-size-six"><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
+                                <p class="is-size-6"><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
                                  <!-- Unique author + publication date display for tutorials -->
                                 <span class="is-family-secondary" v-if="firstLevelIndex =='tutorials'">
                                     <p v-if="secondLevelItem.author || secondLevelItem.datePublished">{{secondLevelItem.author}}, {{secondLevelItem.datePublished.substring(0,4)}}</p>
@@ -325,7 +339,8 @@
                                  <!-- Every resource has notes  -->
                                 <p class="is-family-secondary">{{secondLevelItem.notes}}</p>
                             </div>
-                        </span>
+                            </div>
+                        </div>
                         
                     </div>
                     <!-- 🌌 End of Related Resources Section 🌌 -->
@@ -352,23 +367,16 @@
                         <!-- Brief Genealogy Description -->
                         <div class="panel-block">
                             <div class="py-2">
-                                <hideable-box title="Recipe overview" hidden>
+                                <hideable-box title="Recipe overview">
                                     {{record.coreCitation.briefGenealogy}}
                                 </hideable-box>
                             </div>
                         </div>
 
-                        <!-- INGREDIENTS PANEL HEADING -->
-                        <div class="panel-heading" v-if="allIngredients.length > 0">
-                            <h5 class="is-size-5">Ingredients</h5>
-                        </div>
-
-                        <!-- Ingredients panel block if there are ingredients -->
                         <div class="panel-block" v-if="allIngredients.length > 0">
-                            <!-- Ingredient box container -->
-                            <div class="py-3">
-                                <!-- Create a new box for each ingredient -->
-                                <div class="resource-box p-3 mb-2" v-for="ingredient in allIngredients" :key="ingredient.$id">
+                            <div class="py-2">
+                                <hideable-box title="Ingredients" hidden>
+                                    <div class="resource-box p-3 mb-2" v-for="ingredient in allIngredients" :key="ingredient.$id">
                                     <!-- Title lable with link to the ingredient  -->
                                     <p class="is-size-6"><router-link :to="'/catalog/' + ingredient.arkID">{{ingredient.title}}</router-link></p>
                                     <!-- Ingredient ID + ID anchor icon -->
@@ -376,16 +384,14 @@
                                     <!-- Ingredient processing notes -->
                                     <p class="is-family-secondary">{{ingredient.notes}}</p>
                                 </div>
+                                </hideable-box>
                             </div>
                         </div>
+
+                        
                     </div>
-                    <!-- 🥣 End of Data Recipe section 🥣-->
-
-                </div>
-                <!-- 👉 End of right-hand column content 👉-->
-
+                    <!-- 🥣 End of Data Recipe section 🥣--></div>
             </div>
-            <!-- End of right + left-hand columns -->
         </div>
         <!-- End of container to hold two columns -->
 

@@ -212,15 +212,26 @@
 
                                     <!-- Description -->
                                     <div v-if ="firstLevelIndex == 'description'">
-                                        <p class="mt-2" v-if="secondLevelIndex == 'contextProvider'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem.name}}, {{secondLevelItem.relationshipToData}}</strong></p>
-                                        <p class="mt-2" v-if="secondLevelIndex == 'contextOnBehalfOf'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem.name}}, {{secondLevelItem.relationshipToData}}</strong></p>
-                                        <p class="mt-2" v-if="secondLevelIndex == 'contextPublicationDate'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem}}</strong></p>
+                                        <div v-if="secondLevelIndex == 'contextProvider'">
+                                            <h2 class="mt-3"><strong>{{getFieldAlias(secondLevelIndex)}}</strong></h2>
+                                            <p>{{secondLevelItem.name}}, {{secondLevelItem.relationshipToData}}</p>
+                                        </div>
+                                        <div v-if="secondLevelIndex == 'contextOnBehalfOf'">
+                                            <h2 class="mt-3"><strong>{{getFieldAlias(secondLevelIndex)}}</strong></h2>
+                                            <p>{{secondLevelItem.name}}, {{secondLevelItem.relationshipToData}}</p>
+                                        </div>
+                                        <div v-if="secondLevelIndex == 'contextPublicationDate'">
+                                            <h2 class="mt-3"><strong>{{getFieldAlias(secondLevelIndex)}}</strong></h2>
+                                            <p>{{secondLevelItem}}</p>
+                                        </div>
                                     </div>
 
                                     <!-- Maintenance -->
                                     <div v-if ="firstLevelIndex == 'maintenance'">
-                                        <!-- Straightforward display of all the metadata values for this subsection -->
-                                       <p class="mt-2">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem}}</strong> </p> 
+                                        <div >
+                                            <h2 class="mt-3"><strong>{{getFieldAlias(secondLevelIndex)}}</strong></h2>
+                                            <p>{{secondLevelItem}}</p>
+                                        </div>
                                     </div>
 
                                     <!-- Manipulation -->
@@ -251,7 +262,7 @@
 
                                         <!-- Process -->
                                         <div v-if ="secondLevelIndex == 'process'">
-                                            <h1 class="mt-3"><strong>Data Processing Takeaways</strong></h1>
+                                            <h1 class="mt-3"><strong>Data Manipulation Takeaways</strong></h1>
                                             <div v-if="secondLevelItem.successes">
                                                 <h2 class="mt-3"><strong>Successes</strong></h2>
                                                 <p>{{secondLevelItem.successes}}</p>
@@ -268,7 +279,7 @@
                                             </div>
 
                                             <div  v-if="secondLevelItem.missingProcessingInformation">
-                                                <h2 class="mt-3"><strong>Missing Processing Information</strong></h2>
+                                                <h2 class="mt-3"><strong>Missing Information</strong></h2>
                                                 <p>{{secondLevelItem.missingProcessingInformation}}</p>
                                             </div>
                                         </div>

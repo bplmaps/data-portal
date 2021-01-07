@@ -74,16 +74,17 @@
 
 
 
-        <!-- Container to hold two columns -->
+        <!-- 🥇 MOST PROMINENTLY FEATURED SECTIONS CONTAINER  🥇 -->
+        <!-- core citations + data endpoints sections-->
         <div class="container is-fluid">
 
-            <!-- Right + left-hand columns -->
+            <!-- Holds the columns! -->
             <div class="columns">
 
                 <!-- 👈 Left-hand column content 👈  -->
                 <div class="column is-two-thirds">
 
-                    <!-- 💾 CORE CITATION SECTION 💾 -->
+                    <!-- 📇 CORE CITATION SECTION 📇 -->
                     <div class="panel is-primary">
 
                         <!-- Core Citation Header -->
@@ -135,15 +136,11 @@
                             </div>
                         </div>
                     </div>
-                    <!-- 💾 End of Core Citation Section 💾 -->
-
-
-
+                    <!-- 📇 End of Core Citation Section 📇 -->
                 </div>
-                <!-- 👈 End of left-hand column content 👈 -->
+                <!-- end of 2/3 columns -->
 
-
-                <!-- 👉 Right-hand column content 👉 -->
+                <!-- columns herein are 1/3 of page -->
                 <div class="column is-one-third">
 
                     <!-- 🧮 DATA ENDPOINTS SECTION 🧮 -->
@@ -176,22 +173,22 @@
                         </div>
                     </div>
                     <!-- 🧮 End of Data Endpoints Section 🧮 -->
-
                 </div>
-                <!-- 👉 End of right-hand column content 👉-->
-
             </div>
-            <!-- End of right + left-hand columns -->
         </div>
+        <!-- 🥇 End of most prominently featured sections container 🥇 -->
+        <!-- page divider --> 
+        <hr>
 
-                    <hr>
-
-
+        <!-- 🥈 ALL THE ONE-HALF PAGE ELEMENTS !!! (Secondary important info) !!! 🥈 -->
         <div class="container is-fluid">
 
-
+            <!-- Holds the columns -->
             <div class="columns">
+
+                <!-- 👈 Left-hand 1/2 columns content 👈  -->
                 <div class="column is-half">
+
                     <!-- 🐛 DATA LIFECYCLE SECTION 🐛 -->
                     <div class="panel">
                         <!-- Data Lifecycle Header -->
@@ -206,8 +203,7 @@
                             <!-- we can ameliorate in upcoming schema udpates -->
                             <div v-if="firstLevelIndex != 'acquisition'">
                                 
-                                <!-- Creates panel headings for all the resource sub-sections  -->
-
+                                <!-- Creates headings for all the resource sub-sections  -->
                                 <hideable-box :title="getFieldAlias(firstLevelIndex)" :hidden="['maintenance','manipulation'].includes(firstLevelIndex)">
                                     
                                     <!-- Within the different categories, each item  -->
@@ -216,15 +212,15 @@
 
                                     <!-- Description -->
                                     <div v-if ="firstLevelIndex == 'description'">
-                                        <p v-if="secondLevelIndex == 'contextProvider'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem.name}}, {{secondLevelItem.relationshipToData}}</strong></p>
-                                        <p v-if="secondLevelIndex == 'contextOnBehalfOf'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem.name}}, {{secondLevelItem.relationshipToData}}</strong></p>
-                                        <p v-if="secondLevelIndex == 'contextPublicationDate'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem}}</strong></p>
+                                        <p class="mt-2" v-if="secondLevelIndex == 'contextProvider'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem.name}}, {{secondLevelItem.relationshipToData}}</strong></p>
+                                        <p class="mt-2" v-if="secondLevelIndex == 'contextOnBehalfOf'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem.name}}, {{secondLevelItem.relationshipToData}}</strong></p>
+                                        <p class="mt-2" v-if="secondLevelIndex == 'contextPublicationDate'">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem}}</strong></p>
                                     </div>
 
                                     <!-- Maintenance -->
                                     <div v-if ="firstLevelIndex == 'maintenance'">
                                         <!-- Straightforward display of all the metadata values for this subsection -->
-                                        {{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem}}</strong> 
+                                       <p class="mt-2">{{getFieldAlias(secondLevelIndex)}}: <strong>{{secondLevelItem}}</strong> </p> 
                                     </div>
 
                                     <!-- Manipulation -->
@@ -232,42 +228,53 @@
 
                                         <!-- Records -->
                                         <div v-if ="secondLevelIndex == 'records'">
-                                            Records:
-                                            <ul v-for="(record, index) in secondLevelItem" :key="index">
-                                                <li>
-                                                    <strong><a target = "_blank" :href="record.relatedResourceURL"> • {{record.title}} ({{record.format}})</a> </strong>
-                                                </li>
-                                            </ul>
+                                            <div v-if="allRecords.length > 0">
+                                                <h1 class="mt-3"><strong>Records</strong></h1>
+                                                <div class = "resource-box p-3 my-2" v-for="(item, index) in allRecords" :key="index">
+                                                    <p>Title: <strong>{{item.title}}</strong></p>
+                                                    <p>Author: <strong>{{item.author}}</strong></p>
+                                                    <p>Format: <a target = "_blank" :href="item.relatedResourceURL">{{item.format}}</a></p>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <!-- Actors -->
                                         <div v-if ="secondLevelIndex == 'actors'">
-                                            Actors:
-                                            <ul v-for="(record, index) in secondLevelItem" :key="index">
-                                                <li>
-                                                    <p>{{humanReadableIndex(index)}}. <strong>{{record.name}}</strong> </p>
-                                                    <p>{{record.notes}}</p>
-                                                </li>
-                                            </ul>
+                                            <div v-if="allActors.length > 0">
+                                                <p class="mt-3"><strong>Actors</strong></p>
+                                                <div class = "resource-box p-3 my-2" v-for="(item, index) in allActors" :key="index">
+                                                    <p>{{humanReadableIndex(index)}}. <strong>{{item.name}}</strong></p>
+                                                    <p>{{item.notes}}</p>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <!-- Process -->
                                         <div v-if ="secondLevelIndex == 'process'">
-                                            Process:
-                                            <ul v-for="(item, index) in secondLevelItem" :key="index">
-                                                <li>
-                                                    <hideable-box :title="getFieldAlias(index)" hidden>
-                                                       <p>{{item}}</p> 
-                                                    </hideable-box>
-                                                </li>
-                                            </ul>
+                                            <h1 class="mt-3"><strong>Data Processing Takeaways</strong></h1>
+                                            <div v-if="secondLevelItem.successes">
+                                                <h2 class="mt-3"><strong>Successes</strong></h2>
+                                                <p>{{secondLevelItem.successes}}</p>
+                                            </div>
+
+                                            <div v-if="secondLevelItem.challenges">
+                                                <h2 class="mt-3"><strong>Challenges</strong></h2>
+                                                <p>{{secondLevelItem.challenges}}</p>
+                                            </div>
+
+                                            <div v-if="secondLevelItem.sandtraps">
+                                                <h2 class="mt-3"><strong>Challenges</strong></h2>
+                                                <p>{{secondLevelItem.sandtraps}}</p>
+                                            </div>
+
+                                            <div  v-if="secondLevelItem.missingProcessingInformation">
+                                                <h2 class="mt-3"><strong>Missing Processing Information</strong></h2>
+                                                <p>{{secondLevelItem.missingProcessingInformation}}</p>
+                                            </div>
                                         </div>
-
-                                </div>
-
+                                    </div>
 
                                 </hideable-box>
-  
                             </div>
                         </div>
                     </div>
@@ -284,32 +291,31 @@
                         <!-- Data Biography Content  -->
                         <div class="panel-block" v-for="(firstLevelItem, firstLevelIndex) in record.dataBiography" :key="firstLevelIndex">
                             <div>
-
                                 <hideable-box :title="getFieldAlias(firstLevelIndex)" hidden>
-
-                                <!-- Within the different categories, each item  -->
-                                <div v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
-
-                                    <strong>{{getFieldAlias(secondLevelIndex)}}</strong>
+                                    <!-- Within the different categories, each item  -->
+                                    <div v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
+                                        <strong>{{getFieldAlias(secondLevelIndex)}}</strong>
                                         <ul>
                                             <li v-for="(item, index) in secondLevelItem" :key="index">
                                                 {{item.notes}}
                                             </li>
                                         </ul>
-                                    
-                                </div>
-
+                                    </div>
                                 </hideable-box>
-
-
-
+                            </div>
                         </div>
-                        </div>
+
                     </div>
-                    <!-- 📖 End of Data Biography Section 📖 --></div>
+                    <!-- 📖 End of Data Biography Section 📖 -->
+                </div>
+                <!-- 👈 End of left-hand 1/2 columns content 👈  -->
 
 
-                <div class="column is-half"><!-- 🌌 RELATED RESOURCES SECTION 🌌 -->
+
+                <!-- 👉 Right-hand 1/2 columns content 👉 -->
+                <div class="column is-half">
+                    
+                    <!-- 🌌 RELATED RESOURCES SECTION 🌌 -->
                     <div class="panel" v-if="record.resourceConstellation">
                         <!-- Related Resources Heading -->
                         <p class="panel-heading">
@@ -390,13 +396,14 @@
                                 </hideable-box>
                             </div>
                         </div>
-
-                        
                     </div>
-                    <!-- 🥣 End of Data Recipe section 🥣--></div>
-            </div>
+                    <!-- 🥣 End of Data Recipe section 🥣-->
+
+                </div>
+                <!-- 👉 End of right-hand 1/2 columns content 👉 -->     
+            </div> 
         </div>
-        <!-- End of container to hold two columns -->
+        <!-- 🥈 End of the one-half page elements, secondary sections container 🥈 -->
 
     </div>
     <!-- 🧺 End of main content bucket 🧺 -->
@@ -431,7 +438,11 @@ export default {
             //place to store the field aliases
             aliases: [],
             //place to store attributes pulled from ingredient datasets
-            allIngredients: []
+            allIngredients: [],
+            //place to store info about READMEs
+            allRecords: [],
+            //place to store info about actors
+            allActors: []
         }
     },
 
@@ -496,7 +507,7 @@ export default {
             //if there are no ingredients do nothing
             var dataLifecycle = this.record.dataLifecycle
             if (!('acquisition' in dataLifecycle)){
-                console.log("There are no ingredients")
+                
             } 
             //if there are ingredients
             else{
@@ -530,6 +541,30 @@ export default {
                 }
             }
 
+        },
+        //function to push README records + info to a Vue data object
+        getAllRecords(){
+            //if there are records, get them
+            if (this.record.dataLifecycle.manipulation.records[0].relatedResourceURL){
+                var records = this.record.dataLifecycle.manipulation.records
+                for (let i = 0; i < records.length; i ++){
+                    var recordProps = {}
+                    recordProps = {"format": records[i].format, "relatedResourceURL": records[i].relatedResourceURL, "author": records[i].author, "title": records[i].title}
+                    this.allRecords.push(recordProps)
+                }
+            }
+        },
+        getAllActors(){
+            //if there are actors, get them
+            if (this.record.dataLifecycle.manipulation.actors[0].name){
+                console.log("there ARE actors")
+                var actors = this.record.dataLifecycle.manipulation.actors
+                for (let i = 0; i < actors.length; i ++){
+                    var actorProps = {}
+                    actorProps = {"name": actors[i].name, "notes": actors[i].notes}
+                    this.allActors.push(actorProps)
+                }
+            }
         }
     },
     mounted() {
@@ -541,6 +576,8 @@ export default {
                 this.recordLoaded = true;
                 //run the function to get all the ingredients, too
                 this.getAllIngredients()
+                this.getAllRecords()
+                this.getAllActors()
             }).catch(err => {
                 console.log("Couldn't retrieve record metadata")
             })

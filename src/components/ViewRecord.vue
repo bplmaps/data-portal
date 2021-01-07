@@ -235,14 +235,17 @@
                                         <hideable-box :title="getFieldAlias(secondLevelIndex)" hidden>
                                             <span v-for="(item, index) in secondLevelItem" :key="index">
                                                 <p v-if="item.notes">• {{item.notes}} <a :href="item.relatedResourceURL"><font-awesome-icon icon="external-link-alt" class="mr-2"></font-awesome-icon></a></p>
-                                                <p v-else class="tag is-danger mr-2 py-2">missing context</p>
+                                                <div v-else class="tag mr-2 py-2"><font-awesome-icon icon="exclamation-triangle" class="mr-2"></font-awesome-icon>missing context</div>
                                             </span>
                                         </hideable-box>
                                     </span>
 
 
                                     <span v-else>
-                                        <span class="tag is-warning mr-2">🚧 under construction</span>
+                                        <span v-for="(item, index) in firstLevelItem" :key="index">
+                                            <div v-if="item.notes">• {{item.notes}} <a :href="item.relatedResourceURL"><font-awesome-icon icon="external-link-alt" class="mr-2"></font-awesome-icon></a></div>
+                                            <div v-else class="tag mr-2 py-2"><font-awesome-icon icon="exclamation-triangle" class="mr-2"></font-awesome-icon>missing context</div>
+                                        </span>
                                     </span>
                                 </div>
                         </span>

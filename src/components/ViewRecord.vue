@@ -201,7 +201,10 @@
 
                         <!-- Data Lifecycle Content  -->
                         <div class="panel-block" v-for="(firstLevelItem, firstLevelIndex) in record.dataLifecycle" :key="firstLevelIndex">
-                            <div>
+                            <!-- acquisiton field is necessary in the metadata because it speaks to where we obtained ingredients -->
+                            <!-- but it needs to be skipped here because we display ingredients elsewhere -->
+                            <!-- we can ameliorate in upcoming schema udpates -->
+                            <div v-if="firstLevelIndex != 'acquisition'">
                                 
                                 <!-- Creates panel headings for all the resource sub-sections  -->
 

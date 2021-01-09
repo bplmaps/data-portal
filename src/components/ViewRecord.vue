@@ -120,19 +120,19 @@
                             </div>
                         </div>
 
-                        <!-- Important = True  -->
-                        <div class="panel-block">
-                            <div class="py-2">
-                            <h5>Important caveats</h5>
-                            <span class="tag is-warning mr-2">🚧 under construction</span>
-                            </div>
-                        </div>
-
                         <!-- Suggested Entry Point = True -->
                         <div class="panel-block">
                             <div class="py-2">
-                            <h5>Suggested places to start</h5>
-                            <span class="tag is-warning mr-2">🚧 under construction</span>
+                                <h5 class="mb-3">Suggested places to start</h5>
+                            
+                                <div v-if ="allSuggested" class = "content">
+                                    <div class = "is-family-secondary" v-for="(item, index) in allSuggested" :key="index">
+                                        <div>
+                                            <strong> <a  :href="item.link">{{item.title}}</a></strong>  <p class="tag mr-2">{{item.type}} </p>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -228,7 +228,7 @@
 
                                     <!-- Maintenance -->
                                     <div v-if ="firstLevelIndex == 'maintenance'">
-                                        <div >
+                                        <div v-if="secondLevelItem != true">
                                             <h2 class="mt-3"><strong>{{getFieldAlias(secondLevelIndex)}}</strong></h2>
                                             <p>{{secondLevelItem}}</p>
                                         </div>
@@ -262,7 +262,6 @@
 
                                         <!-- Process -->
                                         <div v-if ="secondLevelIndex == 'process'">
-                                            <h1 class="mt-3"><strong>Data Manipulation Takeaways</strong></h1>
                                             <div v-if="secondLevelItem.successes">
                                                 <h2 class="mt-3"><strong>Successes</strong></h2>
                                                 <p>{{secondLevelItem.successes}}</p>
@@ -304,13 +303,24 @@
                             <div>
                                 <hideable-box :title="getFieldAlias(firstLevelIndex)" hidden>
                                     <!-- Within the different categories, each item  -->
+                                    
                                     <div v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
-                                        <strong>{{getFieldAlias(secondLevelIndex)}}</strong>
-                                        <ul>
-                                            <li v-for="(item, index) in secondLevelItem" :key="index">
-                                                {{item.notes}}
-                                            </li>
-                                        </ul>
+                                        <div>
+                                               <ul>
+                                                    <li v-for="(item, index) in secondLevelItem" :key="index">
+                                                     <div v-if="item.contextMissing"></div>
+                                                     <div v-else>
+                                                         <div >
+                                                            <h1 ><strong>{{getFieldAlias(secondLevelIndex)}} </strong></h1>
+                                                            <div><p> {{item.notes}} <a target="_blank" :href="item.relatedResourceURL"><font-awesome-icon icon="external-link-alt" class="mr-2"></font-awesome-icon></a></p>
+                                                            </div>
+                                                         </div>
+                                                        
+                                                     </div>
+                                                    </li>
+                                                </ul>
+                                        </div>
+       
                                     </div>
                                 </hideable-box>
                             </div>
@@ -318,6 +328,29 @@
 
                     </div>
                     <!-- 📖 End of Data Biography Section 📖 -->
+
+
+
+                    <!-- 🤷🏻‍♀️ MISSING CONTEXT SECTION 🤷🏻‍♀️ -->
+                    <div class="panel" v-if="allMissing.length > 0 ">
+                        <!-- Missing context header -->
+                        <p class="panel-heading">
+                            Missing Information
+                        </p>
+
+                        <div class= "panel-block is-family-secondary">
+                            <p>Information that would have been helpful for better understanding this dataset which is not prominently featured or easily discoverable by the maintainter's official documentation</p>
+                        </div>
+
+                        <!-- Missing Content -->
+                        <div class="panel-block is-family-secondary" v-for="(item, index) in allMissing" :key="index">                               
+                                <ul>
+                                    <li><a target="_blank" :href="'https://geoservices.leventhalmap.org/cartinal/documentation/schema/' + item.property +'.html' "  ><strong>{{getFieldAlias(item.property)}}  </strong></a></li>
+                                </ul>
+                        </div>
+
+                    </div>
+                    <!-- 🤷🏻‍♀️ End of missing context section 🤷🏻‍♀️ -->
                 </div>
                 <!-- 👈 End of left-hand 1/2 columns content 👈  -->
 
@@ -453,7 +486,9 @@ export default {
             //place to store info about READMEs
             allRecords: [],
             //place to store info about actors
-            allActors: []
+            allActors: [],
+            allMissing: [],
+            allSuggested: []
         }
     },
 
@@ -553,32 +588,136 @@ export default {
             }
 
         },
-        //function to push README records + info to a Vue data object
-        getAllRecords(){
-            //if there are records, get them
-            if (this.record.dataLifecycle.manipulation.records[0].relatedResourceURL){
-                var records = this.record.dataLifecycle.manipulation.records
-                for (let i = 0; i < records.length; i ++){
-                    var recordProps = {}
-                    recordProps = {"format": records[i].format, "relatedResourceURL": records[i].relatedResourceURL, "author": records[i].author, "title": records[i].title}
-                    this.allRecords.push(recordProps)
+        //function to push README records + actors to Vue data objects
+        getReadmes(){
+            var readMes = this.record.dataLifecycle
+            if (!('manipulation' in readMes)){
+
+            } else{
+                var manipulation = this.record.dataLifecycle.manipulation
+                if (!('records' in manipulation)){
+
+                } else{
+                    var records = this.record.dataLifecycle.manipulation.records
+                    if (records[0].relatedResourceURL){
+                        for (let i = 0; i < records.length; i ++){
+                            var recordProps = {}
+                            recordProps = {"format": records[i].format, "relatedResourceURL": records[i].relatedResourceURL, "author": records[i].author, "title": records[i].title}
+                            this.allRecords.push(recordProps)
+                        }
+                    }
+                }
+                if (!('actors' in manipulation)){
+                } else{
+                    var actors = this.record.dataLifecycle.manipulation.actors
+                    if (actors[0].name){
+                        for (let i = 0; i < actors.length; i ++){
+                            var actorProps = {}
+                            actorProps = {"name": actors[i].name, "notes": actors[i].notes}
+                            this.allActors.push(actorProps)
+                        }
+                    }
+                }
+            } 
+        },
+        getMissing(){
+            var missingProps = {}
+
+            //DATABIO
+            if (!('dataBiography' in this.record)){
+
+            } else {
+                var dataBiography = this.record.dataBiography
+            
+                // data bio, all the normal sections
+                for (const property in dataBiography) {
+                    var secondLevelProp = dataBiography[property]
+                    for (const property in secondLevelProp) {
+                        for (let i = 0; i < secondLevelProp[property].length; i ++){
+                            if (!('contextMissing' in secondLevelProp[property][i])){
+
+                            } else {
+                                missingProps = {"property": property}
+                                this.allMissing.push(missingProps)
+                            }
+                        }
+                    }
+
+
+                    // data bio, weird sections
+                    for (let i = 0; i < dataBiography[property].length; i ++){
+                            if (!('contextMissing' in dataBiography[property][i])){
+
+                            } else {
+                                missingProps = {"property": property}
+                                this.allMissing.push(missingProps)
+                            }
+                    }
+                }
+            }
+
+            //DATA LIFECYCLE
+            if (!('dataLifecycle' in this.record)){
+
+            } else {
+                var dataLifecycle = this.record.dataLifecycle
+            }
+            //maintenance
+            if (!('maintenance' in dataLifecycle)){
+
+            } else {
+                var maintenance = dataLifecycle.maintenance
+                if (!('contextMissing' in maintenance)){
+
+                } else {
+                    missingProps = {"property": "maintenance"}
+                    this.allMissing.push(missingProps)
                 }
             }
         },
-        getAllActors(){
-            //if there are actors, get them
-            if (this.record.dataLifecycle.manipulation.actors[0].name){
-                console.log("there ARE actors")
-                var actors = this.record.dataLifecycle.manipulation.actors
-                for (let i = 0; i < actors.length; i ++){
-                    var actorProps = {}
-                    actorProps = {"name": actors[i].name, "notes": actors[i].notes}
-                    this.allActors.push(actorProps)
+        //get the suggested flags && their fieldnames
+        getAllSuggested(){
+            var suggestedProps = {}
+
+            if (!('dataEndpoints' in this.record)){
+
+            } else{
+                var endpoints = this.record.dataEndpoints 
+                for (let i = 0; i < endpoints.length; i ++){
+                    if (endpoints[i].suggestedEntryPoint = true){
+                        suggestedProps = {"type": "Dataset", "title": endpoints[i].title, "link": endpoints[i].accessURL}
+                        this.allSuggested.push(suggestedProps)
+                    }
+                } 
+            }
+
+            if (!('resourceConstellation' in this.record)){
+
+            } else {
+                var resources = this.record.resourceConstellation
+                for (const property in resources) {
+                    for (let i = 0; i < resources[property].length; i ++){
+                        if (resources[property][i].suggestedEntryPoint = true){
+                            suggestedProps = {"type": this.getFieldAlias(property), "title": resources[property][i].title, "link": resources[property][i].relatedResourceURL}
+                            this.allSuggested.push(suggestedProps)
+                        }
+                    }
+
                 }
             }
+
         }
     },
-    mounted() {
+    mounted() {        
+        //get the field aliases
+        axios.get("https://raw.githubusercontent.com/nblmc/Data-Context/master/aliases.json")
+            .then(response => {
+                //add it to the Vue data
+                this.aliases = response.data
+            }).catch(err => {
+                console.log("Couldn't retrieve aliases")
+            })
+
         //get the source metadata
         axios.get("https://raw.githubusercontent.com/nblmc/metadata/main/" + this.recordId + ".json")
             .then(response => {
@@ -587,19 +726,11 @@ export default {
                 this.recordLoaded = true;
                 //run the function to get all the ingredients, too
                 this.getAllIngredients()
-                this.getAllRecords()
-                this.getAllActors()
+                this.getReadmes()
+                this.getMissing()
+                this.getAllSuggested()
             }).catch(err => {
                 console.log("Couldn't retrieve record metadata")
-            })
-        
-        //get the field aliases
-        axios.get("https://raw.githubusercontent.com/nblmc/Data-Context/master/aliases.json")
-            .then(response => {
-                //add it to the Vue data
-                this.aliases = response.data
-            }).catch(err => {
-                console.log("Couldn't retrieve aliases")
             })
 
     },

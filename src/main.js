@@ -14,6 +14,9 @@ Vue.use(InstantSearch)
 
 new Vue({
   el: "#app",
+  data: {
+    "viewComplexityMode": "simple"
+  },
   router,
   render: (h)=>h(App)
 });

@@ -26,7 +26,7 @@
           <div class="field">
             <div class="control has-icons-left">
               <div class="select is-primary">
-                <select name="" id="" v-model="selectedView">
+                <select name="" id="" v-model="$root.$data.viewComplexityMode">
                   <option value="simple">Simple view</option>
                   <option value="extended">Extended view</option>
                   <option value="tutorial">Tutorial view</option>
@@ -57,9 +57,9 @@ export default {
   },
   computed: {
     selectedViewIcon: function() {
-      if(this.selectedView === 'simple') { return 'th-large' }
-      else if(this.selectedView === 'extended') { return "th" }
-      else if(this.selectedView === 'tutorial') { return "chalkboard-teacher" } 
+      if(this.$root.$data.viewComplexityMode === 'simple') { return 'th-large' }
+      else if(this.$root.$data.viewComplexityMode === 'extended') { return "th" }
+      else if(this.$root.$data.viewComplexityMode === 'tutorial') { return "chalkboard-teacher" } 
     }
   }
 }

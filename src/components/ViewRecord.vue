@@ -168,7 +168,8 @@
                                 <p class="is-size-7 mt-1">{{endpoint.source}}</p>
 
                                 <!-- tag for suggested endpoints -->
-                                <div class="tag is-light is-success mt-2" v-if="endpoint.suggestedEntryPoint"><font-awesome-icon icon="smile" class="mr-2"></font-awesome-icon> Suggested</div>
+                                <!-- was incorrectly printing for all, regardless of flag status, address when returning to flags work -->
+                                <!-- <div class="tag is-light is-success mt-2" v-if="endpoint.suggestedEntryPoint"><font-awesome-icon icon="smile" class="mr-2"></font-awesome-icon> Suggested</div> -->
                             </div>
                         </div>
                     </div>

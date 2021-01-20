@@ -306,21 +306,22 @@
                                     <!-- Within the different categories, each item  -->
                                     
                                     <div v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
-                                        <div>
-                                               <ul>
-                                                    <li v-for="(item, index) in secondLevelItem" :key="index">
-                                                     <div v-if="item.contextMissing"></div>
-                                                     <div v-else>
-                                                         <div >
-                                                            <h1 ><strong>{{getFieldAlias(secondLevelIndex)}} </strong></h1>
-                                                            <div><p> {{item.notes}} <a target="_blank" :href="item.relatedResourceURL"><font-awesome-icon icon="external-link-alt" class="mr-2"></font-awesome-icon></a></p>
-                                                            </div>
-                                                         </div>
+                                        <div v-if="secondLevelIndex">
+                                            <h2 class="mt-3"><strong>{{getFieldAlias(secondLevelIndex)}}</strong></h2>
+                                        </div>
+                                        <ul v-if="secondLevelIndex != 'relatedResourceURL'">
+                                            <li>{{secondLevelItem}}</li>
+                                        </ul>
+                                        <ul v-else>
+                                            <div class="content" v-for="(thirdLevelItem, thirdLevelIndex) in secondLevelItem" :key="thirdLevelIndex">
+                                                <ul>
+                                                    <li>
+                                                        <p><a target="_blank" :href="thirdLevelItem.$id">{{thirdLevelItem.title}}</a>, {{thirdLevelItem.publisher}} <span v-if="thirdLevelItem.datePublished">({{thirdLevelItem.datePublished}})</span></p>
                                                         
-                                                     </div>
                                                     </li>
                                                 </ul>
-                                        </div>
+                                            </div>
+                                        </ul>
        
                                     </div>
                                 </hideable-box>

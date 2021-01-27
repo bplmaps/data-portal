@@ -1,7 +1,7 @@
 <template>
 
   <div class="hideable-box is-6">
-    <h5 class="is-6" @click="showHide"><font-awesome-icon :icon="hidden ? 'eye-slash' : 'eye' " class="eye-icon mr-2"></font-awesome-icon>{{title}}</h5>
+    <h5 class="is-6" @click="showHide"><font-awesome-icon :icon="hidden ? 'caret-right' : 'caret-down' " class="eye-icon mr-2"></font-awesome-icon>{{title}}</h5>
     <div class="is-family-secondary" v-if="!hidden">
     <slot></slot>
     </div>

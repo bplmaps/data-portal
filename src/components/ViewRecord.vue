@@ -115,7 +115,7 @@
                         <div class="panel-block">
                             <div class="py-2">
                                 <h5>Dataset Overview</h5>
-                                    <p class="is-family-secondary">{{record.coreCitation.fullNotes}}</p>
+                                    <markdown-part :source-markdown="record.coreCitation.fullNotes"></markdown-part>
                             </div>
                         </div>
 
@@ -482,15 +482,15 @@
 <script>
 import axios from 'axios'
 import HideableBox from './HideableBox.vue'
-import MarkdownIt from 'markdown-it';
+import MarkdownPart from './MarkdownPart.vue'
 
-const md = new MarkdownIt();
 
 
 export default {
     name: "ViewRecord",
     components: {
-       HideableBox
+       HideableBox,
+       MarkdownPart
     },
     data (){
         return {
@@ -533,10 +533,6 @@ export default {
             } else {
                 return null;
             }
-        },
-        renderMarkdown: function (s){
-            console.log(s)
-            return md.render(s)
         }
     },
     methods: {

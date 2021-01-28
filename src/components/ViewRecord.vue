@@ -304,35 +304,33 @@
                     <div class="panel" v-if="record.dataBiography">
                         <!-- Data Biography Header -->
                         <p class="panel-heading">
-                            Data Biography
+                            Quality of Available Documentation
                         </p>
 
                         <!-- Data Biography Content  -->
                         <div class="panel-block" v-for="(firstLevelItem, firstLevelIndex) in record.dataBiography" :key="firstLevelIndex">
                             <div>
-                                <hideable-box :title="getFieldAlias(firstLevelIndex)" hidden>
+                                <h5>{{getFieldAlias(firstLevelIndex)}}</h5>
                                     <!-- Within the different categories, each item  -->
-                                    
-                                    <div v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
-                                        <div v-if="secondLevelIndex">
-                                            <h2 class="mt-3"><strong>{{getFieldAlias(secondLevelIndex)}}</strong></h2>
+                                    <!-- <div class="is-family-secondary">
+                                        <div v-if="firstLevelItem.healthCheckScore == 0">
+                                            <img src="~/assets/score0.png" width="400" alt="Score 0">
                                         </div>
-                                        <ul v-if="secondLevelIndex != 'relatedResourceURL'">
-                                            <li>{{secondLevelItem}}</li>
-                                        </ul>
-                                        <ul v-else>
-                                            <div class="content" v-for="(thirdLevelItem, thirdLevelIndex) in secondLevelItem" :key="thirdLevelIndex">
-                                                <ul>
-                                                    <li>
-                                                        <p><a target="_blank" :href="thirdLevelItem.$id">{{thirdLevelItem.title}}</a>, {{thirdLevelItem.publisher}} <span v-if="thirdLevelItem.datePublished">({{thirdLevelItem.datePublished}})</span></p>
-                                                        
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </ul>
+                                        <div v-if="firstLevelItem.healthCheckScore == 1">
+                                            <img src="~/assets/score1.png" width="400" alt="Score 0">
+                                        </div>
+                                        <div v-if="firstLevelItem.healthCheckScore == 2">
+                                            <img src="~/assets/score2.png" width="400" alt="Score 0">
+                                        </div>
+                                        <div v-if="firstLevelItem.healthCheckScore == 3">
+                                            <img src="~/assets/score3.png" width="400" alt="Score 0">
+                                        </div>
+                                        <div class="content">
+                                            <p>{{firstLevelItem.healthCheckQualifier}}</p>
+                                        </div>
+                                    </div> -->
        
-                                    </div>
-                                </hideable-box>
+
                             </div>
                         </div>
 
@@ -433,7 +431,7 @@
 
                         <!-- Data Recipe Heading -->
                         <p class="panel-heading">
-                            How the Data was Made
+                            Where the Data Came From
                         </p>
                         
                         <!-- DATA RECIPE Content -->
@@ -484,6 +482,10 @@
 <script>
 import axios from 'axios'
 import HideableBox from './HideableBox.vue'
+import MarkdownIt from 'markdown-it';
+
+const md = new MarkdownIt();
+
 
 export default {
     name: "ViewRecord",
@@ -531,6 +533,10 @@ export default {
             } else {
                 return null;
             }
+        },
+        renderMarkdown: function (s){
+            console.log(s)
+            return md.render(s)
         }
     },
     methods: {

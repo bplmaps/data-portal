@@ -23,6 +23,7 @@
     "vue": "^2.5.2",
     "vue-instantsearch": "^3.4.2",
     "vue-router": "^3.0.1",
+    "vue-scrollto": "^2.20.0",
     "vue-server-renderer": "^2.6.12"
   },
   "devDependencies": {

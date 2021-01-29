@@ -303,32 +303,82 @@
                     <!-- 📖 DATA BIOGRAPHY SECTION 📖 -->
                     <div class="panel" v-if="record.dataBiography">
                         <!-- Data Biography Header -->
-                        <p class="panel-heading">
-                            Quality of Available Documentation
+                        <p class="panel-heading"> 
+                            Documentation Quality
                         </p>
 
-                        <!-- Data Biography Content  -->
-                        <div class="panel-block" v-for="(firstLevelItem, firstLevelIndex) in record.dataBiography" :key="firstLevelIndex">
+                        <div class ="panel-block" v-if="record.dataBiography">
                             <div>
-                                <h5>{{getFieldAlias(firstLevelIndex)}}</h5>
-                                    <!-- Within the different categories, each item  -->
-                                    <!-- <div class="is-family-secondary">
-                                        <div v-if="firstLevelItem.healthCheckScore == 0">
-                                            <img src="~/assets/score0.png" width="400" alt="Score 0">
+                                <h5 class="mt-1 ml-1">Health Check Scores</h5>
+                                <div class = "content is-family-secondary">
+                                    <ul class="mb-1">
+                                        <li>
+                                        Context about the <strong>circumstances</strong> of a dataset's creation is critical for understanding how the data can be used.
+                                        </li>
+                                        <li>
+                                            We rank the quality or <strong>health of official documentation</strong> for how well it contextualizes the data.
+                                        </li>
+                                        <li>
+                                        To learn more about our evaluation process, you can check out our <a href="https://geoservices.leventhalmap.org/cartinal/documentation/schema/healthcheck.html" target="_blank"><strong>Health Score Checklist</strong></a>.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data Biography Content  -->
+                        <div class="panel-block" v-if="record.dataBiography">
+                            <div class= "is-flex is-flex-direction-column">
+                                <h5 class = "my-2 mt-1 mb-3">This Dataset's Official Available Documentation</h5>
+                                <div class="is-flex is-flex-direction-row">
+                                    <div class="resource-box mr-2">
+                                        <div class="is-flex is-flex-direction-row">
+                                            <h5 class="ml-2 my-1">Representation</h5>
+                                            <button class="ml-0 button is-small is-text" @click='documentationQualifierToggle = !documentationQualifierToggle; updateHealthCategory("representation")'>More Info</button>
                                         </div>
-                                        <div v-if="firstLevelItem.healthCheckScore == 1">
-                                            <img src="~/assets/score1.png" width="400" alt="Score 0">
+                                        <img :src="getGraphic(record.dataBiography.representation.healthCheckScore)" alt="Social Justice and Representatin Documentation Score">
+                                    </div>
+                                    <div class="resource-box">
+                                        <div class="is-flex is-flex-direction-row">
+                                            <h5 class="ml-2 my-1">Public Responsibility</h5>
+                                            <button class="ml-0 button is-small is-text is-flexbox is-justify-content-flex-end" @click='documentationQualifierToggle = !documentationQualifierToggle; updateHealthCategory("publicResponsibility")'>More Info</button>
                                         </div>
-                                        <div v-if="firstLevelItem.healthCheckScore == 2">
-                                            <img src="~/assets/score2.png" width="400" alt="Score 0">
+                                        <img :src="getGraphic(record.dataBiography.publicResponsibility.healthCheckScore)" alt="Reliability and Public Responsibility Documentation Score">
+                                    </div>
+                                </div>
+                                <div class="is-flex is-flex-direction-row">
+                                    <div class="resource-box mr-2">
+                                        <div class="is-flex is-flex-direction-row">
+                                            <h5 class="ml-2 my-1">Historic Conditions</h5>
+                                            <button class="ml-0 button is-small is-text" @click='documentationQualifierToggle = !documentationQualifierToggle; updateHealthCategory("historicContext")'>More Info</button>
                                         </div>
-                                        <div v-if="firstLevelItem.healthCheckScore == 3">
-                                            <img src="~/assets/score3.png" width="400" alt="Score 0">
+                                        <img :src="getGraphic(record.dataBiography.historicContext.healthCheckScore)" alt="Historic Context Documentation Score">
+
+                                    </div>
+                                    <div class="resource-box">
+                                        <div class="is-flex is-flex-direction-row">
+                                            <h5 class="ml-2 my-1">Potential Future Impact</h5>
+                                            <button class="ml-0 button is-small is-text" @click='documentationQualifierToggle = !documentationQualifierToggle; updateHealthCategory("potentialImpact")'>More Info</button>
                                         </div>
-                                        <div class="content">
-                                            <p>{{firstLevelItem.healthCheckQualifier}}</p>
-                                        </div>
-                                    </div> -->
+                                        <img :src="getGraphic(record.dataBiography.potentialImpact.healthCheckScore)" alt="Potential Future Impact Documentation Score">
+                                    </div>
+                                </div>
+
+                                <div class="modal is-active" v-if="documentationQualifierToggle">
+                                    <div class="modal-background"></div>
+                                    <div class="modal-card">
+                                        <header class="modal-card-head">
+                                        <p class="modal-card-title">Score Explanation</p>
+                                        <button class="delete" @click='documentationQualifierToggle = !documentationQualifierToggle; clearHealthCategory()' aria-label="close"></button>
+                                        </header>
+                                        <section class="modal-card-body">
+                                            <h5 class="mb-2">{{getModalHeaders()}}</h5>
+                                            <p class="is-family-secondary">{{getModalContent()}}</p>
+                                        </section>
+                                        </footer>
+                                    </div>
+                                </div>
+                                
        
 
                             </div>
@@ -509,7 +559,9 @@ export default {
             //place to store info about actors
             allActors: [],
             allMissing: [],
-            allSuggested: []
+            allSuggested: [],
+            documentationQualifierToggle: false,
+            healthCategory: ""
         }
     },
 
@@ -541,11 +593,14 @@ export default {
             this.recordId = this.$route.params.record_id
             this.$router.go()
         },
-        //function to scroll to the top of the page
-        jumpToTop(){
-            window.scrollTo({ top: 0, behavior: 'smooth' })
+        updateHealthCategory(categoryValue){
+            this.healthCategory = categoryValue
+            console.log(this.healthCategory)
         },
-
+        clearHealthCategory(){
+            this.healthCategory = ''
+            console.log(this.healthCategory)
+        },
         //function to split whole path from file name for display
         getFileName(fullpath){
             var splitPath = fullpath.split("/");
@@ -562,6 +617,45 @@ export default {
                     return realFieldName
                 }
             }
+        },
+        getGraphic(metadataValue){
+            var imgPath = "";
+            if (metadataValue == 0) {
+                imgPath = require('~/assets/score0.png')
+                return imgPath
+            } else if (metadataValue == 1) {
+                imgPath = require('~/assets/score1.png')
+                return imgPath
+            } else if (metadataValue == 2) {
+                imgPath = require('~/assets/score2.png')
+                return imgPath
+            } else if (metadataValue == 3) {
+                imgPath = require('~/assets/score3.png')
+                return imgPath
+
+            }
+        },
+        getModalHeaders(){
+            if (this.healthCategory == "representation") {
+                return "How does the official documentation address social justice and representation?"
+            } else if (this.healthCategory == "publicResponsibility") {
+                return "How does the official documentation address ethical governance and public responsibility?"
+            } else if (this.healthCategory == "historicContext") {
+                return "How does the official documentation address historic context?"
+            } else if (this.healthCategory == "potentialImpact") {
+                return "How does the official documentation address potential future impact?"
+            } 
+        },
+        getModalContent(){
+            if (this.healthCategory == "representation") {
+                return this.record.dataBiography.representation.healthCheckQualifier
+            }   else if (this.healthCategory == "publicResponsibility") {
+                return this.record.dataBiography.publicResponsibility.healthCheckQualifier
+            } else if (this.healthCategory == "historicContext") {
+                return this.record.dataBiography.historicContext.healthCheckQualifier
+            } else if (this.healthCategory == "potentialImpact") {
+                return this.record.dataBiography.potentialImpact.healthCheckQualifier
+            } 
         },
         //display human readable indices
         humanReadableIndex(inputIndex){
@@ -768,5 +862,10 @@ export default {
     border: 2px solid #f0f0f0;
     border-radius: 3px;
 }
+
+.dev{
+    background-color:lime;
+}
+
 
 </style>

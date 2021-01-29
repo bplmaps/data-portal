@@ -18,10 +18,12 @@
     "bulma": "^0.9.1",
     "components": "^0.1.0",
     "instantsearch.css": "^7.4.5",
+    "markdown-it": "^12.0.4",
     "parcel-bundler": "^1.12.4",
     "vue": "^2.5.2",
     "vue-instantsearch": "^3.4.2",
     "vue-router": "^3.0.1",
+    "vue-scrollto": "^2.20.0",
     "vue-server-renderer": "^2.6.12"
   },
   "devDependencies": {

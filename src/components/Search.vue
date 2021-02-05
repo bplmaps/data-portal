@@ -64,8 +64,6 @@
 <script>
 import algoliasearch from 'algoliasearch/lite'
 import 'instantsearch.css/themes/algolia.css';
-
-
 export default {
   name: 'Search',
   data () {
@@ -81,7 +79,6 @@ export default {
     urlQuery: function() {return this.$route.query.s },
     initialUiState: function() { return {"metadata-sandbox": {"query": this.urlQuery}} }
   },
-
   methods: {
     getId (arkURI){
       var splitURI = arkURI.split("/")[2]
@@ -94,20 +91,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import "~/style-vars.scss";
-
 .ais-Hits-item {
   border: 1px solid #eee;
   border-radius: 5px;
   width: 100%;
   cursor: pointer;
-
   &:hover {
     border: 1px solid #aaa;
   }
-
 }
-
-
-
-
 </style>

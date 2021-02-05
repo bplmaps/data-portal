@@ -1,6 +1,6 @@
 <template>
 
-  <div class="is-family-secondary" v-html="renderedMarkdown">
+  <div class="content markdown is-family-secondary" v-html="renderedMarkdown">
   </div>
 
 </template>
@@ -28,5 +28,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+div.content.markdown.is-family-secondary ul{
+    list-style: square;
+}
 
 </style>

@@ -114,8 +114,10 @@
                         <!-- Full Notes  -->
                         <div class="panel-block">
                             <div class="py-2">
-                                <h5>Dataset Overview</h5>
+                                <div class = "markdown">
+                                    <h5>Dataset Overview</h5>
                                     <markdown-part :source-markdown="record.coreCitation.fullNotes"></markdown-part>
+                                </div>
                             </div>
                         </div>
 
@@ -310,16 +312,42 @@
                         <div class ="panel-block" v-if="record.dataBiography">
                             <div>
                                 <h5 class="mt-1 ml-1">Health Check Scores</h5>
-                                <div class = "content is-family-secondary">
-                                    <ul class="mb-1">
+                                <div class = "content is-family-secondary mx-1 my-2">
+                                    <ul>
                                         <li>
-                                        Context about the <strong>circumstances</strong> of a dataset's creation is critical for understanding how the data can be used.
+                                            It is important for data providers to provide contextualizing documentation along with every dataset.
                                         </li>
                                         <li>
-                                            We rank the quality or <strong>health of official documentation</strong> for how well it contextualizes the data.
+                                            Without this context, it is impossible for data users to know what the dataset can and cannot be used for.
                                         </li>
                                         <li>
-                                        To learn more about our evaluation process, you can check out our <a href="https://geoservices.leventhalmap.org/cartinal/documentation/schema/healthcheck.html" target="_blank"><strong>Health Score Checklist</strong></a>.
+                                        The LMEC provides scores on the quality or health of the dataset's original documentation to show how well it usefully contextualizes the data.
+                                        </li>
+                                        <li>
+                                        We rank the documentation for five different context categories: 
+                                        <ul>
+                                            <li>
+                                                Social Justice and Representation
+                                            </li>
+                                            <li>
+                                                Ethical Governance and Public Responsibility
+                                            </li>
+                                            <li>
+                                                Historic Patterns of Systemic Injustice
+                                            </li>
+                                            <li>
+                                                Methodology and Provenance
+                                            </li>
+                                            <li>
+                                                Potential Future Impact
+                                            </li>
+                                        </ul>
+                                        </li>
+                                        <li>
+                                            This dataset was scored by: <strong> {{record.dataLifecycle.description.contextProvider.name}}, LMEC's Data {{record.dataLifecycle.description.contextProvider.relationshipToData}}</strong>.
+                                        </li>
+                                        <li>
+                                        To learn more about our documentation health check evaluations, you can visit our <a href="https://geoservices.leventhalmap.org/cartinal/documentation/schema/healthcheck.html" target="_blank"><strong>Health Score Checklist</strong></a>.
                                         </li>
                                     </ul>
                                 </div>
@@ -328,60 +356,21 @@
 
                         <!-- Data Biography Content  -->
                         <div class="panel-block" v-if="record.dataBiography">
-                            <div class= "is-flex is-flex-direction-column">
-                                <h5 class = "my-2 mt-1 mb-3">This Dataset's Official Available Documentation</h5>
-                                <div class="is-flex is-flex-direction-row">
-                                    <div class="resource-box mr-2">
-                                        <div class="is-flex is-flex-direction-row">
-                                            <h5 class="ml-2 my-1">Representation</h5>
-                                            <button class="ml-0 button is-small is-text" @click='documentationQualifierToggle = !documentationQualifierToggle; updateHealthCategory("representation")'>More Info</button>
-                                        </div>
-                                        <img :src="getGraphic(record.dataBiography.representation.healthCheckScore)" alt="Social Justice and Representatin Documentation Score">
-                                    </div>
-                                    <div class="resource-box">
-                                        <div class="is-flex is-flex-direction-row">
-                                            <h5 class="ml-2 my-1">Public Responsibility</h5>
-                                            <button class="ml-0 button is-small is-text is-flexbox is-justify-content-flex-end" @click='documentationQualifierToggle = !documentationQualifierToggle; updateHealthCategory("publicResponsibility")'>More Info</button>
-                                        </div>
-                                        <img :src="getGraphic(record.dataBiography.publicResponsibility.healthCheckScore)" alt="Reliability and Public Responsibility Documentation Score">
-                                    </div>
-                                </div>
-                                <div class="is-flex is-flex-direction-row">
-                                    <div class="resource-box mr-2">
-                                        <div class="is-flex is-flex-direction-row">
-                                            <h5 class="ml-2 my-1">Historic Conditions</h5>
-                                            <button class="ml-0 button is-small is-text" @click='documentationQualifierToggle = !documentationQualifierToggle; updateHealthCategory("historicContext")'>More Info</button>
-                                        </div>
-                                        <img :src="getGraphic(record.dataBiography.historicContext.healthCheckScore)" alt="Historic Context Documentation Score">
-
-                                    </div>
-                                    <div class="resource-box">
-                                        <div class="is-flex is-flex-direction-row">
-                                            <h5 class="ml-2 my-1">Potential Future Impact</h5>
-                                            <button class="ml-0 button is-small is-text" @click='documentationQualifierToggle = !documentationQualifierToggle; updateHealthCategory("potentialImpact")'>More Info</button>
-                                        </div>
-                                        <img :src="getGraphic(record.dataBiography.potentialImpact.healthCheckScore)" alt="Potential Future Impact Documentation Score">
-                                    </div>
-                                </div>
-
-                                <div class="modal is-active" v-if="documentationQualifierToggle">
-                                    <div class="modal-background"></div>
-                                    <div class="modal-card">
-                                        <header class="modal-card-head">
-                                        <p class="modal-card-title">Score Explanation</p>
-                                        <button class="delete" @click='documentationQualifierToggle = !documentationQualifierToggle; clearHealthCategory()' aria-label="close"></button>
-                                        </header>
-                                        <section class="modal-card-body">
-                                            <h5 class="mb-2">{{getModalHeaders()}}</h5>
-                                            <p class="is-family-secondary">{{getModalContent()}}</p>
-                                        </section>
-                                        </footer>
-                                    </div>
-                                </div>
+                             <div class= "is-flex is-flex-direction-column ">
+                                 <h5 class = "my-2 mt-1 mb-5">Documentation Health Scores</h5>
+                                <section class="section is-small py-0" v-for="(item, index) in record.dataBiography" :key="index">
+                                    <a class ="categories" target="_blank" class="mx-1 my-2" href="https://geoservices.leventhalmap.org/cartinal/documentation/schema/healthcheck.html">
+                                    <h5 class="ml-2 is-family-secondary"><strong>{{getFieldAlias(index)}} </strong>
+                                    <font-awesome-icon icon="info-circle" ></font-awesome-icon></h5></a>
+                                    <component v-bind:is="getGraphic(item.healthCheckScore)"></component>
+                                    <hideable-box class = "is-family-secondary mx-2 my-1" title="Health score details" hidden>
+                                        <markdown-part class="mx-2 mt-2 mb-4" :source-markdown="item.healthCheckQualifier"></markdown-part>
+                                    </hideable-box> 
+                                    <hr>
+                                </section>
                                 
-       
 
-                            </div>
+                            </div> 
                         </div>
 
                     </div>
@@ -453,6 +442,10 @@
                             <div class="resource-box p-3 my-2" v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
                                  <!-- Every resource has a title -->
                                 <p class="is-size-6"><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
+                                <span class="is-family-secondary" v-if="firstLevelIndex =='documentation'">
+                                    <p v-if="secondLevelItem.maintainedBy">{{secondLevelItem.maintainedBy}}</p>
+                                    <p></p>
+                                </span>
                                  <!-- Unique author + publication date display for tutorials -->
                                 <span class="is-family-secondary" v-if="firstLevelIndex =='tutorials'">
                                     <p v-if="secondLevelItem.author || secondLevelItem.datePublished">{{secondLevelItem.author}}, {{secondLevelItem.datePublished.substring(0,4)}}</p>
@@ -481,21 +474,14 @@
 
                         <!-- Data Recipe Heading -->
                         <p class="panel-heading">
-                            Where the Data Came From
+                            Data Genealogy
                         </p>
                         
                         <!-- DATA RECIPE Content -->
 
-                        <!-- Brief Genealogy Description -->
-                        <div class="panel-block">
-                            <div class="py-2">
-                                <p class="is-family-secondary">{{record.coreCitation.briefGenealogy}}</p>
-                            </div>
-                        </div>
-
                         <div class="panel-block" v-if="allIngredients.length > 0">
                             <div class="py-2">
-                                <h6 class="is-size-6">Source Datasets</h6>
+                                <h5 class = "my-2 mx-2">Source Datasets</h5>
                                 <div class="resource-box p-3 mb-2 my-2" v-for="ingredient in allIngredients" :key="ingredient.$id">
                                     <!-- Title lable with link to the ingredient  -->
                                     <p class="is-size-6"><router-link :to="'/catalog/' + ingredient.arkID">{{ingredient.title}}</router-link></p>
@@ -507,6 +493,17 @@
                                 
                             </div>
                         </div>
+
+
+                        <!-- Brief Genealogy Description -->
+                        <div class="panel-block">
+                            <div class="py-2">
+                                <h5 class = "my-2 mx-2">Processing Steps</h5>
+                                <markdown-part class="mx-2 mt-2 mb-4" :source-markdown="record.coreCitation.briefGenealogy"></markdown-part>
+                            </div>
+                        </div>
+
+
                     </div>
                     <!-- 🥣 End of Data Recipe section 🥣-->
 
@@ -533,6 +530,13 @@
 import axios from 'axios'
 import HideableBox from './HideableBox.vue'
 import MarkdownPart from './MarkdownPart.vue'
+import NoStars from './NoStars.vue'
+import OneStar from './OneStar.vue'
+import TwoStars from './TwoStars.vue'
+import ThreeStars from './ThreeStars.vue'
+import FourStars from './FourStars.vue'
+import FiveStars from './FiveStars.vue'
+
 
 
 
@@ -540,7 +544,13 @@ export default {
     name: "ViewRecord",
     components: {
        HideableBox,
-       MarkdownPart
+       MarkdownPart,
+       NoStars,
+       OneStar,
+       TwoStars,
+       ThreeStars,
+       FourStars,
+       FiveStars
     },
     data (){
         return {
@@ -619,20 +629,19 @@ export default {
             }
         },
         getGraphic(metadataValue){
-            var imgPath = "";
             if (metadataValue == 0) {
-                imgPath = require('~/assets/score0.png')
-                return imgPath
+                return "no-stars"
             } else if (metadataValue == 1) {
-                imgPath = require('~/assets/score1.png')
-                return imgPath
+                return "one-star"
             } else if (metadataValue == 2) {
-                imgPath = require('~/assets/score2.png')
-                return imgPath
+                return "two-stars"
             } else if (metadataValue == 3) {
-                imgPath = require('~/assets/score3.png')
-                return imgPath
-
+                return "three-stars"
+            }
+            else if (metadataValue == 4) {
+                return "four-stars"
+            } else if (metadataValue == 5) {
+                return "five-stars"
             }
         },
         getModalHeaders(){
@@ -861,11 +870,14 @@ export default {
 .resource-box {
     border: 2px solid #f0f0f0;
     border-radius: 3px;
+    flex-basis: 100%;
 }
 
 .dev{
     background-color:lime;
 }
+
+
 
 
 </style>

@@ -259,39 +259,33 @@
                                     <div v-if="record.dataLifecycle.description.contextProvider">
                                         <h5>Describing</h5>
                                         <div class="content">
-                                            <ul class= "is-family-secondary mt-1" >
-                                                <li>The name of the person who described this dataset is
-                                                    <strong>{{record.dataLifecycle.description.contextProvider.name}}</strong>. They are the data <strong>{{record.dataLifecycle.description.contextProvider.relationshipToData}}</strong>.
-                                                </li>
-                                            </ul>
+                                            <p class= "is-family-secondary mt-1" >
+                                               <strong>Context Provider:</strong> The name of the person who wrote this metadata is
+                                                    {{record.dataLifecycle.description.contextProvider.name}}. They are the Data {{record.dataLifecycle.description.contextProvider.relationshipToData}}.
+                                            </p>
                                         </div>
                                         <h5>Maintaining</h5>
                                         <div class="content">
-                                            <ul class= "is-family-secondary mt-1" >
-                                                <li>The organization responsible for maintaining this dataset is <strong>{{record.dataLifecycle.maintenance.officialMaintainer}}</strong>. </li>
-                                                <li v-if="record.dataLifecycle.maintenance.maintenanceFrequency">{{record.dataLifecycle.maintenance.maintenanceFrequency}}.</li>
+                                            <div class= "is-family-secondary mt-1" >
+                                                <p class="my-1"><strong>Maintainer: </strong>The organization responsible for maintaining this dataset is {{record.dataLifecycle.maintenance.officialMaintainer}}. </p>
+                                                <p class="my-1" v-if="record.dataLifecycle.maintenance.maintenanceFrequency">
+                                                <strong>Maintenance Frequency:</strong> {{record.dataLifecycle.maintenance.maintenanceFrequency}}.</p>
                                                
-                                            </ul>
+                                            </div>
                                         </div>
                                         <h5 v-if="record.dataLifecycle.description.contextOnBehalfOf">Processing</h5>
                                         <div class="content" v-if="record.dataLifecycle.description.contextOnBehalfOf">
-                                            <ul class= "is-family-secondary mt-1" >
-                                                <li>
-                                                    <strong>{{record.dataLifecycle.description.contextOnBehalfOf.name}}</strong> is the data <strong>{{record.dataLifecycle.description.contextOnBehalfOf.relationshipToData}}</strong>.
-                                                </li>
+                                            <div class= "is-family-secondary mt-1" >
+                                                 <strong>Processor:</strong> {{record.dataLifecycle.description.contextOnBehalfOf.name}} is the Data {{record.dataLifecycle.description.contextOnBehalfOf.relationshipToData}}.
                                                 <div class = "content" v-if="record.dataLifecycle.processing.choices">
-                                                   <li v-for="(item, index) in record.dataLifecycle.processing.choices" :key="index" class="mt-1">{{item.author}} recorded their <strong>thoughts and choices</strong>  in their own words as a {{item.format}}: <a target="_blank" :href="item.relatedResourceURL"><strong>{{item.title}}</strong></a>
-                                                   </li> 
+                                                   <p v-for="(item, index) in record.dataLifecycle.processing.choices" :key="index" class="mt-1"><strong>Processor's Record:</strong> {{item.author}} recorded their thoughts and choices in their own words as a {{item.format}}: <a target="_blank" :href="item.relatedResourceURL">{{item.title}}.</a>
+                                                   </p> 
                                                 </div>
                                                 <div class = "content" v-if="record.dataLifecycle.processing.tools">
-                                                   <li class="mt-1" v-for="(item, index) in record.dataLifecycle.processing.tools" :key="index"> {{item.author}} shared the <a target="_blank" :href="item.relatedResourceURL"><strong>{{item.format}}</strong></a> they created to process this data.
-                                                   </li> 
+                                                   <p class="mt-1" v-for="(item, index) in record.dataLifecycle.processing.tools" :key="index"> <strong>Processor's Record:</strong> {{item.author}} shared the <a target="_blank" :href="item.relatedResourceURL">{{item.format}}</a> they created to process this data.
+                                                   </p> 
                                                 </div>
-                                                <div class = "content" v-if="record.dataLifecycle.processing">
-                                                   <li v-if="record.dataLifecycle.processing.unknown == true">IT IS TRUE
-                                                   </li> 
-                                                </div>
-                                            </ul>
+                                            </div>
                                         </div>
                                     </div>
                             </div>
@@ -306,71 +300,58 @@
                     <div class="panel" v-if="record.dataBiography">
                         <!-- Data Biography Header -->
                         <p class="panel-heading"> 
-                            Documentation Quality
+                            Can You Trust This Data?
                         </p>
-
-                        <div class ="panel-block" v-if="record.dataBiography">
-                            <div>
-                                <h5 class="mt-1 ml-1">Health Check Scores</h5>
-                                <div class = "content is-family-secondary mx-1 my-2">
-                                    <ul>
-                                        <li>
-                                            It is important for data providers to provide contextualizing documentation along with every dataset.
-                                        </li>
-                                        <li>
-                                            Without this context, it is impossible for data users to know what the dataset can and cannot be used for.
-                                        </li>
-                                        <li>
-                                        The LMEC provides scores on the quality or health of the dataset's original documentation to show how well it usefully contextualizes the data.
-                                        </li>
-                                        <li>
-                                        We rank the documentation for five different context categories: 
-                                        <ul>
-                                            <li>
-                                                Social Justice and Representation
-                                            </li>
-                                            <li>
-                                                Ethical Governance and Public Responsibility
-                                            </li>
-                                            <li>
-                                                Historic Patterns of Systemic Injustice
-                                            </li>
-                                            <li>
-                                                Methodology and Provenance
-                                            </li>
-                                            <li>
-                                                Potential Future Impact
-                                            </li>
-                                        </ul>
-                                        </li>
-                                        <li>
-                                            This dataset was scored by: <strong> {{record.dataLifecycle.description.contextProvider.name}}, LMEC's Data {{record.dataLifecycle.description.contextProvider.relationshipToData}}</strong>.
-                                        </li>
-                                        <li>
-                                        To learn more about our documentation health check evaluations, you can visit our <a href="https://geoservices.leventhalmap.org/cartinal/documentation/schema/healthcheck.html" target="_blank"><strong>Health Score Checklist</strong></a>.
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
 
                         <!-- Data Biography Content  -->
                         <div class="panel-block" v-if="record.dataBiography">
                              <div class= "is-flex is-flex-direction-column ">
-                                 <h5 class = "my-2 mt-1 mb-5">Documentation Health Scores</h5>
-                                <section class="section is-small py-0" v-for="(item, index) in record.dataBiography" :key="index">
-                                    <a class ="categories" target="_blank" class="mx-1 my-2" href="https://geoservices.leventhalmap.org/cartinal/documentation/schema/healthcheck.html">
-                                    <h5 class="ml-2 is-family-secondary"><strong>{{getFieldAlias(index)}} </strong>
-                                    <font-awesome-icon icon="info-circle" ></font-awesome-icon></h5></a>
-                                    <component v-bind:is="getGraphic(item.healthCheckScore)"></component>
-                                    <hideable-box class = "is-family-secondary mx-2 my-1" title="Health score details" hidden>
-                                        <markdown-part class="mx-2 mt-2 mb-4" :source-markdown="item.healthCheckQualifier"></markdown-part>
+                                <section class="section is-small py-0">
+                                    <hideable-box class = "is-family-secondary mt-5" title="Did the data collectors or project designers consider the voices of those who are most likely to be impacted by the dataset?" hidden>
+                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.dataBiography.representation.healthCheckQualifier"></markdown-part>
                                     </hideable-box> 
                                     <hr>
+                                </section>
+                                <section class="section is-small py-0">
+                                    <hideable-box class = "is-family-secondary mt-5" title="Are the data publishers committed to relationships of trust with the public, and if so, how?" hidden>
+                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.dataBiography.publicResponsibility.healthCheckQualifier"></markdown-part>
+                                    </hideable-box> 
+                                    <hr>
+                                </section>
+                                <section class="section is-small py-0">
+                                    <hideable-box class = "is-family-secondary mt-5" title="What actions have the data creators taken to avoid the perpetuation of systemic injustice or the repeat of past harms?" hidden>
+                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.dataBiography.historicContext.healthCheckQualifier"></markdown-part>
+                                    </hideable-box> 
+                                    <hr>
+                                </section>
+                                <section class="section is-small py-0">
+                                    <hideable-box class = "is-family-secondary mt-5" title="Can we fully understand the processes and methodologies by which the data was funded, collected and analyzed?" hidden>
+                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.dataBiography.methodology.healthCheckQualifier"></markdown-part>
+                                    </hideable-box> 
+                                    <hr>
+                                </section>
+                                <section class="section is-small py-0">
+                                    <hideable-box class = "is-family-secondary mt-5 mb-5" title="Can we understand the potential future impact of this dataset, including what it should and should not be used to show?" hidden>
+                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.dataBiography.potentialImpact.healthCheckQualifier"></markdown-part>
+                                    </hideable-box> 
                                 </section>
                                 
 
                             </div> 
+                        </div>
+
+                        <div class ="panel-block" v-if="record.dataBiography">
+                            <div>
+                                <h5 class="mt-1 ml-1">How we evaluate the documentation health</h5>
+                                <div class = "content is-family-secondary mx-1 my-2">
+                                    <p>
+                                        This dataset was scored by: <strong> {{record.dataLifecycle.description.contextProvider.name}}, LMEC's Data {{record.dataLifecycle.description.contextProvider.relationshipToData}}</strong>.
+                                    </p>
+                                    <p>
+                                    To learn more about our documentation health check evaluations, you can visit our <a href="https://geoservices.leventhalmap.org/cartinal/documentation/schema/healthcheck.html" target="_blank"><strong>Health Score Checklist</strong></a>.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -530,12 +511,7 @@
 import axios from 'axios'
 import HideableBox from './HideableBox.vue'
 import MarkdownPart from './MarkdownPart.vue'
-import NoStars from './NoStars.vue'
-import OneStar from './OneStar.vue'
-import TwoStars from './TwoStars.vue'
-import ThreeStars from './ThreeStars.vue'
-import FourStars from './FourStars.vue'
-import FiveStars from './FiveStars.vue'
+
 
 
 
@@ -544,13 +520,7 @@ export default {
     name: "ViewRecord",
     components: {
        HideableBox,
-       MarkdownPart,
-       NoStars,
-       OneStar,
-       TwoStars,
-       ThreeStars,
-       FourStars,
-       FiveStars
+       MarkdownPart
     },
     data (){
         return {

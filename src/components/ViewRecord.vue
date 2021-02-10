@@ -342,10 +342,10 @@
 
                         <div class ="panel-block" v-if="record.dataBiography">
                             <div>
-                                <h5 class="mt-1 ml-1">How we evaluate the documentation health</h5>
+                                <h5 class="mt-1 ml-1">How we evaluate documentation health</h5>
                                 <div class = "content is-family-secondary mx-1 my-2">
                                     <p>
-                                        This dataset was scored by: <strong> {{record.dataLifecycle.description.contextProvider.name}}, LMEC's Data {{record.dataLifecycle.description.contextProvider.relationshipToData}}</strong>.
+                                        This dataset's documentation health was evaluated by: <strong> {{record.dataLifecycle.description.contextProvider.name}}, LMEC's Data {{record.dataLifecycle.description.contextProvider.relationshipToData}}</strong>.
                                     </p>
                                     <p>
                                     To learn more about our documentation health check evaluations, you can visit our <a href="https://geoservices.leventhalmap.org/cartinal/documentation/schema/healthcheck.html" target="_blank"><strong>Health Score Checklist</strong></a>.

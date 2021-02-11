@@ -15,103 +15,76 @@
 
 <template>
 <!-- VIEW RECORD: big container for whole records page -->
-<!-- py-4 adds 1rem padding on the top and bottom -->
+<!-- py-4 denotes Bulma style notation for adding padding on the top and bottom -->
 <section class="view-record py-4">
 
-    <!-- 🧺 Main content container, if the metadata has loaded 🧺-->
-    <!-- 🧺 This data flag is by default false & turned true via a successful async call 🧺  -->
+    <!-- MAIN CONTENT CONTAINER -->
+    <!-- This data flag is by default false & turned true via a successful async call  -->
     <div v-if="recordLoaded">
 
-        <!-- ⬆️ Container to hold dataset header info ⬆️ -->
-        <!-- Includes: title, recordType, and identifier  -->
+        <!-- DATASET HEADER TAGS -->
         <div class="container is-fluid my-2">
-
-            <!-- Dataset title -->
+            <!-- TITLE -->
             <h2 class="title is-size-3">{{record.coreCitation.title}}</h2>
-
             <!-- container to hold tags -->
             <div class="mt-1">
                 <!-- class that achieves the tag grouping -->
                 <div class="field is-grouped is-grouped-multiline">
-
-                    <!-- Dataset vs. Collection tag --> 
+                    <!-- DATASET VS. COLLECTION TAG --> 
                     <!-- Calls function 'recordTypeIcon' to determine which icon to show -->
                     <div class="tag is-medium is-light mr-2">
                         <font-awesome-icon :icon="recordTypeIcon" class="mr-2"></font-awesome-icon> 
                         {{record.coreCitation.recordType}}
                     </div>
-
+                    <!-- GROUPED TAGS -->
                     <div class="tags has-addons">
-
-                        <!-- ID label + icon -->
+                        <!-- DATASET ID LABEL -->
                         <div class="tag is-medium is-light">
                             <font-awesome-icon icon="anchor" class="mr-2"></font-awesome-icon>
                             Identifier
                         </div>
-
-                        <!-- Record identifier -->
+                        <!-- DATASET ID -->
                         <div class="tag is-medium is-light is-info mr-2">
                             {{record.coreCitation.$id}}
                         </div>
-
-                        <!-- Published label + icon -->
+                        <!-- PUBLISHED DATE LABEL -->
                         <div class="tag is-medium is-light" v-if = "record.subjectTagging.temporal.temporalPublication" >
                             <font-awesome-icon icon="clock" class="mr-2"></font-awesome-icon>
                             Published
                         </div>
-
-                        <!-- Record identifier -->
+                        <!-- PUBLISHED DATE -->
                         <div v-if = "record.subjectTagging.temporal.temporalPublication" class="tag is-medium is-light is-info">
                             {{record.subjectTagging.temporal.temporalPublication.singularExpressionValue}}
                         </div>
-                        
-        
                     </div>
-
-
-
-
-
                 </div>
             </div>
-
+        <!-- END OF HEADER TAGS  -->
         </div>
-        <!-- page divider -->
         <hr>
-        <!-- Container to hold dataset brief description -->
+        <!-- SHORT DESCRIPTION IN THE HEADER -->
         <div class="container is-fluid my-4">
             <div>
                 <p class="is-family-secondary">{{record.coreCitation.briefDescription}}</p>
             </div>
         </div>
-        <!-- page divider -->
         <hr>
-        <!-- ⬆️ End of DATATSET HEADER content ⬆️  -->
+        <!-- END OF DATASET HEADER CONTENT -->
 
-
-
-        <!-- 🥇 MOST PROMINENTLY FEATURED SECTIONS CONTAINER  🥇 -->
+        <!-- TOP ROW OF PANEL BLOCKS -->
         <!-- core citations + data endpoints sections-->
         <div class="container is-fluid">
-
             <!-- Holds the columns! -->
             <div class="columns">
-
-                <!-- 👈 Left-hand column content 👈  -->
+                <!-- Left-hand column -->
                 <div class="column is-two-thirds">
-
-                    <!-- 📇 CORE CITATION SECTION 📇 -->
+                    <!-- CORE CITATION SECTION  -->
                     <div class="panel is-primary">
-
-                        <!-- Core Citation Header -->
+                        <!-- CORE CITATION PANEL TITLE -->
                         <p class="panel-heading">
                             About this data
                         </p>
-
-                        <!-- Core Citation Content -->
-                        <!-- Each "panel block" is a field -->
-
-                        <!-- Full Notes  -->
+                        <!-- LONG DESCRIPTION -->
                         <div class="panel-block">
                             <div class="py-2">
                                 <div class = "markdown px-2 py-2">
@@ -120,8 +93,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Important Attributes -->
+                        <!-- KEY ATTRIBUTES -->
                         <div v-if="record.coreCitation.importantAttributes" class="panel-block">
                             <div class="py-2">
                                 <h5 class="mb-2">Key Attributes</h5>
@@ -134,9 +106,7 @@
                                 </div>
                             </div>
                         </div>
-
-
-                        <!-- Geometry -->
+                        <!-- GEOMETRY -->
                         <div v-if="record.coreCitation.includesDataTypes" class="panel-block">
                             <div class="py-2">
                             <h5>Geometry</h5>
@@ -145,8 +115,7 @@
                             </div>
                             </div>
                         </div>
-
-                        <!-- Time Period  -->
+                        <!-- TIME PERIOD  -->
                         <div class="panel-block" v-if="record.subjectTagging.temporal.temporalRepresentation">
                             <div class="py-2">
                                 <h5>Time Period</h5>
@@ -158,152 +127,122 @@
                                 </div>
                             </div>
                         </div>
-
-
-                        <!-- Official Maintainer / Source -->
+                        <!-- OFFICIAL MAINTAINER / SOURCE -->
                         <div class="panel-block">
                             <div class="py-2">
                             <h5>Maintained by</h5>
                             <p class="is-family-secondary">{{record.dataLifecycle.maintenance.officialMaintainer}}</p>
                             </div>
                         </div>
-
-                        <!-- Access Conditions  -->
+                        <!-- ACCESS CONDITIONS  -->
                         <div class="panel-block">
                             <div class="py-2">
                             <h5>Access conditions</h5>
                             <p class="is-family-secondary">{{record.coreCitation.accessCondition}}</p>
                             </div>
                         </div>
-
-                        <!-- Suggested Entry Point = True -->
-                        <!-- <div class="panel-block">
-                            <div class="py-2">
-                                <h5 class="mb-3">Suggested places to start</h5>
-                            
-                                <div v-if ="allSuggested" class = "content">
-                                    <div class = "is-family-secondary" v-for="(item, index) in allSuggested" :key="index">
-                                        <div>
-                                            <strong> <a  :href="item.link">{{item.title}}</a></strong>  <p class="tag mr-2">{{item.type}} </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div> -->
                     </div>
-                    <!-- 📇 End of Core Citation Section 📇 -->
+                    <!-- END OF CORE CITATION SECTION -->
                 </div>
-                <!-- end of 2/3 columns -->
+                <!-- END OF LEFT HAND COLUMN IN THE TOP ROW OF CONTENT -->
 
-                <!-- columns herein are 1/3 of page -->
+                <!-- START TOP RIGHT HAND COLUMN -->
                 <div class="column is-one-third">
-
-                    <!-- 🧮 DATA ENDPOINTS SECTION 🧮 -->
+                    <!-- DATA ENDPOINT SECTION -->
                     <div class="panel is-info" v-if="record.dataEndpoints">
-
-                        <!-- Data Endpoints Heading -->
+                        <!-- DATA ENDPOINTS PANEL TITLE -->
                         <p class="panel-heading">
                             Get this data
                         </p>
-
                         <!-- Iteratively creates panel blocks for each endpoint -->
                         <!-- Sorts them based on whether or not they are 'suggested'  -->
                         <div class="panel-block" v-for="endpoint in this.sortedEndpoints" v-bind:key="endpoint.$id">
-                            
                             <!-- Little dataset file icon  -->
-                            <div class="panel-icon"><font-awesome-icon icon="file-alt"></font-awesome-icon></div>
-                            
+                            <div class="panel-icon">
+                                <font-awesome-icon icon="file-alt"></font-awesome-icon>
+                            </div>
                             <!-- Text for each endpoint  -->
                             <div class="endpoint-text">
-
                                 <!-- Link with title label that navigates to the data  -->
                                 <p class="is-size-5"><a :href="endpoint.accessURL">{{endpoint.title}}</a></p>
-
                                 <!-- Host label -->
                                 <p class="is-size-7 mt-1">{{endpoint.source}}</p>
-
-                                <!-- tag for suggested endpoints -->
-                                <!-- was incorrectly printing for all, regardless of flag status, address when returning to flags work -->
-                                <!-- <div class="tag is-light is-success mt-2" v-if="endpoint.suggestedEntryPoint"><font-awesome-icon icon="smile" class="mr-2"></font-awesome-icon> Suggested</div> -->
                             </div>
                         </div>
                     </div>
-                    <!-- 🧮 End of Data Endpoints Section 🧮 -->
+                    <!-- END OF DATA ENDPOINT SECTION -->
                 </div>
             </div>
         </div>
-        <!-- 🥇 End of most prominently featured sections container 🥇 -->
-        <!-- page divider --> 
+        <!-- END OF TOP CORE CITATION / ENDPOINTS SECTION -->
         <hr>
 
-        <!-- 🥈 ALL THE ONE-HALF PAGE ELEMENTS !!! (Secondary important info) !!! 🥈 -->
+        <!-- ALL THE BOTTOM ONE-HALF PAGE ELEMENTS !!! -->
         <div class="container is-fluid pb-4">
-
             <!-- Holds the columns -->
             <div class="columns">
 
-                <!-- 👈 Left-hand 1/2 columns content 👈  -->
+                <!-- START BOTTOM LEFT-HAND COLUMNS (Lifecycle + Documentation) -->
                 <div class="column is-half">
 
-                    <!-- 🐛 DATA LIFECYCLE SECTION 🐛 -->
+                    <!-- DATA LIFECYCLE SECTION -->
                     <div class="panel">
-                        <!-- Data Lifecycle Header -->
+                        <!-- DATA LIFECYCLE PANEL TITLE -->
                         <p class="panel-heading">
                             <font-awesome-icon icon="user-check" class="mr-2"></font-awesome-icon>People Involved in the Data Lifecycle
                         </p>
 
-                        <!-- Description  -->
+                        <!-- DATA LIFECYCLE CONTENT -->
                         <div class="panel-block">
                             <div class="py-2" v-if="record.dataLifecycle.description">
-                                    <div v-if="record.dataLifecycle.description.contextProvider">
-                                        <h5>Describing</h5>
-                                        <div class="content">
-                                            <p class= "is-family-secondary mt-1" >
-                                               <strong>Context Provider:</strong> The name of the person who wrote this metadata is
-                                                    {{record.dataLifecycle.description.contextProvider.name}}. They are the Data {{record.dataLifecycle.description.contextProvider.relationshipToData}}.
-                                            </p>
+                                <!-- DESCRIPTION -->
+                                <div v-if="record.dataLifecycle.description.contextProvider">
+                                    <h5>Describing</h5>
+                                    <div class="content">
+                                        <p class= "is-family-secondary mt-1" >
+                                            <strong>Context Provider:</strong> The name of the person who wrote this metadata is
+                                            {{record.dataLifecycle.description.contextProvider.name}}. They are the Data {{record.dataLifecycle.description.contextProvider.relationshipToData}}.
+                                        </p>
+                                    </div>
+                                    <!-- MAINTENANCE -->
+                                    <h5>Maintaining</h5>
+                                    <div class="content" v-if="record.dataLifecycle.maintenance">
+                                        <div class= "is-family-secondary mt-1" >
+                                            <p class="my-1"><strong>Maintainer: </strong>The organization responsible for maintaining this dataset is {{record.dataLifecycle.maintenance.officialMaintainer}}. </p>
+                                            <p class="my-1" v-if="record.dataLifecycle.maintenance.maintenanceFrequency">
+                                            <strong>Maintenance Frequency:</strong> {{record.dataLifecycle.maintenance.maintenanceFrequency}}.</p>
                                         </div>
-                                        <h5>Maintaining</h5>
-                                        <div class="content">
-                                            <div class= "is-family-secondary mt-1" >
-                                                <p class="my-1"><strong>Maintainer: </strong>The organization responsible for maintaining this dataset is {{record.dataLifecycle.maintenance.officialMaintainer}}. </p>
-                                                <p class="my-1" v-if="record.dataLifecycle.maintenance.maintenanceFrequency">
-                                                <strong>Maintenance Frequency:</strong> {{record.dataLifecycle.maintenance.maintenanceFrequency}}.</p>
-                                               
+                                    </div>
+                                    <!-- PROCESSING -->
+                                    <h5 v-if="record.dataLifecycle.description.contextOnBehalfOf">Processing</h5>
+                                    <div class="content" v-if="record.dataLifecycle.description.contextOnBehalfOf">
+                                        <div class= "is-family-secondary mt-1" >
+                                                <strong>Processor:</strong> {{record.dataLifecycle.description.contextOnBehalfOf.name}} is the Data {{record.dataLifecycle.description.contextOnBehalfOf.relationshipToData}}.
+                                            <div class = "content" v-if="record.dataLifecycle.processing.choices">
+                                                <p v-for="(item, index) in record.dataLifecycle.processing.choices" :key="index" class="mt-1"><strong>Processor's Record:</strong> {{item.author}} recorded their thoughts and choices in their own words as a {{item.format}}: <a target="_blank" :href="item.relatedResourceURL">{{item.title}}.</a>
+                                                </p> 
                                             </div>
-                                        </div>
-                                        <h5 v-if="record.dataLifecycle.description.contextOnBehalfOf">Processing</h5>
-                                        <div class="content" v-if="record.dataLifecycle.description.contextOnBehalfOf">
-                                            <div class= "is-family-secondary mt-1" >
-                                                 <strong>Processor:</strong> {{record.dataLifecycle.description.contextOnBehalfOf.name}} is the Data {{record.dataLifecycle.description.contextOnBehalfOf.relationshipToData}}.
-                                                <div class = "content" v-if="record.dataLifecycle.processing.choices">
-                                                   <p v-for="(item, index) in record.dataLifecycle.processing.choices" :key="index" class="mt-1"><strong>Processor's Record:</strong> {{item.author}} recorded their thoughts and choices in their own words as a {{item.format}}: <a target="_blank" :href="item.relatedResourceURL">{{item.title}}.</a>
-                                                   </p> 
-                                                </div>
-                                                <div class = "content" v-if="record.dataLifecycle.processing.tools">
-                                                   <p class="mt-1" v-for="(item, index) in record.dataLifecycle.processing.tools" :key="index"> <strong>Processor's Record:</strong> {{item.author}} shared the <a target="_blank" :href="item.relatedResourceURL">{{item.format}}</a> they created to process this data.
-                                                   </p> 
-                                                </div>
+                                            <div class = "content" v-if="record.dataLifecycle.processing.tools">
+                                                <p class="mt-1" v-for="(item, index) in record.dataLifecycle.processing.tools" :key="index"> <strong>Processor's Record:</strong> {{item.author}} shared the <a target="_blank" :href="item.relatedResourceURL">{{item.format}}</a> they created to process this data.
+                                                </p> 
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </div>
                         </div>
-
-                        
                     </div>
-                    <!-- 🐛 End of Data Lifecycle Section 🐛 -->
+                    <!-- END OF DATA LIFECYCLE SECTION -->
 
 
-                    <!-- 📖 DATA BIOGRAPHY SECTION 📖 -->
+                    <!-- DOCUMENTATION EVALUATION SECTION -->
                     <div class="panel" v-if="record.dataBiography">
-                        <!-- Data Biography Header -->
+                        <!-- DOCUMENTATION EVALUATION TITLE HEADER -->
                         <p class="panel-heading"> 
                             Can You Trust This Data?
                         </p>
 
-                        <!-- Data Biography Content  -->
+                        <!-- DOCUMENTATION EVALUATION CONTENT -->
                         <div class="panel-block" v-if="record.dataBiography">
                              <div class= "is-flex is-flex-direction-column ">
                                 <section class="section is-small py-0">
@@ -335,131 +274,80 @@
                                         <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.dataBiography.potentialImpact.healthCheckQualifier"></markdown-part>
                                     </hideable-box> 
                                 </section>
-                                
-
                             </div> 
                         </div>
 
+                        <!-- DOCUMENTATION HEALTH RUBRIC SECTION -->
                         <div class ="panel-block" v-if="record.dataBiography">
                             <div>
-                                <h5 class="mt-1 ml-1">How we evaluate documentation health</h5>
-                                <div class = "content is-family-secondary mx-1 my-2">
-                                    <p>
-                                        This dataset's documentation health was evaluated by: <strong> {{record.dataLifecycle.description.contextProvider.name}}, LMEC's Data {{record.dataLifecycle.description.contextProvider.relationshipToData}}</strong>.
-                                    </p>
-                                    <p>
-                                    To learn more about our documentation health check evaluations, you can visit our <a href="https://geoservices.leventhalmap.org/cartinal/documentation/schema/healthcheck.html" target="_blank"><strong>Health Score Checklist</strong></a>.
-                                    </p>
+                                <h5 class="mb-2"><font-awesome-icon icon="heartbeat" class="mr-2"></font-awesome-icon>How we evaluate documentation health</h5>
+                                <div class = "content is-family-secondary mx-1">
+                                                                        <p class ="my-1"><strong>Evaluation Checklist:</strong> <a href="https://geoservices.leventhalmap.org/cartinal/documentation/schema/healthcheck.html" target="_blank">Healthy Documentation Checklist</a></p>
+                                    <p class ="my-1"><strong>Evaluator:</strong> {{record.dataLifecycle.description.contextProvider.name}}, LMEC's Data {{record.dataLifecycle.description.contextProvider.relationshipToData}}</p>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                    <!-- 📖 End of Data Biography Section 📖 -->
-
-                    
-                    
-                    <!-- TAKEAWAYS -->
-                    <!-- <div class="panel" v-if="allMissing.length > 0 ">
-                        <!-- Missing context header -->
-                        <!-- <p class="panel-heading">
-                            Missing Information
-                        </p>
-
-                        <div class= "panel-block is-family-secondary">
-                            <p>Information that would have been helpful for better understanding this dataset which is not prominently featured or easily discoverable by the maintainter's official documentation</p>
-                        </div> -->
-
-                        <!-- Missing Content -->
-                        <!-- <div class="panel-block is-family-secondary" v-for="(item, index) in allMissing" :key="index">                               
-                                <ul>
-                                    <li><a target="_blank" :href="'https://geoservices.leventhalmap.org/cartinal/documentation/schema/' + item.property +'.html' "  ><strong>{{getFieldAlias(item.property)}}  </strong></a></li>
-                                </ul>
-                        </div>
-
-                    </div> --> 
-
-
-
-                    <!-- 🤷🏻‍♀️ MISSING CONTEXT SECTION 🤷🏻‍♀️ -->
-                    <!-- <div class="panel" v-if="allMissing.length > 0 "> -->
-                        <!-- Missing context header -->
-                        <!-- <p class="panel-heading">
-                            Missing Information
-                        </p>
-                        <div class= "panel-block is-family-secondary">
-                            <p>Information that would have been helpful for better understanding this dataset which is not prominently featured or easily discoverable by the maintainter's official documentation</p>
-                        </div> -->
-                        <!-- Missing Content -->
-                        <!-- <div class="panel-block is-family-secondary" v-for="(item, index) in allMissing" :key="index">                               
-                                <ul>
-                                    <li><a target="_blank" :href="'https://geoservices.leventhalmap.org/cartinal/documentation/schema/' + item.property +'.html' "  ><strong>{{getFieldAlias(item.property)}}  </strong></a></li>
-                                </ul>
-                        </div>
-                    </div> -->
-                    <!-- 🤷🏻‍♀️ End of missing context section 🤷🏻‍♀️ -->
+                    <!-- END OF DOCUMENTATION EVALUATION SECTION -->
                 </div> 
-                <!-- 👈 End of left-hand 1/2 columns content 👈  -->
+                <!-- END OF BOTTOM LEFT HAND COLUMNS  -->
 
 
 
-                <!-- 👉 Right-hand 1/2 columns content 👉 -->
+                <!-- START BOTTOM RIGHT COLUMNS (Related Resources + Data Genealogy Sections) -->
                 <div class="column is-half">
                     
-                    <!-- 🌌 RELATED RESOURCES SECTION 🌌 -->
+                    <!-- RELATED RESOURCES SECTION -->
                     <div class="panel" v-if="record.resourceConstellation">
-                        <!-- Related Resources Heading -->
+                        <!-- RELATED RESOURCES PANEL TITLE -->
                         <p class="panel-heading">
                             Related Resources
                         </p>
 
-                        <!-- Related Resources Content  -->
+                        <!-- RELATED RESOURCES CONTENT -->
                         <div class="panel-block" v-for="(firstLevelItem, firstLevelIndex) in record.resourceConstellation" :key="firstLevelIndex">
                             <div class="p-2">
-
-                            <!-- Creates panel headings for all the resource sub-sections  -->
+                                <!-- Creates panel headings for all the resource sub-sections  -->
                                 <h6 class="is-size-6">{{getFieldAlias(firstLevelIndex)}}</h6>
-                             <!-- Within the different categories, each item  -->
-                            <div class="resource-box p-3 my-2" v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
-                                 <!-- Every resource has a title -->
-                                <p class="is-size-6"><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
-                                <span class="is-family-secondary" v-if="firstLevelIndex =='documentation'">
-                                    <p v-if="secondLevelItem.maintainedBy">{{secondLevelItem.maintainedBy}}</p>
-                                    <p></p>
-                                </span>
-                                 <!-- Unique author + publication date display for tutorials -->
-                                <span class="is-family-secondary" v-if="firstLevelIndex =='tutorials'">
-                                    <p v-if="secondLevelItem.author || secondLevelItem.datePublished">{{secondLevelItem.author}}, {{secondLevelItem.datePublished.substring(0,4)}}</p>
-                                    <p></p>
-                                </span>
-                                 <!-- Unique author, publisher + date display for published works  -->
-                                <span class="is-family-secondary" v-if="firstLevelIndex =='publishedWorks'">
-                                    <p>{{secondLevelItem.author}}, {{secondLevelItem.publisher}}, {{secondLevelItem.datePublished.substring(0,4)}}.</p>
-                                </span>
-                                 <!-- Only codebooks have maintainedBy  -->
-                                <span class="is-family-secondary" v-if="firstLevelIndex =='codebooks'">
-                                    <p>{{secondLevelItem.maintainedBy}}</p>
-                                </span>
-                                 <!-- Every resource has notes  -->
-                                <p class="is-family-secondary">{{secondLevelItem.notes}}</p>
-                            </div>
+                                <!-- Within the different categories, each item  -->
+                                <div class="resource-box p-3 my-2" v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
+                                    <!-- Every resource has a title -->
+                                    <p class="is-size-6"><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
+                                    <div class="is-family-secondary" v-if="firstLevelIndex =='documentation'">
+                                        <p v-if="secondLevelItem.maintainedBy">{{secondLevelItem.maintainedBy}}</p>
+                                        <p></p>
+                                    </div>
+                                    <!-- Unique author + publication date display for tutorials -->
+                                    <div class="is-family-secondary" v-if="firstLevelIndex =='tutorials'">
+                                        <p v-if="secondLevelItem.author || secondLevelItem.datePublished">{{secondLevelItem.author}}, {{secondLevelItem.datePublished.substring(0,4)}}</p>
+                                        <p></p>
+                                    </div>
+                                    <!-- Unique author, publisher + date display for published works  -->
+                                    <div class="is-family-secondary" v-if="firstLevelIndex =='publishedWorks'">
+                                        <p>{{secondLevelItem.author}}, {{secondLevelItem.publisher}}, {{secondLevelItem.datePublished.substring(0,4)}}.</p>
+                                    </div>
+                                    <!-- Only codebooks have maintainedBy  -->
+                                    <div class="is-family-secondary" v-if="firstLevelIndex =='codebooks'">
+                                        <p>{{secondLevelItem.maintainedBy}}</p>
+                                    </div>
+                                    <!-- Every resource has notes  -->
+                                    <p class="is-family-secondary">{{secondLevelItem.notes}}</p>
+                                </div>
                             </div>
                         </div>
                         
                     </div>
-                    <!-- 🌌 End of Related Resources Section 🌌 -->
+                    <!-- END OF RELATED RESOURCES SECTION -->
 
 
-                    <!-- 🥣 DATA RECIPE SECTION 🥣 -->
+                    <!-- DATA GENEALOGY SECTION -->
                     <div class="panel" v-if="allIngredients.length > 0">
-
-                        <!-- Data Recipe Heading -->
+                        <!-- DATA GENEALOGY PANEL TITLE -->
                         <p class="panel-heading">
                             Data Genealogy
                         </p>
                         
-                        <!-- DATA RECIPE Content -->
-
+                        <!-- DATA GENEALOGY SOURCE INGREDIENTS SECTION -->
                         <div class="panel-block" v-if="allIngredients.length > 0">
                             <div class="py-2">
                                 <h5 class = "my-2 mx-2">Source Datasets</h5>
@@ -471,31 +359,27 @@
                                     <!-- Ingredient processing notes -->
                                     <p class="is-family-secondary">{{ingredient.notes}}</p>
                                 </div>
-                                
                             </div>
                         </div>
 
-
-                        <!-- Brief Genealogy Description -->
-                        <div class="panel-block">
+                        <!-- DATA GENEALOGY PROCESSING STEPS -->
+                        <div class="panel-block" v-if="record.coreCitation.briefGenealogy">
                             <div class="py-2">
                                 <h5 class = "my-2 mx-2">Processing Steps</h5>
                                 <markdown-part class="mx-2 mt-2 mb-4" :source-markdown="record.coreCitation.briefGenealogy"></markdown-part>
                             </div>
                         </div>
-
-
                     </div>
-                    <!-- 🥣 End of Data Recipe section 🥣-->
+                    <!-- END OF DATA GENEALOGY SECTION -->
 
                 </div>
-                <!-- 👉 End of right-hand 1/2 columns content 👉 -->     
+                <!-- END BOTTOM RIGHT HAND COLUMNS -->     
             </div> 
         </div>
-        <!-- 🥈 End of the one-half page elements, secondary sections container 🥈 -->
+        <!-- END OF THE ONE-HALF PAGE ELEMENTS -->
 
     </div>
-    <!-- 🧺 End of main content bucket 🧺 -->
+    <!-- END OF THE MAIN CONTENT CONTAINER -->
 
     <!-- ❌ Error message, if the metadata does not load ❌ -->
     <div v-else>
@@ -511,9 +395,6 @@
 import axios from 'axios'
 import HideableBox from './HideableBox.vue'
 import MarkdownPart from './MarkdownPart.vue'
-
-
-
 
 
 export default {
@@ -535,16 +416,9 @@ export default {
             //place to store attributes pulled from ingredient datasets
             allIngredients: [],
             //place to store info about READMEs
-            allRecords: [],
-            //place to store info about actors
-            allActors: [],
-            allMissing: [],
-            allSuggested: [],
-            documentationQualifierToggle: false,
-            healthCategory: ""
+            allRecords: []
         }
     },
-
     computed: {
         // Helper function to map record types onto FA icons. 
         recordTypeIcon: function() { 
@@ -557,8 +431,7 @@ export default {
                 return "asterisk"
             }
         },
-        // Garrett can you comment this
-        // somehow orders the endpoints based on if there is a suggested entrypoint
+        // Orders the endpoints based on if there is a suggested entrypoint
         sortedEndpoints: function() {
             if(this.record.dataEndpoints) {
                 return this.record.dataEndpoints.sort((b,a) => {  return (typeof a.suggestedEntryPoint === "undefined" ? false : a.suggestedEntryPoint) - (typeof b.suggestedEntryPoint === "undefined" ? false : b.suggestedEntryPoint) ; })
@@ -572,14 +445,6 @@ export default {
         updateId(){
             this.recordId = this.$route.params.record_id
             this.$router.go()
-        },
-        updateHealthCategory(categoryValue){
-            this.healthCategory = categoryValue
-            console.log(this.healthCategory)
-        },
-        clearHealthCategory(){
-            this.healthCategory = ''
-            console.log(this.healthCategory)
         },
         //function to split whole path from file name for display
         getFileName(fullpath){
@@ -597,50 +462,6 @@ export default {
                     return realFieldName
                 }
             }
-        },
-        getGraphic(metadataValue){
-            if (metadataValue == 0) {
-                return "no-stars"
-            } else if (metadataValue == 1) {
-                return "one-star"
-            } else if (metadataValue == 2) {
-                return "two-stars"
-            } else if (metadataValue == 3) {
-                return "three-stars"
-            }
-            else if (metadataValue == 4) {
-                return "four-stars"
-            } else if (metadataValue == 5) {
-                return "five-stars"
-            }
-        },
-        getModalHeaders(){
-            if (this.healthCategory == "representation") {
-                return "How does the official documentation address social justice and representation?"
-            } else if (this.healthCategory == "publicResponsibility") {
-                return "How does the official documentation address ethical governance and public responsibility?"
-            } else if (this.healthCategory == "historicContext") {
-                return "How does the official documentation address historic context?"
-            } else if (this.healthCategory == "potentialImpact") {
-                return "How does the official documentation address potential future impact?"
-            } 
-        },
-        getModalContent(){
-            if (this.healthCategory == "representation") {
-                return this.record.dataBiography.representation.healthCheckQualifier
-            }   else if (this.healthCategory == "publicResponsibility") {
-                return this.record.dataBiography.publicResponsibility.healthCheckQualifier
-            } else if (this.healthCategory == "historicContext") {
-                return this.record.dataBiography.historicContext.healthCheckQualifier
-            } else if (this.healthCategory == "potentialImpact") {
-                return this.record.dataBiography.potentialImpact.healthCheckQualifier
-            } 
-        },
-        //display human readable indices
-        humanReadableIndex(inputIndex){
-            var index = parseInt(inputIndex, 10)
-            var index = index + 1
-            return index
         },
         //function to push ingredient attributes to a Vue data object
         getAllIngredients (){
@@ -713,93 +534,6 @@ export default {
                     }
                 }
             } 
-        },
-        getMissing(){
-            var missingProps = {}
-
-            //DATABIO
-            if (!('dataBiography' in this.record)){
-
-            } else {
-                var dataBiography = this.record.dataBiography
-            
-                // data bio, all the normal sections
-                for (const property in dataBiography) {
-                    var secondLevelProp = dataBiography[property]
-                    for (const property in secondLevelProp) {
-                        for (let i = 0; i < secondLevelProp[property].length; i ++){
-                            if (!('contextMissing' in secondLevelProp[property][i])){
-
-                            } else {
-                                missingProps = {"property": property}
-                                this.allMissing.push(missingProps)
-                            }
-                        }
-                    }
-
-
-                    // data bio, weird sections
-                    for (let i = 0; i < dataBiography[property].length; i ++){
-                            if (!('contextMissing' in dataBiography[property][i])){
-
-                            } else {
-                                missingProps = {"property": property}
-                                this.allMissing.push(missingProps)
-                            }
-                    }
-                }
-            }
-
-            //DATA LIFECYCLE
-            if (!('dataLifecycle' in this.record)){
-
-            } else {
-                var dataLifecycle = this.record.dataLifecycle
-            }
-            //maintenance
-            if (!('maintenance' in dataLifecycle)){
-
-            } else {
-                var maintenance = dataLifecycle.maintenance
-                if (!('contextMissing' in maintenance)){
-
-                } else {
-                    missingProps = {"property": "maintenance"}
-                    this.allMissing.push(missingProps)
-                }
-            }
-        },
-        //get the suggested flags && their fieldnames
-        getAllSuggested(){
-            var suggestedProps = {}
-
-            if (!('dataEndpoints' in this.record)){
-
-            } else{
-                var endpoints = this.record.dataEndpoints 
-                for (let i = 0; i < endpoints.length; i ++){
-                    if (endpoints[i].suggestedEntryPoint = true){
-                        suggestedProps = {"type": "Dataset", "title": endpoints[i].title, "link": endpoints[i].accessURL}
-                        this.allSuggested.push(suggestedProps)
-                    }
-                } 
-            }
-
-            if (!('resourceConstellation' in this.record)){
-
-            } else {
-                var resources = this.record.resourceConstellation
-                for (const property in resources) {
-                    for (let i = 0; i < resources[property].length; i ++){
-                        if (resources[property][i].suggestedEntryPoint = true){
-                            suggestedProps = {"type": this.getFieldAlias(property), "title": resources[property][i].title, "link": resources[property][i].relatedResourceURL}
-                            this.allSuggested.push(suggestedProps)
-                        }
-                    }
-
-                }
-            }
-
         }
     },
     mounted() {        
@@ -821,8 +555,6 @@ export default {
                 //run the function to get all the ingredients, too
                 this.getAllIngredients()
                 this.getReadmes()
-                this.getMissing()
-                this.getAllSuggested()
             }).catch(err => {
                 console.log("Couldn't retrieve record metadata")
             })
@@ -842,12 +574,5 @@ export default {
     border-radius: 3px;
     flex-basis: 100%;
 }
-
-.dev{
-    background-color:lime;
-}
-
-
-
 
 </style>

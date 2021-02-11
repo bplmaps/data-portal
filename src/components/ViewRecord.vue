@@ -87,7 +87,7 @@
                         <!-- LONG DESCRIPTION -->
                         <div class="panel-block">
                             <div class="py-2">
-                                <div class = "markdown px-2 py-2">
+                                <div class = "markdown py-2">
                                     <h5>Dataset Overview</h5>
                                     <markdown-part :source-markdown="record.coreCitation.fullNotes"></markdown-part>
                                 </div>

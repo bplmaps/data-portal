@@ -24,6 +24,11 @@
               <ais-refinement-list attribute="filterTagging.geographic.geonames.placeTag" ></ais-refinement-list>
             </div>
 
+            <div class="py-3">
+              <h4 class="title is-size-6">Data Types</h4>
+              <ais-refinement-list attribute="citation.dataTypes" ></ais-refinement-list>
+            </div>
+
           </div>
 
 

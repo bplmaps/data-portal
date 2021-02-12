@@ -54,7 +54,7 @@
                         </div>
                         <!-- PUBLISHED DATE -->
                         <div v-if = "record.filterTagging.temporal.temporalPublication" class="tag is-medium is-light is-info">
-                            {{record.filterTagging.temporal.temporalPublication.singularExpressionValue}}
+                            {{record.filterTagging.temporal.temporalPublication.singleDate}}
                         </div>
                     </div>
                 </div>
@@ -119,10 +119,10 @@
                         <div class="panel-block" v-if="record.filterTagging.temporal.temporalRepresentation">
                             <div class="py-2">
                                 <h5>Time Period</h5>
-                                <div v-if="record.filterTagging.temporal.temporalRepresentation.temporalType == 'singularExpression'">
-                                    <p class="is-family-secondary">{{record.filterTagging.temporal.temporalRepresentation.singularExpressionValue}}</p>
+                                <div v-if="record.filterTagging.temporal.temporalRepresentation.valueType == 'singularExpression'">
+                                    <p class="is-family-secondary">{{record.filterTagging.temporal.temporalRepresentation.singleDate}}</p>
                                 </div>
-                                <div v-if="record.filterTagging.temporal.temporalRepresentation.temporalType == 'temporalRange'">
+                                <div v-if="record.filterTagging.temporal.temporalRepresentation.valueType == 'temporalRange'">
                                     <p class="is-family-secondary">{{record.filterTagging.temporal.temporalRepresentation.startRangeValue}} - {{record.filterTagging.temporal.temporalRepresentation.endRangeValue}}</p>
                                 </div>
                             </div>

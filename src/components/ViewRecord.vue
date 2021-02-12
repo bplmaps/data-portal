@@ -54,7 +54,7 @@
                         </div>
                         <!-- PUBLISHED DATE -->
                         <div v-if = "record.filterTagging.temporal.temporalPublication" class="tag is-medium is-light is-info">
-                            {{record.filterTagging.temporal.temporalPublication.singularExpressionValue}}
+                            {{record.filterTagging.temporal.temporalPublication.singleDate}}
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
         <!-- SHORT DESCRIPTION IN THE HEADER -->
         <div class="container is-fluid my-4">
             <div>
-                <p class="is-family-secondary">{{record.citation.previewDescription}}</p>
+                <p class="is-family-secondary">{{record.citation.shortDescription}}</p>
             </div>
         </div>
         <hr>
@@ -94,12 +94,12 @@
                             </div>
                         </div>
                         <!-- KEY ATTRIBUTES -->
-                        <div v-if="record.citation.importantAttributes" class="panel-block">
+                        <div v-if="record.citation.keyAttributes" class="panel-block">
                             <div class="py-2">
                                 <h5 class="mb-2">Key Attributes</h5>
                                 <div class="container is-fluid px-0">
                                     <div class="field is-grouped is-grouped-multiline">
-                                        <div v-for="(item, index) in record.citation.importantAttributes" :key="index">
+                                        <div v-for="(item, index) in record.citation.keyAttributes" :key="index">
                                             <div class="is-family-secondary tag is-medium is-light mx-2 my-2">{{item}}</div>
                                         </div>
                                     </div>
@@ -107,10 +107,10 @@
                             </div>
                         </div>
                         <!-- GEOMETRY -->
-                        <div v-if="record.citation.includesDataTypes" class="panel-block">
+                        <div v-if="record.citation.dataTypes" class="panel-block">
                             <div class="py-2">
                             <h5>Geometry</h5>
-                            <div class = "content my-0 py-0" v-for="(item, index) in record.citation.includesDataTypes" :key="index">
+                            <div class = "content my-0 py-0" v-for="(item, index) in record.citation.dataTypes" :key="index">
                                 <p class="is-family-secondary">{{item}}</p>
                             </div>
                             </div>
@@ -119,11 +119,11 @@
                         <div class="panel-block" v-if="record.filterTagging.temporal.temporalRepresentation">
                             <div class="py-2">
                                 <h5>Time Period</h5>
-                                <div v-if="record.filterTagging.temporal.temporalRepresentation.temporalType == 'singularExpression'">
-                                    <p class="is-family-secondary">{{record.filterTagging.temporal.temporalRepresentation.singularExpressionValue}}</p>
+                                <div v-if="record.filterTagging.temporal.temporalRepresentation.valueType == 'singularExpression'">
+                                    <p class="is-family-secondary">{{record.filterTagging.temporal.temporalRepresentation.singleDate}}</p>
                                 </div>
-                                <div v-if="record.filterTagging.temporal.temporalRepresentation.temporalType == 'temporalRange'">
-                                    <p class="is-family-secondary">{{record.filterTagging.temporal.temporalRepresentation.startRangeValue}} - {{record.filterTagging.temporal.temporalRepresentation.endRangeValue}}</p>
+                                <div v-if="record.filterTagging.temporal.temporalRepresentation.valueType == 'temporalRange'">
+                                    <p class="is-family-secondary">{{record.filterTagging.temporal.temporalRepresentation.rangeStart}} - {{record.filterTagging.temporal.temporalRepresentation.rangeEnd}}</p>
                                 </div>
                             </div>
                         </div>
@@ -253,25 +253,25 @@
                                 </section>
                                 <section class="section is-small py-0">
                                     <hideable-box class = "is-family-secondary mt-5" title="Are the data publishers committed to relationships of trust with the public, and if so, how?" hidden>
-                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.publicResponsibility.healthCheckQualifier"></markdown-part>
+                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.publicTrust.healthCheckQualifier"></markdown-part>
                                     </hideable-box> 
                                     <hr>
                                 </section>
                                 <section class="section is-small py-0">
                                     <hideable-box class = "is-family-secondary mt-5" title="What actions have the data creators taken to avoid the perpetuation of systemic injustice or the repeat of past harms?" hidden>
-                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.historicContext.healthCheckQualifier"></markdown-part>
+                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.systemicInjustice.healthCheckQualifier"></markdown-part>
                                     </hideable-box> 
                                     <hr>
                                 </section>
                                 <section class="section is-small py-0">
                                     <hideable-box class = "is-family-secondary mt-5" title="Can we understand who funded, collected and analyzed the data, and how?" hidden>
-                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.methodology.healthCheckQualifier"></markdown-part>
+                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.origins.healthCheckQualifier"></markdown-part>
                                     </hideable-box> 
                                     <hr>
                                 </section>
                                 <section class="section is-small py-0">
                                     <hideable-box class = "is-family-secondary mt-5 mb-5" title="Can we understand the potential future impact of this dataset, including what someone should and should not use it for?" hidden>
-                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.potentialImpact.healthCheckQualifier"></markdown-part>
+                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.futureUse.healthCheckQualifier"></markdown-part>
                                     </hideable-box> 
                                 </section>
                             </div> 

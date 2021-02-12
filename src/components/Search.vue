@@ -21,24 +21,13 @@
 
             <div class="py-3">
               <h4 class="title is-size-6">Place subjects</h4>
-              <ais-refinement-list attribute="filterTagging.geographic.geonames.placeTag" ></ais-refinement-list>
+              <ais-refinement-list attribute="filterTagging.geographic.placeTag" ></ais-refinement-list>
             </div>
 
             <div class="py-3">
-              <h4 class="title is-size-6">Maintainer</h4>
-              <ais-refinement-list attribute="peopleLifecycle.maintenance.officialMaintainer" ></ais-refinement-list>
+              <h4 class="title is-size-6">Data Types</h4>
+              <ais-refinement-list attribute="citation.dataTypes" ></ais-refinement-list>
             </div>
-
-            <div class="py-3">
-              <h4 class="title is-size-6">Format</h4>
-              <ais-refinement-list attribute="endpoints.format" ></ais-refinement-list>
-            </div>
-
-            <div class="py-3">
-              <h4 class="title is-size-6">Record Type</h4>
-              <ais-refinement-list attribute="citation.recordType" ></ais-refinement-list>
-            </div>
-
 
           </div>
 
@@ -47,7 +36,7 @@
           <ais-hits>
           <div slot="item" slot-scope="{ item }" @click="$router.push({ path: `/catalog/${getId(item.citation.$id)}` })">
             <a :href="'#/catalog/' + getId(item.citation.$id)"><h2 class="title is-size-5 mb-3">{{ item.citation.title}}</h2></a>
-            <p class="is-family-secondary is-muted is-size-6">{{ item.citation.previewDescription.substring(0,240) }}</p>
+            <p class="is-family-secondary is-muted is-size-6">{{ item.citation.shortDescription.substring(0,240) }}</p>
             <span v-if="item.peopleLifecycle.maintenance.officialMaintainer ==='Leventhal Map & Education Center'" class="tag is-light is-success mt-2"><font-awesome-icon icon="clipboard-check" class="mr-2"></font-awesome-icon> LMEC Maintained</span>
           </div>
 

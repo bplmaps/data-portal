@@ -21,7 +21,7 @@
 
             <div class="py-3">
               <h4 class="title is-size-6">Place subjects</h4>
-              <ais-refinement-list attribute="filterTagging.geographic.geonames.placeTag" ></ais-refinement-list>
+              <ais-refinement-list attribute="filterTagging.geographic.placeTag" ></ais-refinement-list>
             </div>
 
             <div class="py-3">

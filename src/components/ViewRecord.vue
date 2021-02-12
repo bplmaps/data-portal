@@ -123,7 +123,7 @@
                                     <p class="is-family-secondary">{{record.filterTagging.temporal.temporalRepresentation.singleDate}}</p>
                                 </div>
                                 <div v-if="record.filterTagging.temporal.temporalRepresentation.valueType == 'temporalRange'">
-                                    <p class="is-family-secondary">{{record.filterTagging.temporal.temporalRepresentation.startRangeValue}} - {{record.filterTagging.temporal.temporalRepresentation.endRangeValue}}</p>
+                                    <p class="is-family-secondary">{{record.filterTagging.temporal.temporalRepresentation.rangeStart}} - {{record.filterTagging.temporal.temporalRepresentation.rangeEnd}}</p>
                                 </div>
                             </div>
                         </div>

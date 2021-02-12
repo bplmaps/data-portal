@@ -65,7 +65,7 @@
         <!-- SHORT DESCRIPTION IN THE HEADER -->
         <div class="container is-fluid my-4">
             <div>
-                <p class="is-family-secondary">{{record.citation.previewDescription}}</p>
+                <p class="is-family-secondary">{{record.citation.shortDescription}}</p>
             </div>
         </div>
         <hr>
@@ -94,12 +94,12 @@
                             </div>
                         </div>
                         <!-- KEY ATTRIBUTES -->
-                        <div v-if="record.citation.importantAttributes" class="panel-block">
+                        <div v-if="record.citation.keyAttributes" class="panel-block">
                             <div class="py-2">
                                 <h5 class="mb-2">Key Attributes</h5>
                                 <div class="container is-fluid px-0">
                                     <div class="field is-grouped is-grouped-multiline">
-                                        <div v-for="(item, index) in record.citation.importantAttributes" :key="index">
+                                        <div v-for="(item, index) in record.citation.keyAttributes" :key="index">
                                             <div class="is-family-secondary tag is-medium is-light mx-2 my-2">{{item}}</div>
                                         </div>
                                     </div>
@@ -107,10 +107,10 @@
                             </div>
                         </div>
                         <!-- GEOMETRY -->
-                        <div v-if="record.citation.includesDataTypes" class="panel-block">
+                        <div v-if="record.citation.dataTypes" class="panel-block">
                             <div class="py-2">
                             <h5>Geometry</h5>
-                            <div class = "content my-0 py-0" v-for="(item, index) in record.citation.includesDataTypes" :key="index">
+                            <div class = "content my-0 py-0" v-for="(item, index) in record.citation.dataTypes" :key="index">
                                 <p class="is-family-secondary">{{item}}</p>
                             </div>
                             </div>

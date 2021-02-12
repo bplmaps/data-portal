@@ -24,22 +24,6 @@
               <ais-refinement-list attribute="filterTagging.geographic.geonames.placeTag" ></ais-refinement-list>
             </div>
 
-            <div class="py-3">
-              <h4 class="title is-size-6">Maintainer</h4>
-              <ais-refinement-list attribute="peopleLifecycle.maintenance.officialMaintainer" ></ais-refinement-list>
-            </div>
-
-            <div class="py-3">
-              <h4 class="title is-size-6">Format</h4>
-              <ais-refinement-list attribute="endpoints.format" ></ais-refinement-list>
-            </div>
-
-            <div class="py-3">
-              <h4 class="title is-size-6">Record Type</h4>
-              <ais-refinement-list attribute="citation.recordType" ></ais-refinement-list>
-            </div>
-
-
           </div>
 
 

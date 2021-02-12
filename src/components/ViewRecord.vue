@@ -253,25 +253,25 @@
                                 </section>
                                 <section class="section is-small py-0">
                                     <hideable-box class = "is-family-secondary mt-5" title="Are the data publishers committed to relationships of trust with the public, and if so, how?" hidden>
-                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.publicResponsibility.healthCheckQualifier"></markdown-part>
+                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.publicTrust.healthCheckQualifier"></markdown-part>
                                     </hideable-box> 
                                     <hr>
                                 </section>
                                 <section class="section is-small py-0">
                                     <hideable-box class = "is-family-secondary mt-5" title="What actions have the data creators taken to avoid the perpetuation of systemic injustice or the repeat of past harms?" hidden>
-                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.historicContext.healthCheckQualifier"></markdown-part>
+                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.systemicInjustice.healthCheckQualifier"></markdown-part>
                                     </hideable-box> 
                                     <hr>
                                 </section>
                                 <section class="section is-small py-0">
                                     <hideable-box class = "is-family-secondary mt-5" title="Can we understand who funded, collected and analyzed the data, and how?" hidden>
-                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.methodology.healthCheckQualifier"></markdown-part>
+                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.origins.healthCheckQualifier"></markdown-part>
                                     </hideable-box> 
                                     <hr>
                                 </section>
                                 <section class="section is-small py-0">
                                     <hideable-box class = "is-family-secondary mt-5 mb-5" title="Can we understand the potential future impact of this dataset, including what someone should and should not use it for?" hidden>
-                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.potentialImpact.healthCheckQualifier"></markdown-part>
+                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.futureUse.healthCheckQualifier"></markdown-part>
                                     </hideable-box> 
                                 </section>
                             </div> 

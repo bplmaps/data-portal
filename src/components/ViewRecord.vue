@@ -119,10 +119,10 @@
                         <div class="panel-block" v-if="record.filterTagging.temporal.temporalRepresentation">
                             <div class="py-2">
                                 <h5>Time Period</h5>
-                                <div v-if="record.filterTagging.temporal.temporalRepresentation.valueType == 'singularExpression'">
+                                <div v-if="record.filterTagging.temporal.temporalRepresentation.valueType == 'singleDate'">
                                     <p class="is-family-secondary">{{record.filterTagging.temporal.temporalRepresentation.singleDate}}</p>
                                 </div>
-                                <div v-if="record.filterTagging.temporal.temporalRepresentation.valueType == 'temporalRange'">
+                                <div v-if="record.filterTagging.temporal.temporalRepresentation.valueType == 'range'">
                                     <p class="is-family-secondary">{{record.filterTagging.temporal.temporalRepresentation.rangeStart}} - {{record.filterTagging.temporal.temporalRepresentation.rangeEnd}}</p>
                                 </div>
                             </div>

@@ -523,7 +523,7 @@ export default {
                 //run the function to get all the ingredients, too
                 this.getAllIngredients()
             }).catch(err => {
-                console.log("Couldn't retrieve record metadata")
+                console.log("Record loading...")
             })
 
     },

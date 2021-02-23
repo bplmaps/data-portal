@@ -37,7 +37,7 @@
           <div slot="item" slot-scope="{ item }" @click="$router.push({ path: `/catalog/${getId(item.citation.$id)}` })">
             <a :href="'#/catalog/' + getId(item.citation.$id)"><h2 class="title is-size-5 mb-3">{{ item.citation.title}}</h2></a>
             <p class="is-family-secondary is-muted is-size-6">{{ item.citation.shortDescription.substring(0,240) }}</p>
-            <span v-if="item.peopleLifecycle.maintenance.officialMaintainer ==='Leventhal Map & Education Center'" class="tag is-light is-success mt-2"><font-awesome-icon icon="clipboard-check" class="mr-2"></font-awesome-icon> LMEC Maintained</span>
+            <span v-if="item.peopleLifecycle.acquisition.creator" class="tag is-light is-info mt-2"><font-awesome-icon icon="atlas" class="mr-2"></font-awesome-icon> {{item.peopleLifecycle.acquisition.creator}}</span>
           </div>
 
         </ais-hits></div>

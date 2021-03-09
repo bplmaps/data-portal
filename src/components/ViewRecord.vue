@@ -25,7 +25,7 @@
         <!-- DATASET HEADER TAGS -->
         <div class="container is-fluid my-2">
             <!-- TITLE -->
-            <h2 class="title is-size-3">{{record.citation.title}}</h2>
+            <h2 class="title is-size-3">{{record.core.title}}</h2>
             <!-- container to hold tags -->
             <div class="mt-1">
                 <!-- class that achieves the tag grouping -->
@@ -34,7 +34,7 @@
                     <!-- Calls function 'recordTypeIcon' to determine which icon to show -->
                     <div class="tag is-medium is-light mr-2">
                         <font-awesome-icon :icon="recordTypeIcon" class="mr-2"></font-awesome-icon> 
-                        {{record.citation.recordType}}
+                        {{record.core.recordType}}
                     </div>
                     <!-- GROUPED TAGS -->
                     <div class="tags has-addons">
@@ -45,16 +45,16 @@
                         </div>
                         <!-- DATASET ID -->
                         <div class="tag is-medium is-light is-info mr-2">
-                            {{record.citation.$id}}
+                            {{record.core.$id}}
                         </div>
                         <!-- PUBLISHED DATE LABEL -->
-                        <div class="tag is-medium is-light" v-if = "record.filterTagging.temporal.temporalPublication" >
+                        <div class="tag is-medium is-light" v-if = "record.tags.temporal.temporalPublication" >
                             <font-awesome-icon icon="clock" class="mr-2"></font-awesome-icon>
                             Published
                         </div>
                         <!-- PUBLISHED DATE -->
-                        <div v-if = "record.filterTagging.temporal.temporalPublication" class="tag is-medium is-light is-info">
-                            {{record.filterTagging.temporal.temporalPublication.singleDate}}
+                        <div v-if = "record.tags.temporal.temporalPublication" class="tag is-medium is-light is-info">
+                            {{record.tags.temporal.temporalPublication.singleDate}}
                         </div>
                     </div>
                 </div>
@@ -65,22 +65,22 @@
         <!-- SHORT DESCRIPTION IN THE HEADER -->
         <div class="container is-fluid my-4">
             <div>
-                <p class="is-family-secondary">{{record.citation.shortDescription}}</p>
+                <p class="is-family-secondary">{{record.core.shortDescription}}</p>
             </div>
         </div>
         <hr>
         <!-- END OF DATASET HEADER CONTENT -->
 
         <!-- TOP ROW OF PANEL BLOCKS -->
-        <!-- core citations + data endpoints sections-->
+        <!-- core cores + data endpoints sections-->
         <div class="container is-fluid">
             <!-- Holds the columns! -->
             <div class="columns">
                 <!-- Left-hand column -->
                 <div class="column is-two-thirds">
-                    <!-- CORE CITATION SECTION  -->
+                    <!-- CORE core SECTION  -->
                     <div class="panel is-primary">
-                        <!-- CORE CITATION PANEL TITLE -->
+                        <!-- CORE core PANEL TITLE -->
                         <p class="panel-heading">
                             About this data
                         </p>
@@ -89,17 +89,17 @@
                             <div class="py-2">
                                 <div class = "markdown py-2">
                                     <h5>Dataset Overview</h5>
-                                    <markdown-part :source-markdown="record.citation.fullDescription"></markdown-part>
+                                    <markdown-part :source-markdown="record.core.fullDescription"></markdown-part>
                                 </div>
                             </div>
                         </div>
                         <!-- KEY ATTRIBUTES -->
-                        <div v-if="record.citation.keyAttributes" class="panel-block">
+                        <div v-if="record.core.keyAttributes" class="panel-block">
                             <div class="py-2">
                                 <h5 class="mb-2">Key Attributes</h5>
                                 <div class="container is-fluid px-0">
                                     <div class="field is-grouped is-grouped-multiline">
-                                        <div v-for="(item, index) in record.citation.keyAttributes" :key="index">
+                                        <div v-for="(item, index) in record.core.keyAttributes" :key="index">
                                             <div class="is-family-secondary tag is-medium is-light mx-2 my-2">{{item}}</div>
                                         </div>
                                     </div>
@@ -107,23 +107,23 @@
                             </div>
                         </div>
                         <!-- GEOMETRY -->
-                        <div v-if="record.citation.dataTypes" class="panel-block">
+                        <div v-if="record.core.dataTypes" class="panel-block">
                             <div class="py-2">
                             <h5>Geometry</h5>
-                            <div class = "content my-0 py-0" v-for="(item, index) in record.citation.dataTypes" :key="index">
+                            <div class = "content my-0 py-0" v-for="(item, index) in record.core.dataTypes" :key="index">
                                 <p class="is-family-secondary">{{item}}</p>
                             </div>
                             </div>
                         </div>
                         <!-- TIME PERIOD  -->
-                        <div class="panel-block" v-if="record.filterTagging.temporal.temporalRepresentation">
+                        <div class="panel-block" v-if="record.tags.temporal.temporalRepresentation">
                             <div class="py-2">
                                 <h5>Time Period</h5>
-                                <div v-if="record.filterTagging.temporal.temporalRepresentation.valueType == 'singleDate'">
-                                    <p class="is-family-secondary">{{record.filterTagging.temporal.temporalRepresentation.singleDate}}</p>
+                                <div v-if="record.tags.temporal.temporalRepresentation.valueType == 'singleDate'">
+                                    <p class="is-family-secondary">{{record.tags.temporal.temporalRepresentation.singleDate}}</p>
                                 </div>
-                                <div v-if="record.filterTagging.temporal.temporalRepresentation.valueType == 'range'">
-                                    <p class="is-family-secondary">{{record.filterTagging.temporal.temporalRepresentation.rangeStart}} - {{record.filterTagging.temporal.temporalRepresentation.rangeEnd}}</p>
+                                <div v-if="record.tags.temporal.temporalRepresentation.valueType == 'range'">
+                                    <p class="is-family-secondary">{{record.tags.temporal.temporalRepresentation.rangeStart}} - {{record.tags.temporal.temporalRepresentation.rangeEnd}}</p>
                                 </div>
                             </div>
                         </div>
@@ -131,25 +131,25 @@
                         <div class="panel-block">
                             <div class="py-2">
                             <h5>Maintained by</h5>
-                            <p class="is-family-secondary">{{record.peopleLifecycle.maintenance.officialMaintainer}}</p>
+                            <p class="is-family-secondary">{{record.lifecycle.maintenance.officialMaintainer}}</p>
                             </div>
                         </div>
                         <!-- ACCESS CONDITIONS  -->
                         <div class="panel-block">
                             <div class="py-2">
                             <h5>Access conditions</h5>
-                            <p class="is-family-secondary">{{record.citation.accessCondition}}</p>
+                            <p class="is-family-secondary">{{record.core.accessCondition}}</p>
                             </div>
                         </div>
                     </div>
-                    <!-- END OF CORE CITATION SECTION -->
+                    <!-- END OF CORE core SECTION -->
                 </div>
                 <!-- END OF LEFT HAND COLUMN IN THE TOP ROW OF CONTENT -->
 
                 <!-- START TOP RIGHT HAND COLUMN -->
                 <div class="column is-one-third">
                     <!-- DATA ENDPOINT SECTION -->
-                    <div class="panel is-info" v-if="record.endpoints">
+                    <div class="panel is-info" v-if="record.access">
                         <!-- DATA ENDPOINTS PANEL TITLE -->
                         <p class="panel-heading">
                             Get this data
@@ -174,7 +174,7 @@
                 </div>
             </div>
         </div>
-        <!-- END OF TOP CORE CITATION / ENDPOINTS SECTION -->
+        <!-- END OF TOP CORE core / ENDPOINTS SECTION -->
         <hr>
 
         <!-- ALL THE BOTTOM ONE-HALF PAGE ELEMENTS !!! -->
@@ -194,36 +194,36 @@
 
                         <!-- DATA LIFECYCLE CONTENT -->
                         <div class="panel-block">
-                            <div class="py-2" v-if="record.peopleLifecycle.description">
+                            <div class="py-2" v-if="record.lifecycle.description">
                                 <!-- DESCRIPTION -->
-                                <div v-if="record.peopleLifecycle.description.contextProvider">
+                                <div v-if="record.lifecycle.description.contextProvider">
                                     <h5>Describing</h5>
                                     <div class="content">
                                         <p class= "is-family-secondary mt-1" >
                                             <strong>Context Provider:</strong> The name of the person who wrote this metadata is
-                                            {{record.peopleLifecycle.description.contextProvider.name}}. They are the Data {{record.peopleLifecycle.description.contextProvider.relationshipToData}}.
+                                            {{record.lifecycle.description.contextProvider.name}}. They are the Data {{record.lifecycle.description.contextProvider.relationshipToData}}.
                                         </p>
                                     </div>
                                     <!-- MAINTENANCE -->
                                     <h5>Maintaining</h5>
-                                    <div class="content" v-if="record.peopleLifecycle.maintenance">
+                                    <div class="content" v-if="record.lifecycle.maintenance">
                                         <div class= "is-family-secondary mt-1" >
-                                            <p class="my-1"><strong>Maintainer: </strong>The organization responsible for maintaining this dataset is {{record.peopleLifecycle.maintenance.officialMaintainer}}. </p>
-                                            <p class="my-1" v-if="record.peopleLifecycle.maintenance.maintenanceFrequency">
-                                            <strong>Maintenance Frequency:</strong> {{record.peopleLifecycle.maintenance.maintenanceFrequency}}.</p>
+                                            <p class="my-1"><strong>Maintainer: </strong>The organization responsible for maintaining this dataset is {{record.lifecycle.maintenance.officialMaintainer}}. </p>
+                                            <p class="my-1" v-if="record.lifecycle.maintenance.maintenanceFrequency">
+                                            <strong>Maintenance Frequency:</strong> {{record.lifecycle.maintenance.maintenanceFrequency}}.</p>
                                         </div>
                                     </div>
                                     <!-- PROCESSING -->
-                                    <h5 v-if="record.peopleLifecycle.description.contextOnBehalfOf">Processing</h5>
-                                    <div class="content" v-if="record.peopleLifecycle.description.contextOnBehalfOf">
+                                    <h5 v-if="record.lifecycle.description.contextOnBehalfOf">Processing</h5>
+                                    <div class="content" v-if="record.lifecycle.description.contextOnBehalfOf">
                                         <div class= "is-family-secondary mt-1" >
-                                                <strong>Processor:</strong> {{record.peopleLifecycle.description.contextOnBehalfOf.name}} is the Data {{record.peopleLifecycle.description.contextOnBehalfOf.relationshipToData}}.
-                                            <div class = "content" v-if="record.peopleLifecycle.processing.choices">
-                                                <p v-for="(item, index) in record.peopleLifecycle.processing.choices" :key="index" class="mt-1"><strong>Processor's Record:</strong> {{item.author}} recorded their thoughts and choices in their own words as a {{item.format}}: <a target="_blank" :href="item.relatedResourceURL">{{item.title}}.</a>
+                                                <strong>Processor:</strong> {{record.lifecycle.description.contextOnBehalfOf.name}} is the Data {{record.lifecycle.description.contextOnBehalfOf.relationshipToData}}.
+                                            <div class = "content" v-if="record.lifecycle.processing.choices">
+                                                <p v-for="(item, index) in record.lifecycle.processing.choices" :key="index" class="mt-1"><strong>Processor's Record:</strong> {{item.author}} recorded their thoughts and choices in their own words as a {{item.format}}: <a target="_blank" :href="item.relatedResourceURL">{{item.title}}.</a>
                                                 </p> 
                                             </div>
-                                            <div class = "content" v-if="record.peopleLifecycle.processing.tools">
-                                                <p class="mt-1" v-for="(item, index) in record.peopleLifecycle.processing.tools" :key="index"> <strong>Processor's Record:</strong> {{item.author}} shared the <a target="_blank" :href="item.relatedResourceURL">{{item.format}}</a> they created to process this data.
+                                            <div class = "content" v-if="record.lifecycle.processing.tools">
+                                                <p class="mt-1" v-for="(item, index) in record.lifecycle.processing.tools" :key="index"> <strong>Processor's Record:</strong> {{item.author}} shared the <a target="_blank" :href="item.relatedResourceURL">{{item.format}}</a> they created to process this data.
                                                 </p> 
                                             </div>
                                         </div>
@@ -233,62 +233,6 @@
                         </div>
                     </div>
                     <!-- END OF DATA LIFECYCLE SECTION -->
-
-
-                    <!-- DOCUMENTATION EVALUATION SECTION -->
-                    <div class="panel" v-if="record.documentationHealth">
-                        <!-- DOCUMENTATION EVALUATION TITLE HEADER -->
-                        <p class="panel-heading"> 
-                            Can You Trust This Data?
-                        </p>
-
-                        <!-- DOCUMENTATION EVALUATION CONTENT -->
-                        <div class="panel-block" v-if="record.documentationHealth">
-                             <div class= "is-flex is-flex-direction-column ">
-                                <section class="section is-small py-0">
-                                    <hideable-box class = "is-family-secondary mt-5" title="Did the data creators consider the voices of those who the dataset is most likely to affect?" hidden>
-                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.representation.healthEvaluation"></markdown-part>
-                                    </hideable-box> 
-                                    <hr>
-                                </section>
-                                <section class="section is-small py-0">
-                                    <hideable-box class = "is-family-secondary mt-5" title="Are the data publishers committed to relationships of trust with the public, and if so, how?" hidden>
-                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.publicTrust.healthEvaluation"></markdown-part>
-                                    </hideable-box> 
-                                    <hr>
-                                </section>
-                                <section class="section is-small py-0">
-                                    <hideable-box class = "is-family-secondary mt-5" title="What actions have the data creators taken to avoid the perpetuation of systemic injustice or the repeat of past harms?" hidden>
-                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.systemicInjustice.healthEvaluation"></markdown-part>
-                                    </hideable-box> 
-                                    <hr>
-                                </section>
-                                <section class="section is-small py-0">
-                                    <hideable-box class = "is-family-secondary mt-5" title="Can we understand who funded, collected and analyzed the data, and how?" hidden>
-                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.origins.healthEvaluation"></markdown-part>
-                                    </hideable-box> 
-                                    <hr>
-                                </section>
-                                <section class="section is-small py-0">
-                                    <hideable-box class = "is-family-secondary mt-5 mb-5" title="Can we understand the potential future impact of this dataset, including what someone should and should not use it for?" hidden>
-                                        <markdown-part class="mx-2 mt-5 mb-4" :source-markdown="record.documentationHealth.futureUse.healthEvaluation"></markdown-part>
-                                    </hideable-box> 
-                                </section>
-                            </div> 
-                        </div>
-
-                        <!-- DOCUMENTATION HEALTH RUBRIC SECTION -->
-                        <div class ="panel-block" v-if="record.documentationHealth">
-                            <div>
-                                <h5 class="mb-2"><font-awesome-icon icon="heartbeat" class="mr-2"></font-awesome-icon>How we evaluate documentation health</h5>
-                                <div class = "content is-family-secondary mx-1">
-                                                                        <p class ="my-1"><strong>Evaluation Checklist:</strong> <a href="https://geoservices.leventhalmap.org/cartinal/documentation/schema/healthcheck.html" target="_blank">Healthy Documentation Checklist</a></p>
-                                    <p class ="my-1"><strong>Evaluator:</strong> {{record.peopleLifecycle.description.contextProvider.name}}, LMEC's Data {{record.peopleLifecycle.description.contextProvider.relationshipToData}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END OF DOCUMENTATION EVALUATION SECTION -->
                 </div> 
                 <!-- END OF BOTTOM LEFT HAND COLUMNS  -->
 
@@ -298,14 +242,14 @@
                 <div class="column is-half">
                     
                     <!-- RELATED RESOURCES SECTION -->
-                    <div class="panel" v-if="record.relatedResources">
+                    <div class="panel" v-if="record.resources">
                         <!-- RELATED RESOURCES PANEL TITLE -->
                         <p class="panel-heading">
                             Related Resources
                         </p>
 
                         <!-- RELATED RESOURCES CONTENT -->
-                        <div class="panel-block" v-for="(firstLevelItem, firstLevelIndex) in record.relatedResources" :key="firstLevelIndex">
+                        <div class="panel-block" v-for="(firstLevelItem, firstLevelIndex) in record.resources" :key="firstLevelIndex">
                             <div class="p-2">
                                 <!-- Creates panel headings for all the resource sub-sections  -->
                                 <h6 class="is-size-6">{{getFieldAlias(firstLevelIndex)}}</h6>
@@ -363,10 +307,10 @@
                         </div>
 
                         <!-- DATA GENEALOGY PROCESSING STEPS -->
-                        <div class="panel-block" v-if="record.peopleLifecycle.processing.steps">
+                        <div class="panel-block" v-if="record.lifecycle.processing.steps">
                             <div class="py-2">
                                 <h5 class = "my-2 mx-2">Processing Steps</h5>
-                                <markdown-part class="mx-2 mt-2 mb-4" :source-markdown="record.peopleLifecycle.processing.steps"></markdown-part>
+                                <markdown-part class="mx-2 mt-2 mb-4" :source-markdown="record.lifecycle.processing.steps"></markdown-part>
                             </div>
                         </div>
                     </div>
@@ -423,8 +367,8 @@ export default {
         // Helper function to map record types onto FA icons. 
         recordTypeIcon: function() { 
             try{
-                if(this.record.citation.recordType === 'Dataset') { return "server"; }
-                else if(this.record.citation.recordType === 'Collection') { return "shapes"; }
+                if(this.record.core.recordType === 'Dataset') { return "server"; }
+                else if(this.record.core.recordType === 'Collection') { return "shapes"; }
                 else { return "asterisk" }
             }
             catch(e) {
@@ -433,8 +377,8 @@ export default {
         },
         // Orders the endpoints based on if there is a suggested entrypoint
         sortedEndpoints: function() {
-            if(this.record.endpoints) {
-                return this.record.endpoints.sort((b,a) => {  return (typeof a.suggestedEntryPoint === "undefined" ? false : a.suggestedEntryPoint) - (typeof b.suggestedEntryPoint === "undefined" ? false : b.suggestedEntryPoint) ; })
+            if(this.record.access) {
+                return this.record.access.sort((b,a) => {  return (typeof a.suggestedEntryPoint === "undefined" ? false : a.suggestedEntryPoint) - (typeof b.suggestedEntryPoint === "undefined" ? false : b.suggestedEntryPoint) ; })
             } else {
                 return null;
             }
@@ -466,14 +410,14 @@ export default {
         //function to push ingredient attributes to a Vue data object
         getAllIngredients (){
             //if there are no ingredients do nothing
-            var peopleLifecycle = this.record.peopleLifecycle
-            if (!('acquisition' in peopleLifecycle)){
+            var lifecycle = this.record.lifecycle
+            if (!('acquisition' in lifecycle)){
                 
             } 
             //if there are ingredients
             else{
                 //create a variable for ingredients, pulled from the original source data
-                var ingredients = peopleLifecycle.acquisition.ingredients
+                var ingredients = lifecycle.acquisition.ingredients
                 //loop through all the ingredients
                 for (let i = 0; i < ingredients.length; i ++){
                     //create an empty object
@@ -495,7 +439,7 @@ export default {
                     axios.get("https://raw.githubusercontent.com/nblmc/metadata/main/" + currentSplit + ".json")
                         .then(response => {
                                 //add the ingredient dataset title to the new ingredient data object
-                                this.allIngredients[i].title = response.data.citation.title
+                                this.allIngredients[i].title = response.data.core.title
                             }).catch(err => {
                                 console.log("Couldn't retrieve ingredient metadata")
                             })
@@ -523,7 +467,7 @@ export default {
                 //run the function to get all the ingredients, too
                 this.getAllIngredients()
             }).catch(err => {
-                console.log("Couldn't retrieve record metadata")
+                console.log("Record loading...")
             })
 
     },

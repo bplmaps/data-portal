@@ -253,15 +253,15 @@
                                     </div>
                                     <!-- PROCESSING -->
                                     <div class="resource-box my-3"  v-if="record.lifecycle.description.contextOnBehalfOf">
-                                        <h5 v-if="record.lifecycle.description.contextOnBehalfOf">Processing</h5>
-                                        <div class= "is-family-secondary mt-2" >
-                                                <strong>Processor:</strong> {{record.lifecycle.description.contextOnBehalfOf.name}}, Data {{record.lifecycle.description.contextOnBehalfOf.relationshipToData}}.
+                                        <div v-if="record.lifecycle.processing" >
+                                                <h5 v-if="record.lifecycle.description.contextOnBehalfOf">Processing</h5>
+                                                <p class= "is-family-secondary mt-2" ><strong>Processor:</strong> {{record.lifecycle.description.contextOnBehalfOf.name}}, Data {{record.lifecycle.description.contextOnBehalfOf.relationshipToData}}</p>
                                             <div class = "content" v-if="record.lifecycle.processing.choices">
-                                                <p v-for="(item, index) in record.lifecycle.processing.choices" :key="index" class="mt-1"><strong>Processor's Record:</strong> <a target="_blank" :href="item.accessURL">{{item.title}}</a>
+                                                <p v-for="(item, index) in record.lifecycle.processing.choices" :key="index" class= "is-family-secondary mt-1"><strong>Processor's Record:</strong> <a target="_blank" :href="item.accessURL">{{item.title}}</a>
                                                 </p> 
                                             </div>
                                             <div class = "content" v-if="record.lifecycle.processing.tools">
-                                                <p class="mt-1" v-for="(item, index) in record.lifecycle.processing.tools" :key="index"> <strong>Processor's Record:</strong> <a target="_blank" :href="item.accessURL">{{item.format}}</a>
+                                                <p class= "is-family-secondary mt-1" v-for="(item, index) in record.lifecycle.processing.tools" :key="index"> <strong>Processor's Record:</strong> <a target="_blank" :href="item.accessURL">{{item.format}}</a>
                                                 </p> 
                                             </div>
                                         </div>
@@ -287,23 +287,31 @@
                                 <!-- Within the different categories, each item  -->
                                 <div class="resource-box p-3 my-2" v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
                                     <!-- Every resource has a title -->
-                                    <p class="is-size-6"><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
-                                    <div class="is-family-secondary" v-if="firstLevelIndex =='documentation'">
-                                        <p v-if="secondLevelItem.maintainedBy">{{secondLevelItem.maintainedBy}}</p>
+                                    <div v-if="firstLevelIndex =='documentation'">
+                                        <p class="is-size-6"><font-awesome-icon icon="file-signature" class="mr-2"></font-awesome-icon><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
+                                        <p class="is-family-secondary" v-if="secondLevelItem.maintainedBy">{{secondLevelItem.maintainedBy}}</p>
                                         <p></p>
                                     </div>
                                     <!-- Unique author + publication date display for tutorials -->
-                                    <div class="is-family-secondary" v-if="firstLevelIndex =='tutorials'">
-                                        <p v-if="secondLevelItem.author || secondLevelItem.datePublished">{{secondLevelItem.author}}, {{secondLevelItem.datePublished.substring(0,4)}}</p>
+                                    <div v-if="firstLevelIndex =='tutorials'">
+                                        <p class="is-size-6"><font-awesome-icon icon="chalkboard-teacher" class="mr-2"></font-awesome-icon><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
+                                        <p class="is-family-secondary" v-if="secondLevelItem.author || secondLevelItem.datePublished">{{secondLevelItem.author}}, {{secondLevelItem.datePublished.substring(0,4)}}</p>
                                         <p></p>
                                     </div>
                                     <!-- Unique author, publisher + date display for published works  -->
-                                    <div class="is-family-secondary" v-if="firstLevelIndex =='publishedWorks'">
-                                        <p>{{secondLevelItem.author}}, {{secondLevelItem.publisher}}, {{secondLevelItem.datePublished.substring(0,4)}}.</p>
+                                    <div v-if="firstLevelIndex =='publishedWorks'">
+                                        <div v-if="secondLevelItem.format =='Map'">
+                                            <p class="is-size-6"><font-awesome-icon icon="globe-americas" class="mr-2"></font-awesome-icon><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
+                                        </div>
+                                        <div v-else>
+                                            <p class="is-size-6"><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
+                                        </div>
+                                        <p class="is-family-secondary">{{secondLevelItem.author}}, {{secondLevelItem.publisher}}, {{secondLevelItem.datePublished.substring(0,4)}}.</p>
                                     </div>
                                     <!-- Only codebooks have maintainedBy  -->
-                                    <div class="is-family-secondary" v-if="firstLevelIndex =='codebooks'">
-                                        <p>{{secondLevelItem.maintainedBy}}</p>
+                                    <div v-if="firstLevelIndex =='codebooks'">
+                                        <p class="is-size-6"><font-awesome-icon icon="spell-check" class="mr-2"></font-awesome-icon><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
+                                        <p class="is-family-secondary">{{secondLevelItem.maintainedBy}}</p>
                                     </div>
                                     <!-- Every resource has notes  -->
                                     <p class="is-family-secondary">{{secondLevelItem.notes}}</p>

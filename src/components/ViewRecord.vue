@@ -185,11 +185,50 @@
                 <!-- START BOTTOM LEFT-HAND COLUMNS (Lifecycle + Documentation) -->
                 <div class="column is-half">
 
+                      <!-- DATA GENEALOGY SECTION -->
+                    <div class="panel" v-if="allIngredients.length > 0">
+                        <!-- DATA GENEALOGY PANEL TITLE -->
+                        <p class="panel-heading">
+                            Data Genealogy
+                        </p>
+                        
+                        <!-- DATA GENEALOGY SOURCE INGREDIENTS SECTION -->
+                        <div class="panel-block" v-if="allIngredients.length > 0">
+                            <div class="py-2">
+                                <h5 class = "my-2 mx-2">Source Datasets</h5>
+                                <div class="resource-box p-3 mb-2 my-2" v-for="ingredient in allIngredients" :key="ingredient.$id">
+                                    <!-- Title lable with link to the ingredient  -->
+                                    <p class="is-size-6"><router-link :to="'/catalog/' + ingredient.arkID">{{ingredient.title}}</router-link></p>
+                                    <!-- Ingredient ID + ID anchor icon -->
+                                    <div class="tags has-addons my-1"><span class="tag"><font-awesome-icon icon="anchor" class="mr-2"></font-awesome-icon>Identifier</span><span class="tag is-info is-light">{{ingredient.$id}}</span></div>
+                                    <!-- Ingredient processing notes -->
+                                    <p class="is-family-secondary">{{ingredient.notes}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DATA GENEALOGY PROCESSING STEPS -->
+                        <div class="panel-block" v-if="record.lifecycle.processing.steps">
+                            <div class="py-2">
+                                <h5 class = "my-2 mx-2">Processing Steps</h5>
+                                <markdown-part class="mx-2 mt-2 mb-4" :source-markdown="record.lifecycle.processing.steps"></markdown-part>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END OF DATA GENEALOGY SECTION -->
+                </div> 
+                <!-- END OF BOTTOM LEFT HAND COLUMNS  -->
+
+
+
+                <!-- START BOTTOM RIGHT COLUMNS (Related Resources + Data Genealogy Sections) -->
+                <div class="column is-half">
+
                     <!-- DATA LIFECYCLE SECTION -->
                     <div class="panel">
                         <!-- DATA LIFECYCLE PANEL TITLE -->
                         <p class="panel-heading">
-                            <font-awesome-icon icon="user-check" class="mr-2"></font-awesome-icon>People Involved in the Data Lifecycle
+                            <font-awesome-icon icon="user-check" class="mr-2"></font-awesome-icon>Data Lifecycle
                         </p>
 
                         <!-- DATA LIFECYCLE CONTENT -->
@@ -197,33 +236,32 @@
                             <div class="py-2" v-if="record.lifecycle.description">
                                 <!-- DESCRIPTION -->
                                 <div v-if="record.lifecycle.description.contextProvider">
-                                    <h5>Describing</h5>
-                                    <div class="content">
+                                    <div class="resource-box my-3">
+                                        <h5>Describing</h5>
                                         <p class= "is-family-secondary mt-1" >
-                                            <strong>Context Provider:</strong> The name of the person who wrote this metadata is
-                                            {{record.lifecycle.description.contextProvider.name}}. They are the Data {{record.lifecycle.description.contextProvider.relationshipToData}}.
+                                            <strong>Metadata by:</strong> {{record.lifecycle.description.contextProvider.name}}, Data {{record.lifecycle.description.contextProvider.relationshipToData}}
                                         </p>
                                     </div>
                                     <!-- MAINTENANCE -->
-                                    <h5>Maintaining</h5>
-                                    <div class="content" v-if="record.lifecycle.maintenance">
-                                        <div class= "is-family-secondary mt-1" >
-                                            <p class="my-1"><strong>Maintainer: </strong>The organization responsible for maintaining this dataset is {{record.lifecycle.maintenance.officialMaintainer}}. </p>
+                                    <div class="resource-box my-3" v-if="record.lifecycle.maintenance">
+                                        <h5 class="my-2">Maintaining</h5>
+                                        <div class= "is-family-secondary" >
+                                            <p><strong>Maintainer: </strong>{{record.lifecycle.maintenance.officialMaintainer}}. </p>
                                             <p class="my-1" v-if="record.lifecycle.maintenance.maintenanceFrequency">
                                             <strong>Maintenance Frequency:</strong> {{record.lifecycle.maintenance.maintenanceFrequency}}.</p>
                                         </div>
                                     </div>
                                     <!-- PROCESSING -->
-                                    <h5 v-if="record.lifecycle.description.contextOnBehalfOf">Processing</h5>
-                                    <div class="content" v-if="record.lifecycle.description.contextOnBehalfOf">
-                                        <div class= "is-family-secondary mt-1" >
-                                                <strong>Processor:</strong> {{record.lifecycle.description.contextOnBehalfOf.name}} is the Data {{record.lifecycle.description.contextOnBehalfOf.relationshipToData}}.
+                                    <div class="resource-box my-3"  v-if="record.lifecycle.description.contextOnBehalfOf">
+                                        <h5 v-if="record.lifecycle.description.contextOnBehalfOf">Processing</h5>
+                                        <div class= "is-family-secondary mt-2" >
+                                                <strong>Processor:</strong> {{record.lifecycle.description.contextOnBehalfOf.name}}, Data {{record.lifecycle.description.contextOnBehalfOf.relationshipToData}}.
                                             <div class = "content" v-if="record.lifecycle.processing.choices">
-                                                <p v-for="(item, index) in record.lifecycle.processing.choices" :key="index" class="mt-1"><strong>Processor's Record:</strong> {{item.author}} recorded their thoughts and choices in their own words as a {{item.format}}: <a target="_blank" :href="item.relatedResourceURL">{{item.title}}.</a>
+                                                <p v-for="(item, index) in record.lifecycle.processing.choices" :key="index" class="mt-1"><strong>Processor's Record:</strong> <a target="_blank" :href="item.accessURL">{{item.title}}</a>
                                                 </p> 
                                             </div>
                                             <div class = "content" v-if="record.lifecycle.processing.tools">
-                                                <p class="mt-1" v-for="(item, index) in record.lifecycle.processing.tools" :key="index"> <strong>Processor's Record:</strong> {{item.author}} shared the <a target="_blank" :href="item.relatedResourceURL">{{item.format}}</a> they created to process this data.
+                                                <p class="mt-1" v-for="(item, index) in record.lifecycle.processing.tools" :key="index"> <strong>Processor's Record:</strong> <a target="_blank" :href="item.accessURL">{{item.format}}</a>
                                                 </p> 
                                             </div>
                                         </div>
@@ -233,13 +271,6 @@
                         </div>
                     </div>
                     <!-- END OF DATA LIFECYCLE SECTION -->
-                </div> 
-                <!-- END OF BOTTOM LEFT HAND COLUMNS  -->
-
-
-
-                <!-- START BOTTOM RIGHT COLUMNS (Related Resources + Data Genealogy Sections) -->
-                <div class="column is-half">
                     
                     <!-- RELATED RESOURCES SECTION -->
                     <div class="panel" v-if="record.resources">
@@ -284,37 +315,7 @@
                     <!-- END OF RELATED RESOURCES SECTION -->
 
 
-                    <!-- DATA GENEALOGY SECTION -->
-                    <div class="panel" v-if="allIngredients.length > 0">
-                        <!-- DATA GENEALOGY PANEL TITLE -->
-                        <p class="panel-heading">
-                            Data Genealogy
-                        </p>
-                        
-                        <!-- DATA GENEALOGY SOURCE INGREDIENTS SECTION -->
-                        <div class="panel-block" v-if="allIngredients.length > 0">
-                            <div class="py-2">
-                                <h5 class = "my-2 mx-2">Source Datasets</h5>
-                                <div class="resource-box p-3 mb-2 my-2" v-for="ingredient in allIngredients" :key="ingredient.$id">
-                                    <!-- Title lable with link to the ingredient  -->
-                                    <p class="is-size-6"><router-link :to="'/catalog/' + ingredient.arkID">{{ingredient.title}}</router-link></p>
-                                    <!-- Ingredient ID + ID anchor icon -->
-                                    <div class="tags has-addons my-1"><span class="tag"><font-awesome-icon icon="anchor" class="mr-2"></font-awesome-icon>Identifier</span><span class="tag is-info is-light">{{ingredient.$id}}</span></div>
-                                    <!-- Ingredient processing notes -->
-                                    <p class="is-family-secondary">{{ingredient.notes}}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- DATA GENEALOGY PROCESSING STEPS -->
-                        <div class="panel-block" v-if="record.lifecycle.processing.steps">
-                            <div class="py-2">
-                                <h5 class = "my-2 mx-2">Processing Steps</h5>
-                                <markdown-part class="mx-2 mt-2 mb-4" :source-markdown="record.lifecycle.processing.steps"></markdown-part>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END OF DATA GENEALOGY SECTION -->
+                
 
                 </div>
                 <!-- END BOTTOM RIGHT HAND COLUMNS -->     

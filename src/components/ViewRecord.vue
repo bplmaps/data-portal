@@ -185,106 +185,7 @@
                 <!-- START BOTTOM LEFT-HAND COLUMNS (Lifecycle + Documentation) -->
                 <div class="column is-half">
 
-                    <!-- DATA LIFECYCLE SECTION -->
-                    <div class="panel">
-                        <!-- DATA LIFECYCLE PANEL TITLE -->
-                        <p class="panel-heading">
-                            <font-awesome-icon icon="user-check" class="mr-2"></font-awesome-icon>People Involved in the Data Lifecycle
-                        </p>
-
-                        <!-- DATA LIFECYCLE CONTENT -->
-                        <div class="panel-block">
-                            <div class="py-2" v-if="record.lifecycle.description">
-                                <!-- DESCRIPTION -->
-                                <div v-if="record.lifecycle.description.contextProvider">
-                                    <h5>Describing</h5>
-                                    <div class="content">
-                                        <p class= "is-family-secondary mt-1" >
-                                            <strong>Context Provider:</strong> The name of the person who wrote this metadata is
-                                            {{record.lifecycle.description.contextProvider.name}}. They are the Data {{record.lifecycle.description.contextProvider.relationshipToData}}.
-                                        </p>
-                                    </div>
-                                    <!-- MAINTENANCE -->
-                                    <h5>Maintaining</h5>
-                                    <div class="content" v-if="record.lifecycle.maintenance">
-                                        <div class= "is-family-secondary mt-1" >
-                                            <p class="my-1"><strong>Maintainer: </strong>The organization responsible for maintaining this dataset is {{record.lifecycle.maintenance.officialMaintainer}}. </p>
-                                            <p class="my-1" v-if="record.lifecycle.maintenance.maintenanceFrequency">
-                                            <strong>Maintenance Frequency:</strong> {{record.lifecycle.maintenance.maintenanceFrequency}}.</p>
-                                        </div>
-                                    </div>
-                                    <!-- PROCESSING -->
-                                    <h5 v-if="record.lifecycle.description.contextOnBehalfOf">Processing</h5>
-                                    <div class="content" v-if="record.lifecycle.description.contextOnBehalfOf">
-                                        <div class= "is-family-secondary mt-1" >
-                                                <strong>Processor:</strong> {{record.lifecycle.description.contextOnBehalfOf.name}} is the Data {{record.lifecycle.description.contextOnBehalfOf.relationshipToData}}.
-                                            <div class = "content" v-if="record.lifecycle.processing.choices">
-                                                <p v-for="(item, index) in record.lifecycle.processing.choices" :key="index" class="mt-1"><strong>Processor's Record:</strong> {{item.author}} recorded their thoughts and choices in their own words as a {{item.format}}: <a target="_blank" :href="item.relatedResourceURL">{{item.title}}.</a>
-                                                </p> 
-                                            </div>
-                                            <div class = "content" v-if="record.lifecycle.processing.tools">
-                                                <p class="mt-1" v-for="(item, index) in record.lifecycle.processing.tools" :key="index"> <strong>Processor's Record:</strong> {{item.author}} shared the <a target="_blank" :href="item.relatedResourceURL">{{item.format}}</a> they created to process this data.
-                                                </p> 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END OF DATA LIFECYCLE SECTION -->
-                </div> 
-                <!-- END OF BOTTOM LEFT HAND COLUMNS  -->
-
-
-
-                <!-- START BOTTOM RIGHT COLUMNS (Related Resources + Data Genealogy Sections) -->
-                <div class="column is-half">
-                    
-                    <!-- RELATED RESOURCES SECTION -->
-                    <div class="panel" v-if="record.resources">
-                        <!-- RELATED RESOURCES PANEL TITLE -->
-                        <p class="panel-heading">
-                            Related Resources
-                        </p>
-
-                        <!-- RELATED RESOURCES CONTENT -->
-                        <div class="panel-block" v-for="(firstLevelItem, firstLevelIndex) in record.resources" :key="firstLevelIndex">
-                            <div class="p-2">
-                                <!-- Creates panel headings for all the resource sub-sections  -->
-                                <h6 class="is-size-6">{{getFieldAlias(firstLevelIndex)}}</h6>
-                                <!-- Within the different categories, each item  -->
-                                <div class="resource-box p-3 my-2" v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
-                                    <!-- Every resource has a title -->
-                                    <p class="is-size-6"><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
-                                    <div class="is-family-secondary" v-if="firstLevelIndex =='documentation'">
-                                        <p v-if="secondLevelItem.maintainedBy">{{secondLevelItem.maintainedBy}}</p>
-                                        <p></p>
-                                    </div>
-                                    <!-- Unique author + publication date display for tutorials -->
-                                    <div class="is-family-secondary" v-if="firstLevelIndex =='tutorials'">
-                                        <p v-if="secondLevelItem.author || secondLevelItem.datePublished">{{secondLevelItem.author}}, {{secondLevelItem.datePublished.substring(0,4)}}</p>
-                                        <p></p>
-                                    </div>
-                                    <!-- Unique author, publisher + date display for published works  -->
-                                    <div class="is-family-secondary" v-if="firstLevelIndex =='publishedWorks'">
-                                        <p>{{secondLevelItem.author}}, {{secondLevelItem.publisher}}, {{secondLevelItem.datePublished.substring(0,4)}}.</p>
-                                    </div>
-                                    <!-- Only codebooks have maintainedBy  -->
-                                    <div class="is-family-secondary" v-if="firstLevelIndex =='codebooks'">
-                                        <p>{{secondLevelItem.maintainedBy}}</p>
-                                    </div>
-                                    <!-- Every resource has notes  -->
-                                    <p class="is-family-secondary">{{secondLevelItem.notes}}</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <!-- END OF RELATED RESOURCES SECTION -->
-
-
-                    <!-- DATA GENEALOGY SECTION -->
+                      <!-- DATA GENEALOGY SECTION -->
                     <div class="panel" v-if="allIngredients.length > 0">
                         <!-- DATA GENEALOGY PANEL TITLE -->
                         <p class="panel-heading">
@@ -315,6 +216,114 @@
                         </div>
                     </div>
                     <!-- END OF DATA GENEALOGY SECTION -->
+                </div> 
+                <!-- END OF BOTTOM LEFT HAND COLUMNS  -->
+
+
+
+                <!-- START BOTTOM RIGHT COLUMNS (Related Resources + Data Genealogy Sections) -->
+                <div class="column is-half">
+
+                    <!-- DATA LIFECYCLE SECTION -->
+                    <div class="panel">
+                        <!-- DATA LIFECYCLE PANEL TITLE -->
+                        <p class="panel-heading">
+                            <font-awesome-icon icon="user-check" class="mr-2"></font-awesome-icon>Data Lifecycle
+                        </p>
+
+                        <!-- DATA LIFECYCLE CONTENT -->
+                        <div class="panel-block">
+                            <div class="py-2" v-if="record.lifecycle.description">
+                                <!-- DESCRIPTION -->
+                                <div v-if="record.lifecycle.description.contextProvider">
+                                    <div class="resource-box my-3">
+                                        <h5>Describing</h5>
+                                        <p class= "is-family-secondary mt-1" >
+                                            <strong>Metadata by:</strong> {{record.lifecycle.description.contextProvider.name}}, Data {{record.lifecycle.description.contextProvider.relationshipToData}}
+                                        </p>
+                                    </div>
+                                    <!-- MAINTENANCE -->
+                                    <div class="resource-box my-3" v-if="record.lifecycle.maintenance">
+                                        <h5 class="my-2">Maintaining</h5>
+                                        <div class= "is-family-secondary" >
+                                            <p><strong>Maintainer: </strong>{{record.lifecycle.maintenance.officialMaintainer}}. </p>
+                                            <p class="my-1" v-if="record.lifecycle.maintenance.maintenanceFrequency">
+                                            <strong>Maintenance Frequency:</strong> {{record.lifecycle.maintenance.maintenanceFrequency}}.</p>
+                                        </div>
+                                    </div>
+                                    <!-- PROCESSING -->
+                                    <div class="resource-box my-3"  v-if="record.lifecycle.description.contextOnBehalfOf">
+                                        <div v-if="record.lifecycle.processing" >
+                                                <h5 v-if="record.lifecycle.description.contextOnBehalfOf">Processing</h5>
+                                                <p class= "is-family-secondary mt-2" ><strong>Processor:</strong> {{record.lifecycle.description.contextOnBehalfOf.name}}, Data {{record.lifecycle.description.contextOnBehalfOf.relationshipToData}}</p>
+                                            <div class = "content" v-if="record.lifecycle.processing.choices">
+                                                <p v-for="(item, index) in record.lifecycle.processing.choices" :key="index" class= "is-family-secondary mt-1"><strong>Processor's Record:</strong> <a target="_blank" :href="item.accessURL">{{item.title}}</a>
+                                                </p> 
+                                            </div>
+                                            <div class = "content" v-if="record.lifecycle.processing.tools">
+                                                <p class= "is-family-secondary mt-1" v-for="(item, index) in record.lifecycle.processing.tools" :key="index"> <strong>Processor's Record:</strong> <a target="_blank" :href="item.accessURL">{{item.format}}</a>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END OF DATA LIFECYCLE SECTION -->
+                    
+                    <!-- RELATED RESOURCES SECTION -->
+                    <div class="panel" v-if="record.resources">
+                        <!-- RELATED RESOURCES PANEL TITLE -->
+                        <p class="panel-heading">
+                            Related Resources
+                        </p>
+
+                        <!-- RELATED RESOURCES CONTENT -->
+                        <div class="panel-block" v-for="(firstLevelItem, firstLevelIndex) in record.resources" :key="firstLevelIndex">
+                            <div class="p-2">
+                                <!-- Creates panel headings for all the resource sub-sections  -->
+                                <h6 class="is-size-6">{{getFieldAlias(firstLevelIndex)}}</h6>
+                                <!-- Within the different categories, each item  -->
+                                <div class="resource-box p-3 my-2" v-for="(secondLevelItem, secondLevelIndex) in firstLevelItem" :key="secondLevelIndex">
+                                    <!-- Every resource has a title -->
+                                    <div v-if="firstLevelIndex =='documentation'">
+                                        <p class="is-size-6"><font-awesome-icon icon="file-signature" class="mr-2"></font-awesome-icon><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
+                                        <p class="is-family-secondary" v-if="secondLevelItem.maintainedBy">{{secondLevelItem.maintainedBy}}</p>
+                                        <p></p>
+                                    </div>
+                                    <!-- Unique author + publication date display for tutorials -->
+                                    <div v-if="firstLevelIndex =='tutorials'">
+                                        <p class="is-size-6"><font-awesome-icon icon="chalkboard-teacher" class="mr-2"></font-awesome-icon><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
+                                        <p class="is-family-secondary" v-if="secondLevelItem.author || secondLevelItem.datePublished">{{secondLevelItem.author}}, {{secondLevelItem.datePublished.substring(0,4)}}</p>
+                                        <p></p>
+                                    </div>
+                                    <!-- Unique author, publisher + date display for published works  -->
+                                    <div v-if="firstLevelIndex =='publishedWorks'">
+                                        <div v-if="secondLevelItem.format =='Map'">
+                                            <p class="is-size-6"><font-awesome-icon icon="globe-americas" class="mr-2"></font-awesome-icon><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
+                                        </div>
+                                        <div v-else>
+                                            <p class="is-size-6"><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
+                                        </div>
+                                        <p class="is-family-secondary">{{secondLevelItem.author}}, {{secondLevelItem.publisher}}, {{secondLevelItem.datePublished.substring(0,4)}}.</p>
+                                    </div>
+                                    <!-- Only codebooks have maintainedBy  -->
+                                    <div v-if="firstLevelIndex =='codebooks'">
+                                        <p class="is-size-6"><font-awesome-icon icon="spell-check" class="mr-2"></font-awesome-icon><a target="_blank" :href="secondLevelItem.$id">{{secondLevelItem.title}}</a></p>
+                                        <p class="is-family-secondary">{{secondLevelItem.maintainedBy}}</p>
+                                    </div>
+                                    <!-- Every resource has notes  -->
+                                    <p class="is-family-secondary">{{secondLevelItem.notes}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!-- END OF RELATED RESOURCES SECTION -->
+
+
+                
 
                 </div>
                 <!-- END BOTTOM RIGHT HAND COLUMNS -->     

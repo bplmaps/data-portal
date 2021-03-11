@@ -270,6 +270,8 @@
         <div class="columns">
           <!-- START BOTTOM LEFT-HAND COLUMNS (Lifecycle + Documentation) -->
           <div class="column is-half">
+
+            <!-- START CONSIDERATIONS -->
             <div class="panel">
               <div class="panel-heading">Considerations</div>
               <div class="panel-block">
@@ -299,6 +301,7 @@
                 </div>
               </div>
             </div>
+            <!-- END CONSIDERATIONS -->
 
             <!-- DATA GENEALOGY SECTION -->
             <div class="panel" v-if="allIngredients.length > 0">

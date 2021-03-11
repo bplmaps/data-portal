@@ -5,7 +5,16 @@
         :search-client="searchClient"
         index-name="metadata-sandbox" >
     <div class="container is-fluid">
-      <ais-search-box placeholder="Search here…" class="searchbox" />
+      <div class="columns">
+        <div class="column is-10">
+          <ais-search-box placeholder="Enter keywords, topics, dates ..." :class-names="{'ais-SearchBox-input': 'input is-medium'}"></ais-search-box> 
+
+        </div>
+        <div class="column">
+          <router-link to="/" class="button is-medium is-fullwidth"><font-awesome-icon icon="home" class="mr-2"></font-awesome-icon>Home</router-link>
+        </div>
+      </div>
+      
     </div>
     
     <div class="container is-fluid mt-5">
@@ -13,7 +22,7 @@
 
         <div class="columns">
           <div class="column is-one-fifth" v-if="$root.$data.viewComplexityMode === 'extended' ">
-
+            <h3 class="title is-size-5">Filters</h3>
             <div class="py-3">
               <h4 class="title is-size-6">Theme subjects</h4>
               <ais-refinement-list attribute="tags.thematic.LCSH.subjectTag" ></ais-refinement-list>
@@ -29,6 +38,12 @@
               <ais-refinement-list attribute="core.dataTypes" ></ais-refinement-list>
             </div>
 
+            <div class="py-3">
+              <ais-clear-refinements>
+                <span slot="resetLabel">Clear filters</span>
+              </ais-clear-refinements>
+            </div>
+
           </div>
 
 
@@ -37,7 +52,7 @@
           <div slot="item" slot-scope="{ item }" @click="$router.push({ path: `/catalog/${getId(item.core.$id)}` })">
             <a :href="'#/catalog/' + getId(item.core.$id)"><h2 class="title is-size-5 mb-3">{{ item.core.title}}</h2></a>
             <p class="is-family-secondary is-muted is-size-6">{{ item.core.shortDescription.substring(0,240) }}</p>
-            <span v-if="item.lifecycle.acquisition.creator" class="tag is-light is-info mt-2"><font-awesome-icon icon="atlas" class="mr-2"></font-awesome-icon> {{item.lifecycle.acquisition.creator}}</span>
+            <span v-if="item.lifecycle.acquisition.creator=='Leventhal Map & Education Center'" class="tag is-light is-info mt-2"><font-awesome-icon icon="atlas" class="mr-2"></font-awesome-icon> Leventhal Map &amp; Education Center Dataset</span>
           </div>
 
         </ais-hits></div>
@@ -85,8 +100,9 @@ export default {
   border-radius: 5px;
   width: 100%;
   cursor: pointer;
+  background-color: rgba(255,255,255,0.85);
   &:hover {
-    border: 1px solid #aaa;
+    box-shadow: inset 0px 0px 3px 0px $link;
   }
 }
 </style>

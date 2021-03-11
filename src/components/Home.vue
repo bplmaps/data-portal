@@ -20,7 +20,7 @@
 <section class="hero">
   <div class="hero-body">
     <p class="subtitle">
-      The <strong>Leventhal Map &amp; Education Center</strong> collects geospatial data sets that <strong class="underline">🎨&nbsp;we’ve created</strong>, ones that <strong class="underline">🔧&nbsp;we’ve improved upon for research or teaching</strong>, and ones that <strong class="underline">📍&nbsp;relate to our focus on Boston and New England</strong>.
+      The <strong class="shadow">Leventhal Map &amp; Education Center</strong> collects geospatial data sets that<br><strong class="underline">🎨&nbsp;we’ve created ourselves</strong> <br><strong class="underline">🔧&nbsp;we’ve improved upon for research or teaching</strong><br><strong class="underline">📍&nbsp;relate to our focus on Boston and New England</strong>
     </p>
   </div>
 </section>
@@ -39,6 +39,29 @@
     </div>
     </div>
   </div>
+  </section>
+
+  <section>
+    <div class="container is-fluid mt-5">
+      <h3 class="title">Don’t know where to start?</h3>
+      <div class="box">
+        <div class="level">
+          <div class="level-item">
+            
+             <a href="https://www.leventhalmap.org/research/geospatial/">🙋‍♀️ Talk to a GIS librarian</a>
+          </div>
+          <div class="level-item">
+            
+            <a href="https://geoservices.leventhalmap.org/cartinal/guides/clip-by-extent.html#acquiring-data">✍🏼 Try out a quick data exercise</a>
+          </div>
+          <div class="level-item">
+            
+            <a href="https://www.leventhalmap.org/education/adult/">📓 Join one of our instruction courses</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </section>
 
 </div>
@@ -79,12 +102,26 @@ export default {
 
   p {
     line-height: 200%;
+    text-align: center;
   }
 
   strong.underline {
     background-color: rgba($link, 0.2);
-    padding: 3px 5px;
+    padding: 3px 10px;
+    text-shadow: 1px 1px 1px rgba(255,255,255,0.7);
   }
+
+  strong.shadow {
+    text-shadow: 2px 2px 0px $shadow-popper;
+  }
+}
+.level-item {
+  flex-shrink: unset;
+  text-align: center;
+  a {
+    margin: 0 10px;
+  }
+
 }
 
 .suggestion-card { 

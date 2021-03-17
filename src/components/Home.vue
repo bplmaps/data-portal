@@ -14,7 +14,7 @@
         <div class="field is-grouped is-grouped-centered ">
           <div class="control">
             <button class="button is-primary is-medium" @click="submitMainSearch"><font-awesome-icon icon="search" class="mr-2"></font-awesome-icon> Search</button>
-            <button class="button is-primary is-medium"><font-awesome-icon icon="columns" class="mr-2"></font-awesome-icon> Browse<span class="is-hidden-mobile">&nbsp;everything</span></button>
+            <button class="button is-primary is-medium" @click="submitBrowse"><font-awesome-icon icon="columns" class="mr-2"></font-awesome-icon> Browse<span class="is-hidden-mobile">&nbsp;everything</span></button>
           </div>
 
         </div>
@@ -68,6 +68,9 @@ export default {
     },
     triggerExampleSearch: function(q) {
       this.$router.push({path: 'search', query: {s: q}});
+    },
+    submitBrowse: function() {
+            this.$router.push({path: 'search', query: {s: ''}});
     }
   }
 }

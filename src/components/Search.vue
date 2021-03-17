@@ -20,6 +20,14 @@
     <div class="container is-fluid mt-5">
         <h2 class="title is-size-3.5">Search Results</h2>
 
+        <div v-if="$root.$data.viewComplexityMode === 'simple' " class="mb-5 is-size-7 has-text-primary" >
+          <button class="button is-primary is-outlined is-small is-multiline" @click="$root.$data.viewComplexityMode = 'extended'"><font-awesome-icon icon="th" class="mr-2"></font-awesome-icon>For filters and more details, switch to Extended View</button> 
+        </div>
+
+        <div v-if="$root.$data.viewComplexityMode === 'extended' " class="mb-5">
+          <button class="button is-primary is-outlined is-small is-multiline" @click="$root.$data.viewComplexityMode = 'simple'"><font-awesome-icon icon="th-large" class="mr-2"></font-awesome-icon> For easier browsing, switch to Simple View</button>
+        </div>
+
         <div class="columns">
           <div class="column is-one-fifth" v-if="$root.$data.viewComplexityMode === 'extended' ">
             <h3 class="title is-size-5">Filters</h3>
@@ -49,10 +57,22 @@
 
           <div class="column">
           <ais-hits>
-          <div slot="item" slot-scope="{ item }" @click="$router.push({ path: `/catalog/${getId(item.core.$id)}` })">
+          <div slot="item" :class="item.access ? '' : 'no-endpoints'" slot-scope="{ item }" @click="$router.push({ path: `/catalog/${getId(item.core.$id)}` })">
             <a :href="'#/catalog/' + getId(item.core.$id)"><h2 class="title is-size-5 mb-3">{{ item.core.title}}</h2></a>
             <p class="is-family-secondary is-muted is-size-6">{{ item.core.shortDescription.substring(0,240) }}</p>
-            <span v-if="item.lifecycle.acquisition.creator=='Leventhal Map & Education Center'" class="tag is-light is-info mt-2"><font-awesome-icon icon="atlas" class="mr-2"></font-awesome-icon> Leventhal Map &amp; Education Center Dataset</span>
+            <span v-if="item.lifecycle.acquisition.creator=='Leventhal Map & Education Center'" class="tag is-light is-info mt-2"> 🎨 Created by LMEC</span>
+            <span v-if="item.lifecycle.maintenance.officialMaintainer=='Leventhal Map & Education Center'" class="tag is-light is-info mt-2"> 🔧 Maintained by LMEC</span>
+            <span v-if="!item.access || item.access.length < 1" class="tag is-light is-gray mt-2"><font-awesome-icon icon="exclamation-circle" class="mr-2"></font-awesome-icon> Information Only · No Data Access</span>
+
+            <div v-if="$root.$data.viewComplexityMode === 'extended'">
+              <table class="table is-size-7 has-background-light mt-2">
+                <tr><th>Identifier</th><td>{{item.core.$id}}</td></tr>
+                <tr><th>Date Published</th><td>{{item.tags.temporal.temporalPublication ? item.tags.temporal.temporalPublication.singleDate : "None"}}</td></tr>
+                <tr><th>Access</th>
+                <td>{{item.core.accessCondition}}</td></tr>
+              </table>
+            </div>
+
           </div>
 
         </ais-hits></div>
@@ -95,12 +115,25 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import "~/style-vars.scss";
+
+.button {
+  max-width: 100%;
+}
+
 .ais-Hits-item {
   border: 1px solid #eee;
   border-radius: 5px;
   width: 100%;
   cursor: pointer;
   background-color: rgba(255,255,255,0.85);
+  .no-endpoints {
+    h2 {
+      opacity: 0.3;
+    }
+    p {
+      opacity: 0.5;
+    }
+  }
   &:hover {
     box-shadow: inset 0px 0px 3px 0px $link;
   }

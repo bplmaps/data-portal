@@ -17,6 +17,11 @@
   <!-- VIEW RECORD: big container for whole records page -->
   <!-- py-4 denotes Bulma style notation for adding padding on the top and bottom -->
   <section class="view-record py-4">
+    <div class="container is-fluid">
+      <button class="button is-link is-outlined is-small" @click="$router.back()"><font-awesome-icon icon="arrow-left" class="mr-2"></font-awesome-icon>Go Back</button>
+      <router-link to="/" class="button is-link is-outlined is-small"><font-awesome-icon icon="search" class="mr-2"></font-awesome-icon>New Search</router-link>
+    </div>
+    <hr>
     <!-- MAIN CONTENT CONTAINER -->
     <!-- This data flag is by default false & turned true via a successful async call  -->
     <div v-if="recordLoaded">
@@ -213,49 +218,14 @@
               <p class="panel-heading">Get this data</p>
               <!-- Iteratively creates panel blocks for each endpoint -->
               <!-- Sorts them based on whether or not they are 'suggested'  -->
-              <div
-                class="panel-block"
+
+              <endpoint-block 
                 v-for="endpoint in this.sortedEndpoints"
-                v-bind:key="endpoint.$id"
-              >
-                <!-- Text for each endpoint  -->
-                <div class="endpoint-text">
-                  <!-- Link with title label that navigates to the data  -->
-                  <p class="is-size-6">
-                    <a :href="endpoint.accessURL">{{ endpoint.title }}</a>
-                  </p>
-                  <p class="my-2">
-                    <a
-                      class="mb-1 button is-small is-link is-outlined"
-                      :href="endpoint.accessURL"
-                      ><font-awesome-icon
-                        icon="download"
-                        class="mr-2"
-                      ></font-awesome-icon>
-                      Download to your computer</a
-                    >
-                    <a
-                      v-if="endpoint.format === 'GeoJSON'"
-                      class="button is-small is-link is-outlined"
-                      :href="
-                        'https://geojson.io/#data=data:text/x-url,' +
-                        endpoint.accessURL
-                      "
-                      target="_blank"
-                      ><font-awesome-icon
-                        icon="cloud-upload-alt"
-                        class="mr-2"
-                      ></font-awesome-icon>
-                      View on GeoJSON.io</a
-                    >
-                  </p>
-                  <!-- Host label -->
-                  <p class="is-size-7 is-family-secondary mt-1">
-                    <em class="has-text-grey">Provider</em>
-                    {{ endpoint.source }}
-                  </p>
-                </div>
-              </div>
+                :key="endpoint.$id"
+                :endpoint="endpoint"
+              ></endpoint-block>
+              
+              
             </div>
             <!-- END OF DATA ENDPOINT SECTION -->
           </div>
@@ -274,32 +244,7 @@
             <!-- START CONSIDERATIONS -->
             <div class="panel">
               <div class="panel-heading">Considerations</div>
-              <div class="panel-block">
-                <div>
-                  <h3>Machine Readability</h3>
-                  <consideration-scorecard
-                    :score="record.considerations.machineReadability.value"
-                  ></consideration-scorecard>
-                </div>
-              </div>
-
-              <div class="panel-block">
-                <div>
-                  <h3>Human Readability</h3>
-
-                  <consideration-scorecard
-                    :score="record.considerations.humanReadability.value"
-                  ></consideration-scorecard>
-                </div>
-              </div>
-              <div class="panel-block">
-                  <div>
-                <h3>Social Embeddedness</h3>
-                <consideration-scorecard
-                    :score="record.considerations.socialEmbeddedness.value"
-                  ></consideration-scorecard>
-                </div>
-              </div>
+              <consideration-scorecard :considerations="record.considerations"></consideration-scorecard>
             </div>
             <!-- END CONSIDERATIONS -->
 
@@ -602,14 +547,18 @@ import axios from "axios";
 import HideableBox from "./HideableBox.vue";
 import MarkdownPart from "./MarkdownPart.vue";
 import ConsiderationScorecard from "./ConsiderationScorecard.vue";
+import EndpointBlock from "./EndpointBlock.vue";
 
 export default {
   name: "ViewRecord",
+
   components: {
     HideableBox,
     MarkdownPart,
     ConsiderationScorecard,
+    EndpointBlock
   },
+
   data() {
     return {
       //set to true from the async data grab

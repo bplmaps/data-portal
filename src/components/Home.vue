@@ -3,22 +3,27 @@
 <section>
   <div class="container is-fluid py-6">
     <h1 class="title is-size-1">Search for data</h1>
-        <div class="field has-addons">
+        <div class="field">
           <div class="control has-icons-left is-expanded">
           <input v-model="inputQuery" type="text" placeholder="Enter keywords, topics, dates ..." class="input is-large" @keyup.enter="submitMainSearch" >
           <span class="icon is-large is-left">
             <font-awesome-icon icon="search"></font-awesome-icon>
           </span>
           </div>
+        </div>
+        <div class="field is-grouped is-grouped-centered ">
           <div class="control">
-            <button class="button is-primary is-large" @click="submitMainSearch">Search</button>
+            <button class="button is-primary is-medium" @click="submitMainSearch"><font-awesome-icon icon="search" class="mr-2"></font-awesome-icon> Search</button>
+            <button class="button is-primary is-medium" @click="submitBrowse"><font-awesome-icon icon="columns" class="mr-2"></font-awesome-icon> Browse<span class="is-hidden-mobile">&nbsp;everything</span></button>
           </div>
+
         </div>
   </div>
 </section>
 
 <section class="hero">
   <div class="hero-body">
+    <p class="title">What can you find here?</p>
     <p class="subtitle">
       The <strong>Leventhal Map &amp; Education Center</strong> collects geospatial data sets that <strong class="underline">🎨&nbsp;we’ve created</strong>, ones that <strong class="underline">🔧&nbsp;we’ve improved upon for research or teaching</strong>, and ones that <strong class="underline">📍&nbsp;relate to our focus on Boston and New England</strong>.
     </p>
@@ -63,6 +68,9 @@ export default {
     },
     triggerExampleSearch: function(q) {
       this.$router.push({path: 'search', query: {s: q}});
+    },
+    submitBrowse: function() {
+            this.$router.push({path: 'search', query: {s: ''}});
     }
   }
 }
@@ -71,13 +79,19 @@ export default {
 <style lang="scss" scoped>
 @import "~/style-vars.scss";
 .hero-body {
-  background: linear-gradient(179deg, rgba(225,255,204,0) 0%, rgba(225,255,204,0.31) 14%, rgba(225,253,212,0.6) 27%, rgba(228,247,245,0.75) 74%, rgba(228,247,245,0) 100%);
+background: linear-gradient(179.5deg, rgba(66,46,89,0) 10%, rgba(66,46,89,0.1) 35%, rgba(33,31,76,0.1) 75%, rgba(30,30,75,0) 90%);
+text-align: center;
   p {
     line-height: 200%;
+    &.title {
+    text-shadow: 2px 2px 0px $shadow-popper;
+    }
   }
   strong.underline {
-    background-color: rgba($link, 0.2);
-    padding: 3px 5px;
+   ::before {
+     content: "\A";
+     white-space: pre;
+   }
   }
 }
 .suggestion-card { 

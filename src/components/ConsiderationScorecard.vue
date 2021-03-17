@@ -1,20 +1,27 @@
 <template>
-<div class="consideration-scorecard my-3">
-    <div class="columns">
-      <div class="column" :class="['score-0',score===0 ? 'selected' : 'unselected']">
-        <p class="heading">Missing, Problematic, or Not Evaluated</p>
-        <p class="title"><font-awesome-icon icon="exclamation-triangle"></font-awesome-icon></p>
-      </div>
-      <div class="column" :class="['score-1',score===1 ? 'selected' : 'unselected']">
-        <p class="heading">Acceptable for Use</p>
-        <p class="title"><font-awesome-icon icon="thumbs-up"></font-awesome-icon></p>
-      </div>
-      <div class="column" :class="['score-2',score===2 ? 'selected' : 'unselected']">
-        <p class="heading">Excellent or Noteworthy</p>
-        <p class="title"><font-awesome-icon icon="crown"></font-awesome-icon></p>
+<div class="consideration-scorecard">
 
-      </div>
-    </div>
+    <table class="table is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+        <td></td>
+        <td>Missing, Problematic, or Not Evaluated</td>
+        <td>Acceptable for Use</td>
+        <td>Excellent or Noteworthy</td>
+        </tr>
+      </thead>
+      <tbody>
+      <tr v-for="(consideration, key) in considerations" :key="consideration">
+        <th>{{ keynames[key] }}</th>
+        <td :class="consideration.value === 0 ? 'icon-selected' : ''"><font-awesome-icon icon="exclamation-triangle"></font-awesome-icon></td>
+        <td :class="consideration.value === 1 ? 'icon-selected' : ''"><font-awesome-icon icon="thumbs-up"></font-awesome-icon></td>
+        <td :class="consideration.value === 2 ? 'icon-selected' : ''"><font-awesome-icon icon="medal"></font-awesome-icon></td>
+      </tr>
+    
+      </tbody>
+     
+    </table>  
+    
 
 </div>
 </template>
@@ -23,9 +30,9 @@
 export default {
   name: "ConsiderationScorecard",
   props: {
-    "score": {
-      type: Number,
-      default: 0
+    "considerations": {
+      type: Object,
+      default: null
     }
   },
   methods: {
@@ -33,28 +40,27 @@ export default {
   },
   data () {
     return {
+      keynames: {
+        'machineReadability': "Machine Readability",
+        'humanReadability': "Human Readability",
+        'socialEmbeddedness': "Social Embeddedness",
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.column {
-  text-align: center;
-  &.unselected {
-    opacity: 0.2;
-  }
-  &.selected {
-    font-weight: bold;
-  }
-  &.score-0.selected {
-    color: rgb(136, 25, 25);
-  }
-  &.score-1.selected {
-    color: rgb(15, 70, 58);
-  }
-  &.score-2.selected {
-    color: rgb(204, 170, 20);
+
+thead td {
+  font-size: 0.8em;
+}
+
+tbody td {
+  font-size: 1.2em;
+  color: #ddd;
+  &.icon-selected {
+    color: black;
   }
 }
 

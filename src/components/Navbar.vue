@@ -3,7 +3,7 @@
     <div class="navbar-brand">
       <div class="navbar-item">
         <a href="https://leventhalmap.org">
-        <img src="~/assets/lmec-logo.png" alt="Leventhal Map and Education Center Logo">
+        <img src="~/assets/lmec-logo-blue.png" alt="Leventhal Map and Education Center Logo" class="logo">
         </a>
       </div>
       
@@ -83,6 +83,12 @@ export default {
 
 .navbar {
   background: none;
+  .logo {
+    transition: transform 0.5s;
+    &:hover { 
+      transform: rotate(45deg)
+    }
+  }
 }
 
 a.navbar-item {

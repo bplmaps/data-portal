@@ -274,32 +274,7 @@
             <!-- START CONSIDERATIONS -->
             <div class="panel">
               <div class="panel-heading">Considerations</div>
-              <div class="panel-block">
-                <div>
-                  <h3>Machine Readability</h3>
-                  <consideration-scorecard
-                    :score="record.considerations.machineReadability.value"
-                  ></consideration-scorecard>
-                </div>
-              </div>
-
-              <div class="panel-block">
-                <div>
-                  <h3>Human Readability</h3>
-
-                  <consideration-scorecard
-                    :score="record.considerations.humanReadability.value"
-                  ></consideration-scorecard>
-                </div>
-              </div>
-              <div class="panel-block">
-                  <div>
-                <h3>Social Embeddedness</h3>
-                <consideration-scorecard
-                    :score="record.considerations.socialEmbeddedness.value"
-                  ></consideration-scorecard>
-                </div>
-              </div>
+              <consideration-scorecard :considerations="record.considerations"></consideration-scorecard>
             </div>
             <!-- END CONSIDERATIONS -->
 

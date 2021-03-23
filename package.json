@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html"
+    "build": "parcel build src/index.html",
+    "sync": "echo 'Enter geoservices IP'; read geoservices_ip; rsync -r -a -v -e ssh --delete ./dist/ geoservices@$geoservices_ip:/var/www/geoservices/data-portal/"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",

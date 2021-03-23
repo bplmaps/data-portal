@@ -4,6 +4,11 @@
         :initial-ui-state="initialUiState" 
         :search-client="searchClient"
         index-name="metadata-sandbox" >
+
+        <ais-configure
+          :hits-per-page.camel="5">
+        </ais-configure>
+
     <div class="container is-fluid">
       <div class="columns">
         <div class="column is-10">
@@ -20,13 +25,6 @@
     <div class="container is-fluid mt-5">
         <h2 class="title is-size-3.5">Search Results</h2>
 
-        <div v-if="$root.$data.viewComplexityMode === 'simple' " class="mb-5 is-size-7 has-text-primary" >
-          <button class="button is-primary is-outlined is-small is-multiline" @click="$root.$data.viewComplexityMode = 'extended'"><font-awesome-icon icon="th" class="mr-2"></font-awesome-icon>For filters and more details, switch to Extended View</button> 
-        </div>
-
-        <div v-if="$root.$data.viewComplexityMode === 'extended' " class="mb-5">
-          <button class="button is-primary is-outlined is-small is-multiline" @click="$root.$data.viewComplexityMode = 'simple'"><font-awesome-icon icon="th-large" class="mr-2"></font-awesome-icon> For easier browsing, switch to Simple View</button>
-        </div>
 
         <div class="columns">
           <div class="column is-one-fifth" v-if="$root.$data.viewComplexityMode === 'extended' ">
@@ -56,8 +54,22 @@
 
 
           <div class="column">
-          <ais-hits>
-          <div slot="item" :class="item.access ? '' : 'no-endpoints'" slot-scope="{ item }" @click="$router.push({ path: `/catalog/${getId(item.core.$id)}` })">
+
+            <ais-state-results>
+  <template slot-scope="{ results: { hits, query } }">
+    <div v-if="hits.length > 0" >
+
+    <div v-if="$root.$data.viewComplexityMode === 'simple' " class="mb-5 is-size-7 has-text-primary" >
+          <button class="button is-primary is-outlined is-small is-multiline" @click="$root.$data.viewComplexityMode = 'extended'"><font-awesome-icon icon="th" class="mr-2"></font-awesome-icon>For filters and more details, switch to Extended View</button> 
+        </div>
+
+        <div v-if="$root.$data.viewComplexityMode === 'extended' " class="mb-5">
+          <button class="button is-primary is-outlined is-small is-multiline" @click="$root.$data.viewComplexityMode = 'simple'"><font-awesome-icon icon="th-large" class="mr-2"></font-awesome-icon> For easier browsing, switch to Simple View</button>
+        </div>
+
+    <ais-hits>
+
+      <div slot="item" :class="item.access ? '' : 'no-endpoints'" slot-scope="{ item }" @click="$router.push({ path: `/catalog/${getId(item.core.$id)}` })">
             <a :href="'#/catalog/' + getId(item.core.$id)"><h2 class="title is-size-5 mb-3">{{ item.core.title}}</h2></a>
             <p class="is-family-secondary is-muted is-size-6">{{ item.core.shortDescription.substring(0,240) }}</p>
             <span v-if="item.lifecycle.acquisition.creator=='Leventhal Map & Education Center'" class="tag is-light is-info mt-2"> 🎨 Created by LMEC</span>
@@ -74,8 +86,20 @@
             </div>
 
           </div>
+      
+    </ais-hits>
+    </div>
+    <div v-else class="message is-warning p-5 has-text-centered" >
+      <p><font-awesome-icon icon="sad-tear" class="mr-2"></font-awesome-icon>Sorry, we don't have anything right now for <strong>{{ query }}</strong><span v-if="$root.$data.viewComplexityMode === 'extended'"> and these filters</span>!</p>
+      <p>We'd be happy to help you find data if you <a href="https://www.leventhalmap.org/research/geospatial/" target="_blank">make a GIS Reference Request</a>.</p>
+    </div>
+  </template>
+</ais-state-results>
 
-        </ais-hits></div>
+            
+
+        
+        </div>
         </div>
         
         <ais-pagination />

@@ -243,7 +243,15 @@
 
             <!-- START CONSIDERATIONS -->
             <div class="panel">
-              <div class="panel-heading">Considerations</div>
+              <div class="panel-heading">
+                Considerations
+                 <a href = "https://geoservices.leventhalmap.org/cartinal/documentation/schema/considerations.html" target="_blank">
+                    <font-awesome-icon
+                      icon="info-circle"
+                      class="mr-2"
+                    ></font-awesome-icon>
+                 </a>
+              </div>
               <consideration-scorecard :considerations="record.considerations"></consideration-scorecard>
             </div>
             <!-- END CONSIDERATIONS -->

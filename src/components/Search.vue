@@ -44,6 +44,7 @@
               <ais-refinement-list attribute="core.dataTypes" ></ais-refinement-list>
             </div>
 
+
             <div class="py-3">
               <ais-clear-refinements>
                 <span slot="resetLabel">Clear filters</span>

@@ -23,6 +23,7 @@
     "markdown-it": "^12.0.4",
     "parcel-bundler": "^1.12.4",
     "vue": "^2.5.2",
+    "vue-analytics": "^5.22.1",
     "vue-instantsearch": "^3.4.2",
     "vue-router": "^3.0.1",
     "vue-scrollto": "^2.20.0",

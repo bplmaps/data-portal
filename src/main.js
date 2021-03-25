@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueAnalytics from 'vue-analytics';
 import InstantSearch from 'vue-instantsearch'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -11,6 +12,11 @@ library.add(fas)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(InstantSearch)
+Vue.use(VueAnalytics, {
+  id: 'UA-812961-16',
+  router
+});
+
 
 new Vue({
   el: "#app",

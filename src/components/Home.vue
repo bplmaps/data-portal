@@ -25,7 +25,7 @@
   <div class="hero-body">
     <p class="title">What can you find here?</p>
     <p class="subtitle">
-      The <strong>Leventhal Map &amp; Education Center</strong> collects geospatial data sets that <strong class="underline">🎨&nbsp;we’ve created</strong>, ones that <strong class="underline">🔧&nbsp;we’ve improved upon for research or teaching</strong>, and ones that <strong class="underline">📍&nbsp;relate to our focus on Boston and New England</strong>.
+      The Leventhal Map &amp; Education Center collects datasets which support our daily efforts towards educational programming, collections interpretation, and research support services. We have created these datasets, or acquired and processed them to ensure they are accessible.  Our collections focus on Boston and New England. 
     </p>
   </div>
 </section>
@@ -55,9 +55,15 @@ export default {
   data () {
     return {
       suggestions: [
-        {title: "Boundaries", description: "Political and physical outlines like neighborhoods, towns, and coastlines", searchString: "Boundary | Boundaries"},
         {title: "Boston", description: "Geography and data about the City of Boston", searchString: "Boston"},
-        {title: "American Community Survey", description: "Demographic data extracted from the Census Bureau's American Community Survey program", searchString: "American Community Survey"}
+        {title: "Historic GIS", description: "Datasets which were created or derived from historic materials", searchString: "Historic GIS"},
+        {title: "Teaching collections", description: "Datasets the LMEC has cleaned up and prepared for use in K-12 classrooms", searchString: "Teaching collections"},
+        {title: "Census", description: "Demographic data extracted from the United States Census Bureau's extract tools", searchString: "Census"},
+        {title: "Boundaries", description: "Political and physical outlines like neighborhoods, towns, and coastlines", searchString: "Boundary | Boundaries"},
+        {title: "Transportation", description: "Datasets that help us peer into and ask questions about the topic of transportation", searchString: "Transportation"},
+        {title: "Gentrification", description: "Datasets that help us peer into and ask questions about the topic of race and neighborhood demographic change", searchString: "Gentrification"},
+        {title: "Housing", description: "Datasets that help us peer into and ask questions about the topic of housing", searchString: "Housing"},
+        {title: "Internet Connectivity", description: "Datasets that help us peer into and ask questions about the topic of internet access", searchString: "Internet"}
       ],
      inputQuery: ''
     }

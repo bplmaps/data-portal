@@ -362,9 +362,9 @@
                     <!-- PROCESSING -->
                     <div
                       class="resource-box my-3"
-                      v-if="record.lifecycle.description.contextOnBehalfOf"
+                      v-if="record.lifecycle.processing"
                     >
-                      <div v-if="record.lifecycle.processing">
+                      <div v-if="record.lifecycle.description.contextOnBehalfOf">
                         <h5
                           v-if="record.lifecycle.description.contextOnBehalfOf"
                         >

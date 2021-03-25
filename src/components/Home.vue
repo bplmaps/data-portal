@@ -25,7 +25,7 @@
   <div class="hero-body">
     <p class="title">What can you find here?</p>
     <p class="subtitle">
-      The Leventhal Map &amp; Education Center collects datasets which support our daily efforts towards educational programming, collections interpretation, and research support services. We have created these datasets, or acquired and processed them to ensure they are accessible.  Our collections focus on Boston and New England. 
+      This portal offers free access to datasets we have created or collected, and prepared for public use. While we are constantly adding more, most are related to our public programs in collections interpretation, research, and education. Our map and dataset collections are particularly strong in Boston and New England.
     </p>
   </div>
 </section>

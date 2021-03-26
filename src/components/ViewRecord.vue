@@ -257,7 +257,7 @@
             <!-- END CONSIDERATIONS -->
 
             <!-- DATA GENEALOGY SECTION -->
-            <div class="panel" v-if="allIngredients.length > 0">
+            <div class="panel" v-if="record.lifecycle.processing">
               <!-- DATA GENEALOGY PANEL TITLE -->
               <p class="panel-heading">Data Genealogy</p>
 

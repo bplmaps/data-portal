@@ -362,7 +362,7 @@
                     <!-- PROCESSING -->
                     <div
                       class="resource-box my-3"
-                      v-if="record.lifecycle.processing"
+                      v-if="record.lifecycle.description.contextOnBehalfOf"
                     >
                       <div v-if="record.lifecycle.description.contextOnBehalfOf">
                         <h5
@@ -506,7 +506,7 @@
                           }}</a>
                         </p>
                       </div>
-                      <p class="is-family-secondary">
+                      <p class="is-family-secondary" v-if="secondLevelItem.datePublished">
                         {{ secondLevelItem.author }},
                         {{ secondLevelItem.publisher }},
                         {{ secondLevelItem.datePublished.substring(0, 4) }}.

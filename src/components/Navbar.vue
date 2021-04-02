@@ -26,7 +26,7 @@
 
     <div class="navbar-menu" :class="navbarToggled ? 'is-active' : ''">
       <div class="navbar-start">
-          <a href="https://geoservices.leventhalmap.org/cartinal" class="navbar-item">Documentation + Guides</a>
+          <a href="https://cartinal.leventhalmap.org/" class="navbar-item">Documentation + Guides</a>
           <a href="https://www.leventhalmap.org/research/geospatial/" class="navbar-item">Ask a Librarian</a>
       </div>
 

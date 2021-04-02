@@ -41,7 +41,7 @@
                     {{ endpoint.source }}
                   </p>
 
-                  <p class="is-size-7 mt-2"><a href="https://geoservices.leventhalmap.org/cartinal/guides/file-formats.html"><font-awesome-icon icon="question-circle" class="mr-2"></font-awesome-icon>How can I make a map from a <strong>{{ endpoint.format }}</strong> file?</a></p>
+                  <p class="is-size-7 mt-2"><a href="https://cartinal.leventhalmap.org/guides/file-formats.html"><font-awesome-icon icon="question-circle" class="mr-2"></font-awesome-icon>How can I make a map from a <strong>{{ endpoint.format }}</strong> file?</a></p>
                 </div>
               </div>
 

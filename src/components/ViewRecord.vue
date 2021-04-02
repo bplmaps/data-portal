@@ -245,7 +245,7 @@
             <div class="panel">
               <div class="panel-heading">
                 Considerations
-                 <a href = "https://geoservices.leventhalmap.org/cartinal/documentation/schema/considerations.html" target="_blank">
+                 <a href = "https://cartinal.leventhalmap.org/documentation/schema/considerations.html" target="_blank">
                     <font-awesome-icon
                       icon="info-circle"
                       class="mr-2"
